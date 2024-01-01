@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    [Header("Player Stats")]
-    int characterCode;
-    int HP;
-    int Gold;
+    [Header("TopBar GameData")]
+    public int characterCode = -1;
+    private int curHP;
+    private int maxHP;
+    private int Gold;
+    private int StageNumber;
 
     [Header("InBattle Player Stats")]
-    int AP;
-    int Shield;
-    int Power;
+    private int AP;
+    private int Shield;
+    private int Power;
 
 
 

@@ -14,5 +14,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/1.CharacterSelect.unity
     guid: ce811deb9e24abe4f9d66e321a098d5f
+  - enabled: 1
+    path: Assets/Scenes/2.MapView.unity
+    guid: a61e9e6ddfa712a4795ae40c2827e084
+  - enabled: 1
+    path: Assets/Scenes/3.BattleView.unity
+    guid: 8f356b72b2b237d4d800fc0b38a084f1
   m_configObjects:
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: f7abb888f7e192f43ac1e5b157087119, type: 2}
