@@ -108,7 +108,7 @@ public class CharacterSelectManager : MonoBehaviour
         // 캐릭터 선택 이후 시작버튼.
 
         // 테스트용 코드
-        GameManager.Instance.characterCode = selectedCode;
+        GameManager.Instance.CharacterCode = selectedCode;
         DebugOpt.Log("characterCode :: " + selectedCode);
     }
 
