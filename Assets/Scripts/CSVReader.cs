@@ -2,18 +2,17 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-public class CSVReader : MonoBehaviour
+public static class CSVReader
 {
     // CSV Parsing REGEX 관련
     static readonly string SPLIT_RE = @",(?=(?:[^""]*""[^""]*"")*(?![^""]*""))";
     static readonly string LINE_SPLIT_RE = @"\r\n|\n\r|\n|\r";
     static readonly char[] TRIM_CHARS = { '\"' };
 
-    public List<Dictionary<string, object>> Read(string file)
+    public static List<Dictionary<string, object>> Read(string file)
     {
         // Resources에 저장된 CSV 파일로부터 파싱. 
         var list = new List<Dictionary<string, object>>();
-        // Resource 폴더 이용
         TextAsset data = Resources.Load(file) as TextAsset;
         var lines = Regex.Split(data.text, LINE_SPLIT_RE);
 
@@ -46,11 +45,23 @@ public class CSVReader : MonoBehaviour
         }
         return list;
     }
-    public int getLinesLength(string file)
+    public static int GetLinesLength(string file)
     {
         var list = new List<Dictionary<string, object>>();
         TextAsset data = Resources.Load(file) as TextAsset;
         var lines = Regex.Split(data.text, LINE_SPLIT_RE);
         return lines.Length;
+    }
+    public static int GetIntValue(List<Dictionary<string, object>> _list, int index, string name)
+    {
+        return int.Parse(_list[index][name].ToString());
+    }
+    public static float GetFloatValue(List<Dictionary<string, object>> _list, int index, string name)
+    {
+        return float.Parse(_list[index][name].ToString());
+    }
+    public static string GetString(List<Dictionary<string, object>> _list, int index, string name)
+    {
+        return (_list[index][name].ToString());
     }
 }
