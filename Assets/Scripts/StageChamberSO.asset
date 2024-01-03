@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 493b718520198614980d5d22861c4674, type: 3}
   m_Name: StageChamberSO
   m_EditorClassIdentifier: 
+  StageChamberArray: []
