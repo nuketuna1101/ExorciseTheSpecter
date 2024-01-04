@@ -12,4 +12,74 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 493b718520198614980d5d22861c4674, type: 3}
   m_Name: StageChamberSO
   m_EditorClassIdentifier: 
-  StageChamberArray: []
+  StageChamberArray:
+  - StageNumber: 0
+    ChamberNumber: 0
+    ChamberType: 0
+    NextChamber1: 0
+    NextChamber2: 0
+  - StageNumber: 1
+    ChamberNumber: 1
+    ChamberType: 0
+    NextChamber1: 4
+    NextChamber2: 5
+  - StageNumber: 1
+    ChamberNumber: 2
+    ChamberType: 0
+    NextChamber1: 5
+    NextChamber2: 6
+  - StageNumber: 1
+    ChamberNumber: 3
+    ChamberType: 0
+    NextChamber1: 6
+    NextChamber2: -1
+  - StageNumber: 1
+    ChamberNumber: 4
+    ChamberType: 2
+    NextChamber1: 7
+    NextChamber2: -1
+  - StageNumber: 1
+    ChamberNumber: 5
+    ChamberType: 0
+    NextChamber1: 8
+    NextChamber2: -1
+  - StageNumber: 1
+    ChamberNumber: 6
+    ChamberType: 0
+    NextChamber1: 8
+    NextChamber2: 9
+  - StageNumber: 1
+    ChamberNumber: 7
+    ChamberType: 0
+    NextChamber1: 10
+    NextChamber2: 11
+  - StageNumber: 1
+    ChamberNumber: 8
+    ChamberType: 1
+    NextChamber1: 11
+    NextChamber2: -1
+  - StageNumber: 1
+    ChamberNumber: 9
+    ChamberType: 2
+    NextChamber1: 12
+    NextChamber2: -1
+  - StageNumber: 1
+    ChamberNumber: 10
+    ChamberType: 3
+    NextChamber1: 13
+    NextChamber2: -1
+  - StageNumber: 1
+    ChamberNumber: 11
+    ChamberType: 3
+    NextChamber1: 13
+    NextChamber2: -1
+  - StageNumber: 1
+    ChamberNumber: 12
+    ChamberType: 3
+    NextChamber1: 13
+    NextChamber2: -1
+  - StageNumber: 1
+    ChamberNumber: 13
+    ChamberType: 4
+    NextChamber1: -1
+    NextChamber2: -1
