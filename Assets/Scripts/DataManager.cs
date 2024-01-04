@@ -70,7 +70,7 @@ public class DataManager : Singleton<DataManager>
             );
         }
         */
-        for (int i = 0; i < _StageChamberNumber; i++)
+        for (int i = 0; i <= _StageChamberNumber; i++)
         {
             _StageChamberSO.StageChamberArray.Add(new ChamberArray
             {
@@ -94,7 +94,7 @@ public class DataManager : Singleton<DataManager>
         // 데이터 테이블로부터 사전 세팅
         // 인접 엣지 리스트 adj 세팅
         adj = new List<int>[stageChamberNumber + 1];
-        for (int i = 1; i <= stageChamberNumber; i++)
+        for (int i = 0; i <= stageChamberNumber; i++)
         {
             adj[i] = new List<int>();
             var curStageChamber = _StageChamberSO.StageChamberArray[i];
@@ -124,5 +124,11 @@ public class DataManager : Singleton<DataManager>
         possibleChamberList = adj[curChamberNumber].ToList();
     }
 
+    private void EnterChamber(int _chamberNumber)
+    {
+        // 넘버에 해당하는 챔버에 진입할 경우,
+
+        curChamberNumber = _chamberNumber;
+    }
 
 }
