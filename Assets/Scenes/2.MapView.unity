@@ -5326,6 +5326,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chamber (0)
       objectReference: {fileID: 0}
+    - target: {fileID: 4588523544239829576, guid: 8b4f53c3c197d6a46837bcb888dfc9a7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4854422957582335179, guid: 8b4f53c3c197d6a46837bcb888dfc9a7, type: 3}
       propertyPath: m_Color.b
       value: 1

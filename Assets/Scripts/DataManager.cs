@@ -23,6 +23,8 @@ public class DataManager : Singleton<DataManager>
     [SerializeField]
     private bool[] visited;
 
+    private ChamberState[] _ChamberStates;      public ChamberState[] publicChamberStates { get { return _ChamberStates; } }
+
 
 
     private void Awake()
@@ -108,27 +110,48 @@ public class DataManager : Singleton<DataManager>
         // 방문 배열 visited 세팅
         visited = new bool[stageChamberNumber + 1];
         Array.Fill(visited, false);
+        visited[0] = true;
+        // 챔버 상태 배열 초기화
+        _ChamberStates = new ChamberState[stageChamberNumber + 1];
+        Array.Fill(_ChamberStates, ChamberState.RestOf);
+
+        for (int i = 1; i <= stageChamberNumber; i++)
+        {
+            if (visited[i])
+                _ChamberStates[i] = ChamberState.Visited;
+        }
+
+        //
+        SetPossibleChamber();
     }
 
     //-------------------------------------------------------------------------
     // 현재 플레이어가 위치한 챔버 번호 (0: 처음 스테이지 최초 진입.)
-    private int curChamberNumber = 0;
+    private int lastCompletedChamberNumber = 0;
+    private int curSelectedChamberNumber;
 
-    private List<int> possibleChamberList;
+    private List<int> accessableChamberList;
 
     private void SetPossibleChamber()
     {
         // 현재 상태에서 진입 가능한 챔버 가시화
         // 초기화
-        possibleChamberList.Clear();
-        possibleChamberList = adj[curChamberNumber].ToList();
+        //accessableChamberList.Clear();
+        accessableChamberList = adj[lastCompletedChamberNumber].ToList();
+
+        //
+        foreach(var chamber in accessableChamberList)
+        {
+            _ChamberStates[chamber] = ChamberState.Accessable;
+        }
     }
 
     private void EnterChamber(int _chamberNumber)
     {
         // 넘버에 해당하는 챔버에 진입할 경우,
 
-        curChamberNumber = _chamberNumber;
+        lastCompletedChamberNumber = _chamberNumber;
     }
+
 
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+public enum ChamberState { Visited, Accessable, Selected, RestOf }
 
 public class ChamberManager : MonoBehaviour
 {
@@ -9,22 +10,26 @@ public class ChamberManager : MonoBehaviour
     [SerializeField]
     private GameObject[] _ChamberObjs;
 
-    //
-    // 챔버 상태 : 현재 시점 기준, 방문했거나, 방문가능하거나, 그 외
-    public enum ChamberState { Visited, Accessable, Selected, RestOf }
+    private int stageChamberNumber = 13;
 
+
+    // 챔버 상태 : 현재 시점 기준, 방문했거나, 방문가능하거나, 그 외
     private readonly Color normalColor = new Color(1f, 1f, 1f);
     private readonly Color darkColor = new Color(50f / 255f, 50f / 255f, 50f / 255f);
     private readonly Color greenColor = new Color(0f, 1f, 0f);
     private readonly Color yellowColor = new Color(1f, 1f, 0f);
 
+    //private ChamberState[] _ChamberStates;
     private void Awake()
     {
-        //StartCoroutine(FlashingChamberSprite(_ChamberObjs[0]));
-        SetChamberAsState(_ChamberObjs[1], ChamberState.Visited);
-        SetChamberAsState(_ChamberObjs[2], ChamberState.Accessable);
-        SetChamberAsState(_ChamberObjs[3], ChamberState.RestOf);
-        SetChamberAsState(_ChamberObjs[0], ChamberState.Selected);
+
+        SetAllChambers();
+
+    }
+
+    private void Update()
+    {
+
     }
 
 
@@ -45,13 +50,15 @@ public class ChamberManager : MonoBehaviour
                 btnObj.SetActive(false);
                 break;
             case ChamberState.Accessable:
-                img_chamber.GetComponent<Image>().color = greenColor;
-                StartCoroutine(ObjFrameLoop(img_frame));
+                //img_chamber.GetComponent<Image>().color = yellowColor;
+                StartCoroutine(BlinkingChamber(img_chamber, yellowColor));
+                img_frame.SetActive(false);
                 btnObj.SetActive(true);
                 break;
             case ChamberState.Selected:
-                img_chamber.GetComponent<Image>().color = yellowColor;
-                img_frame.SetActive(false);
+                //img_chamber.GetComponent<Image>().color = greenColor;
+                StartCoroutine(BlinkingChamber(img_chamber, greenColor));
+                StartCoroutine(BlinkingFrame(img_frame));
                 btnObj.SetActive(true);
                 break;
             case ChamberState.RestOf:
@@ -61,19 +68,35 @@ public class ChamberManager : MonoBehaviour
                 break;
         }
     }
-    private IEnumerator ObjFrameLoop(GameObject _FrameObject)
+    private IEnumerator BlinkingChamber(GameObject _ChamberObject, Color _Color)
     {
         bool flag = false;
         while (true)
         {
-            // 오직 아무것도 선택 안되어 있을 때만.
-            //if (flag) break;
-            //
+            yield return new WaitForSeconds(0.1f);
+            _ChamberObject.GetComponent<Image>().color = (flag ? normalColor : _Color);
+            flag = !flag;
+        }
+    }
+    private IEnumerator BlinkingFrame(GameObject _FrameObject)
+    {
+        bool flag = false;
+        while (true)
+        {
             yield return new WaitForSeconds(0.1f);
             _FrameObject.SetActive(flag);
             flag = !flag;
         }
     }
 
+    private void SetAllChambers()
+    {
+        var _ChamberStates = DataManager.Instance.publicChamberStates;
+
+        for (int i = 1; i <= stageChamberNumber; i++)
+        {
+            SetChamberAsState(_ChamberObjs[i], _ChamberStates[i]);
+        }
+    }
 
 }
