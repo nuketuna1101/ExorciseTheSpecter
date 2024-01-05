@@ -17,6 +17,11 @@ public class GameManager : Singleton<GameManager>
     private int Power;
 
 
+    // 여기에 있을지 모르겟지만 일단 임시로
+    private int lastCompletedChamberNumber = 0;     public int LastCompletedChamberNumber { get { return lastCompletedChamberNumber; } set { lastCompletedChamberNumber = value; } }
+    private int curSelectedChamberNumber;           public int CurSelectedChamberNumber { get { return curSelectedChamberNumber; } set { curSelectedChamberNumber = value; } }
+
+    private List<int> accessableChamberList;
 
 
 

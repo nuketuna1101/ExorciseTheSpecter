@@ -1,3 +1,5 @@
+using EasyTransition;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +11,7 @@ public class ButtonController : MonoBehaviour
     // 씬 이동하는 버튼에 붙여주는 스크립트
     // 현재 씬에 따라 이동하는 씬 정해준다.
     private Button buttonUI;
-    public enum ButtonType { PopUpWindow, CloseWindow, SelectCharacter, SelectChamber, EnterChamber }
+    public enum ButtonType { LoadScene, PopUpWindow, CloseWindow, SelectCharacter, SelectChamber, EnterChamber }
     // 버튼 타입 정의
     [SerializeField]
     private ButtonType type;
@@ -17,7 +19,21 @@ public class ButtonController : MonoBehaviour
     [SerializeField]
     private GameObject _PopUpWindow;
 
-    private void Awake()
+
+    // 씬 전환 관련코드
+    private float startDelay = 0;
+    [SerializeField]
+    private TransitionSettings transition;
+    [SerializeField]
+    private string _sceneName;
+
+    //
+    [SerializeField]
+    private int ChamberButtonNumbering;
+
+
+
+private void Awake()
     {
         // 버튼 타입별로 버튼 액션 기능 붙여주기
         buttonUI = this.transform.GetComponent<Button>();
@@ -27,7 +43,9 @@ public class ButtonController : MonoBehaviour
     {
         switch (type)   
         {
-
+            case ButtonType.LoadScene:
+                buttonUI.onClick.AddListener(LoadScene);
+                break;
             case ButtonType.PopUpWindow:
                 buttonUI.onClick.AddListener(PopUpWindow);
                 break;
@@ -42,6 +60,12 @@ public class ButtonController : MonoBehaviour
                 break;
         }
     }
+
+    private void LoadScene()
+    {
+        TransitionManager.Instance().Transition(_sceneName, transition, startDelay);
+    }
+
     private void PopUpWindow()
     {
         // 팝업창 띄우기
@@ -55,9 +79,11 @@ public class ButtonController : MonoBehaviour
 
     private void SelectChamber()
     {
-        //
-
+        // 챔버 버튼을 눌렀을 때, 선택된 챔버 데이터 전달
+        GameManager.Instance.CurSelectedChamberNumber = ChamberButtonNumbering;
+        DebugOpt.Log("Btn Control :: cur selected charNo => " + GameManager.Instance.CurSelectedChamberNumber);
     }
+
     private void EnterChamber()
     {
         //

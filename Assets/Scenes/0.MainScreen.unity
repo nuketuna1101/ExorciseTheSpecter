@@ -217,11 +217,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7993659624771209168, guid: ee2c5e591123a074da734d9f25debd22, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7993659624771209168, guid: ee2c5e591123a074da734d9f25debd22, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 11500000, guid: fa0ca1d42ed4564499c440706fea58de, type: 3}
     - target: {fileID: 7993659624771209168, guid: ee2c5e591123a074da734d9f25debd22, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993659624771209168, guid: ee2c5e591123a074da734d9f25debd22, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_name
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993659624771209168, guid: ee2c5e591123a074da734d9f25debd22, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993659624771209168, guid: ee2c5e591123a074da734d9f25debd22, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8332154189665447991, guid: ee2c5e591123a074da734d9f25debd22, type: 3}
       propertyPath: m_text
@@ -261,8 +277,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa0ca1d42ed4564499c440706fea58de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  type: 1
   _PopUpWindow: {fileID: 3517844397469438587}
+  transition: {fileID: 0}
+  _sceneName: 
 --- !u!1 &83765561 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8507734883839756464, guid: 4a426af987dc8dc41b47b0ef31285f88, type: 3}
@@ -579,7 +597,6 @@ GameObject:
   m_Component:
   - component: {fileID: 308993745}
   - component: {fileID: 308993746}
-  - component: {fileID: 308993747}
   m_Layer: 0
   m_Name: Buttons
   m_TagString: Untagged
@@ -635,20 +652,6 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 25}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!114 &308993747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 308993744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5959007d2a867845b5b29d299452a8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  transition: {fileID: 11400000, guid: 013263c83b6a84c4d95beaa8bd163ac8, type: 2}
-  startDelay: 0
 --- !u!1 &663902441
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,7 +1096,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7993659624771209168, guid: ee2c5e591123a074da734d9f25debd22, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7993659624771209168, guid: ee2c5e591123a074da734d9f25debd22, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -1102,7 +1105,7 @@ PrefabInstance:
     - target: {fileID: 7993659624771209168, guid: ee2c5e591123a074da734d9f25debd22, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 308993747}
+      objectReference: {fileID: 0}
     - target: {fileID: 7993659624771209168, guid: ee2c5e591123a074da734d9f25debd22, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -1134,7 +1137,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8507734883839756464, guid: ee2c5e591123a074da734d9f25debd22, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1151441958}
   m_SourcePrefab: {fileID: 100100000, guid: ee2c5e591123a074da734d9f25debd22, type: 3}
 --- !u!224 &843752762 stripped
 RectTransform:
@@ -1604,8 +1610,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa0ca1d42ed4564499c440706fea58de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  type: 1
   _PopUpWindow: {fileID: 1304781138}
+  transition: {fileID: 0}
+  _sceneName: 
+--- !u!1 &1151441957 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8507734883839756464, guid: ee2c5e591123a074da734d9f25debd22, type: 3}
+  m_PrefabInstance: {fileID: 843752761}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1151441958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151441957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa0ca1d42ed4564499c440706fea58de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  _PopUpWindow: {fileID: 0}
+  transition: {fileID: 11400000, guid: 013263c83b6a84c4d95beaa8bd163ac8, type: 2}
+  _sceneName: 1.CharacterSelect
 --- !u!1001 &1278182670
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1727,8 +1756,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa0ca1d42ed4564499c440706fea58de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
+  type: 2
   _PopUpWindow: {fileID: 1304781138}
+  transition: {fileID: 0}
+  _sceneName: 
 --- !u!1 &1297058958
 GameObject:
   m_ObjectHideFlags: 0
@@ -1868,8 +1899,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa0ca1d42ed4564499c440706fea58de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
+  type: 2
   _PopUpWindow: {fileID: 1304781138}
+  transition: {fileID: 0}
+  _sceneName: 
 --- !u!1001 &1705247772
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3107,8 +3140,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa0ca1d42ed4564499c440706fea58de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
+  type: 2
   _PopUpWindow: {fileID: 3517844397469438587}
+  transition: {fileID: 0}
+  _sceneName: 
 --- !u!1 &6368907667684045864
 GameObject:
   m_ObjectHideFlags: 0

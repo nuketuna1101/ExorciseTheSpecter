@@ -27,11 +27,6 @@ public class ChamberManager : MonoBehaviour
 
     }
 
-    private void Update()
-    {
-
-    }
-
 
     private void SetChamberAsState(GameObject _ChamberObj, ChamberState _ChamberState)
     {
@@ -98,5 +93,16 @@ public class ChamberManager : MonoBehaviour
             SetChamberAsState(_ChamberObjs[i], _ChamberStates[i]);
         }
     }
+
+
+    // characterselectmanager 와 비슷한 매커니즘으로 일단 구현
+
+    private void PressChamberBTN()
+    {
+        //
+
+    }
+
+
 
 }
