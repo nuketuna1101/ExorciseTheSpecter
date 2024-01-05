@@ -27,7 +27,7 @@ public class ChamberManager : MonoBehaviour
 
     }
 
-
+    // 상태에 기반한 챔버 시각화 적용
     private void SetChamberAsState(GameObject _ChamberObj, ChamberState _ChamberState)
     {
         // visited: 버튼 비활성화, 어두운 이미지
@@ -84,10 +84,10 @@ public class ChamberManager : MonoBehaviour
         }
     }
 
+    // 데이터 매니저로부터 가져온 현재 챔버 상태 기반하여 상태에 따른 시각화 적용
     private void SetAllChambers()
     {
         var _ChamberStates = DataManager.Instance.publicChamberStates;
-
         for (int i = 1; i <= stageChamberNumber; i++)
         {
             SetChamberAsState(_ChamberObjs[i], _ChamberStates[i]);
