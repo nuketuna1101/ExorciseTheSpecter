@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public enum ChamberState { Visited, Accessable, Selected, RestOf }
 
@@ -22,87 +24,107 @@ public class ChamberManager : MonoBehaviour
     //private ChamberState[] _ChamberStates;
     private void Awake()
     {
-
-        SetAllChambers();
-
+        //SetAllChambers();
+        var tmp = SceneManager.GetActiveScene().name;
+        DebugOpt.Log("test code for scene name " + tmp);
     }
+
+    private IEnumerator TempCor()
+    {
+        yield return new WaitForSeconds(1f);
+        RedrawAllChambers();
+    }
+
+
+
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name != "2.MapView") return;
+        RedrawAllChambers();
+    }
+
+
+    // 시각화 코드
 
     // 상태에 기반한 챔버 시각화 적용
-    private void SetChamberAsState(GameObject _ChamberObj, ChamberState _ChamberState)
-    {
-        // visited: 버튼 비활성화, 어두운 이미지
-        // accessable: 버튼 활성화, 강조 표시
-        // selected:
-        // restof: 버튼 비활성화, 기본 이미지
-        var img_chamber = _ChamberObj.transform.GetChild(0).gameObject;
-        var img_frame = _ChamberObj.transform.GetChild(1).gameObject;
-        var btnObj = _ChamberObj.transform.GetChild(2).gameObject;
-        switch (_ChamberState)
-        {
-            case ChamberState.Visited:
-                img_chamber.GetComponent<Image>().color = darkColor;
-                img_frame.SetActive(false);
-                btnObj.SetActive(false);
-                break;
-            case ChamberState.Accessable:
-                //img_chamber.GetComponent<Image>().color = yellowColor;
-                StartCoroutine(BlinkingChamber(img_chamber, yellowColor));
-                img_frame.SetActive(false);
-                btnObj.SetActive(true);
-                break;
-            case ChamberState.Selected:
-                //img_chamber.GetComponent<Image>().color = greenColor;
-                StartCoroutine(BlinkingChamber(img_chamber, greenColor));
-                StartCoroutine(BlinkingFrame(img_frame));
-                btnObj.SetActive(true);
-                break;
-            case ChamberState.RestOf:
-                img_chamber.GetComponent<Image>().color = normalColor;
-                img_frame.SetActive(false);
-                btnObj.SetActive(false);
-                break;
-        }
-    }
-    private IEnumerator BlinkingChamber(GameObject _ChamberObject, Color _Color)
-    {
-        bool flag = false;
-        while (true)
-        {
-            yield return new WaitForSeconds(0.1f);
-            _ChamberObject.GetComponent<Image>().color = (flag ? normalColor : _Color);
-            flag = !flag;
-        }
-    }
-    private IEnumerator BlinkingFrame(GameObject _FrameObject)
-    {
-        bool flag = false;
-        while (true)
-        {
-            yield return new WaitForSeconds(0.1f);
-            _FrameObject.SetActive(flag);
-            flag = !flag;
-        }
-    }
 
-    // 데이터 매니저로부터 가져온 현재 챔버 상태 기반하여 상태에 따른 시각화 적용
-    private void SetAllChambers()
+    //--------------------------------------------------------------------------
+    // refactor
+
+    private void RedrawAllChambers()
     {
+        // 이 함수를 콜함으로 모든 챔버에 대한 시각화
         var _ChamberStates = DataManager.Instance.publicChamberStates;
+        List<Image> img_chamber_accessable = new List<Image>();
+        GameObject img_frame_selected = null;
+
         for (int i = 1; i <= stageChamberNumber; i++)
         {
-            SetChamberAsState(_ChamberObjs[i], _ChamberStates[i]);
+            // 해당 챔버에 대해,
+            var _ChamberObj = _ChamberObjs[i];
+            var img_chamber = _ChamberObj.transform.GetChild(0).gameObject;
+            var img_frame = _ChamberObj.transform.GetChild(1).gameObject;
+            var btnObj = _ChamberObj.transform.GetChild(2).gameObject;
+            switch (_ChamberStates[i])
+            {
+                case ChamberState.Visited:
+                    img_chamber.GetComponent<Image>().color = darkColor;
+                    img_frame.SetActive(false);
+                    btnObj.SetActive(false);
+                    break;
+                case ChamberState.Accessable:
+                    //img_chamber_accessable.Add(img_chamber.GetComponent<Image>());
+                    img_chamber.GetComponent<Image>().color = yellowColor;
+                    img_frame.SetActive(false);
+                    btnObj.SetActive(true);
+                    break;
+                case ChamberState.Selected:
+                    img_chamber.GetComponent<Image>().color = greenColor;
+                    img_frame_selected = img_frame;
+                    btnObj.SetActive(true);
+                    break;
+                case ChamberState.RestOf:
+                    img_chamber.GetComponent<Image>().color = normalColor;
+                    img_frame.SetActive(false);
+                    btnObj.SetActive(false);
+                    break;
+            }
+        }
+        // Accessable 과 Selected에 대해서는 코루틴으로 반복실행
+        // 기존 실행되던 코루틴 취소하고
+        StopAllCoroutines();
+        if (img_chamber_accessable.Count > 0)
+            StartCoroutine(BlinkEfxAccessable(img_chamber_accessable, yellowColor));
+        if (img_frame_selected != null)
+            StartCoroutine(BlinkEfxSelected(img_frame_selected));
+    }
+
+    private IEnumerator BlinkEfxAccessable(List<Image> _Chambers_Accessable, Color _Color)
+    {
+        yield return null;
+        bool flag = false;
+        while (true)
+        {
+            yield return new WaitForSeconds(0.1f);
+            foreach(Image _img_Chamber in _Chambers_Accessable)
+            {
+                _img_Chamber.color = (flag ? normalColor : _Color);
+            }
+            DebugOpt.Log("CM :: BlinkEfxAccessable checker");
+            flag = !flag;
         }
     }
 
-
-    // characterselectmanager 와 비슷한 매커니즘으로 일단 구현
-
-    private void PressChamberBTN()
+    private IEnumerator BlinkEfxSelected(GameObject _Frame_Selected)
     {
-        //
-
+        yield return null;
+        bool flag = false;
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+            _Frame_Selected.SetActive(flag);
+            DebugOpt.Log("CM :: BlinkEfxSelected checker");
+            flag = !flag;
+        }
     }
-
-
-
 }

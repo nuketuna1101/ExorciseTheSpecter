@@ -23,6 +23,7 @@ public class DataManager : Singleton<DataManager>
     [SerializeField]
     private bool[] visited;
 
+    [SerializeField]
     private ChamberState[] _ChamberStates;      public ChamberState[] publicChamberStates { get { return _ChamberStates; } }
 
 
@@ -34,6 +35,7 @@ public class DataManager : Singleton<DataManager>
 
         InitEdge();
 
+        StartCoroutine(UpdateChamberStateCrtn());
     }
 
     // StageChamberSO 초기화
@@ -113,10 +115,7 @@ public class DataManager : Singleton<DataManager>
         visited[0] = true;
         // 챔버 상태 배열 초기화
         _ChamberStates = new ChamberState[stageChamberNumber + 1];
-
-
         //
-        UpdateChamberStates();
     }
 
     //-------------------------------------------------------------------------
@@ -128,17 +127,35 @@ public class DataManager : Singleton<DataManager>
         // 기본 rest of으로 초기화
         Array.Fill(_ChamberStates, ChamberState.RestOf);
         // 방문한 챔버 업데이트
-        for (int i = 1; i <= stageChamberNumber; i++)
+        for (int i = 0; i <= stageChamberNumber; i++)
         {
             if (visited[i])
                 _ChamberStates[i] = ChamberState.Visited;
         }
-        // 현재 상태 기반 방문 가능 업데이트
-        foreach (var chamber in adj[GameManager.Instance.LastCompletedChamberNumber])
-        {
-            _ChamberStates[chamber] = ChamberState.Accessable;
-        }
+
         // 선택된 거 업데이트
-        _ChamberStates[GameManager.Instance.CurSelectedChamberNumber] = ChamberState.Selected;
+        if (GameManager.Instance.CurSelectedChamberNumber != -1)
+            _ChamberStates[GameManager.Instance.CurSelectedChamberNumber] = ChamberState.Selected;
+
+
+        // 현재 상태 기반 방문 가능 업데이트
+        foreach (var chamberNumber in adj[GameManager.Instance.LastCompletedChamberNumber])
+        {
+            if (chamberNumber == GameManager.Instance.CurSelectedChamberNumber) 
+                continue;
+            _ChamberStates[chamberNumber] = ChamberState.Accessable;
+        }
+
     }
+
+
+    private IEnumerator UpdateChamberStateCrtn()
+    {
+        while (true)
+        {
+            yield return null;
+            UpdateChamberStates();
+        }
+    }
+
 }
