@@ -96,4 +96,12 @@ public class ButtonController : MonoBehaviour
         DebugOpt.Log("EnterChamber :: CurEnteredChamberNumber => " + GameManager.Instance.CurEnteredChamberNumber);
 
     }
+
+    private void ConfirmCharacter()
+    {
+        //string _EnterScene = "2.MapView";
+        //GameManager.Instance.CharacterCode;
+        //TransitionManager.Instance().Transition(_EnterScene, transition, 0);
+    }
+
 }

@@ -16,6 +16,11 @@ public class ChamberManager : MonoBehaviour
     [SerializeField]
     private GameObject[] _ChamberObjs;
 
+    [SerializeField]
+    private List<GameObject> _TEMP_CHAMBER_OBJ_AUTO; 
+    [SerializeField]
+    private Canvas myCanvas;
+
     private int stageChamberNumber = 13;
 
     // 나중에 퍼블릭 정적 클래스로 컬러 스타일로 빼내자.
@@ -24,6 +29,48 @@ public class ChamberManager : MonoBehaviour
     private readonly Color darkColor = new Color(50f / 255f, 50f / 255f, 50f / 255f);
     private readonly Color greenColor = new Color(0f, 1f, 0f);
     private readonly Color yellowColor = new Color(1f, 1f, 0f);
+
+
+    [SerializeField]
+    private GameObject _EnterBtn;
+
+
+
+    // 차후 리팩토링위해 UI 자동화 할당 관련
+    private void TEMP_METHOD_FOR_FUTURE_REFACTORING()
+    {
+        Transform[] _tra = myCanvas.gameObject.transform.GetChild(0).GetChild(2).GetChild(2).gameObject.GetComponentsInChildren<Transform>();
+        _TEMP_CHAMBER_OBJ_AUTO.Clear();
+        foreach (Transform t in _tra)
+        {
+            _TEMP_CHAMBER_OBJ_AUTO.Add(t.gameObject);
+        }
+    }
+
+    private void Awake()
+    {
+        StartCoroutine(ActivateEnterBtn());
+    }
+
+    private IEnumerator ActivateEnterBtn()
+    {
+        while (true)
+        {
+            yield return null;
+            if (GameManager.Instance.CurSelectedChamberNumber == -1)
+            {
+                Debug.Log("ActivateEnterBtn :: FLOW 1");
+                _EnterBtn.SetActive(false);
+            }
+            else
+            {
+                Debug.Log("ActivateEnterBtn :: FLOW 2");
+                _EnterBtn.SetActive(true);
+                break;
+            }
+        }
+    }
+
 
     private void Update()
     {
@@ -72,11 +119,13 @@ public class ChamberManager : MonoBehaviour
         }
         // Accessable 과 Selected에 대해서는 코루틴으로 반복실행
         // 기존 실행되던 코루틴 취소하고
+        /*
         StopAllCoroutines();
         if (img_chamber_accessable.Count > 0)
             StartCoroutine(BlinkEfxAccessable(img_chamber_accessable, yellowColor));
         if (img_frame_selected != null)
             StartCoroutine(BlinkEfxSelected(img_frame_selected));
+        */
     }
     private IEnumerator BlinkEfxAccessable(List<Image> _Chambers_Accessable, Color _Color)
     {

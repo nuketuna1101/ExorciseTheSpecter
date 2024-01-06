@@ -10,6 +10,7 @@ public class CharacterSelectManager : MonoBehaviour
     /// <summary>
     /// CharacterSelectManager ::
     /// character select 관련 버튼 눌렀을 때 일어나는 로직 가시화
+    /// 추후에 button controller로 이동해야 할듯
     /// </summary>
     // 캐릭터 : Rogue, Gunslinger
     private bool isSelectedAny = false;
@@ -50,8 +51,6 @@ public class CharacterSelectManager : MonoBehaviour
     :: 현재 선택되어진 직업창 버튼 폰트 반짝이기 + 폰트 그림자
      
      */
-
-
     private void Awake()
     {
         // 캐릭터 선택 버튼들 배열로 저장
@@ -63,7 +62,6 @@ public class CharacterSelectManager : MonoBehaviour
         //
         StartCoroutine(FlashingText());
     }
-
     private IEnumerator FlashingText()
     {
         int i = 0;
@@ -77,7 +75,6 @@ public class CharacterSelectManager : MonoBehaviour
             i = (i + 1) % colorArr.Length;
         }
     }
-
     public void ShowSelectedCharacter(int _characterCode)
     {
         // 최초 실행 시, 선택된 캐릭터 없다가 선택된 캐릭터가 생김
@@ -100,6 +97,8 @@ public class CharacterSelectManager : MonoBehaviour
 
         // 변경 시 선택된 캐릭터 코드 수정
         selectedCode = _characterCode;
+        // 그대로 게임매니저에 전달        <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 이부분 추후에 리팩토링할때  바꿔야함
+        GameManager.Instance.CharacterCode = selectedCode;
 
         // 내용 수정
         _CHAR_PORTRAIT_IMG.sprite = TEMP_PopUpInfoObj[selectedCode];
