@@ -11,6 +11,9 @@ public enum Stance { Normal, Stealth, CounterAtk }
 // 피해 타입: 물리, 마법, 고정
 public enum DamageType { Physical, Magical, TrueDamage }
 
+public enum BuffType { Solid, Overwhelm, Intelligent, Composure }
+
+
 
 public class KeywordDictionary : MonoBehaviour
 {
