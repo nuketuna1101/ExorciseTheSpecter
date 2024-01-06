@@ -8,48 +8,28 @@ public enum ChamberState { Visited, Accessable, Selected, RestOf }
 
 public class ChamberManager : MonoBehaviour
 {
+    /// <summary>
+    /// ChamberManager 의 역할 :: 2.MapView에서 존재하는 Chamber UI에 대해 시각화 작업
+    /// 
+    /// </summary>
     private bool flag = false;
     [SerializeField]
     private GameObject[] _ChamberObjs;
 
     private int stageChamberNumber = 13;
 
-
+    // 나중에 퍼블릭 정적 클래스로 컬러 스타일로 빼내자.
     // 챔버 상태 : 현재 시점 기준, 방문했거나, 방문가능하거나, 그 외
     private readonly Color normalColor = new Color(1f, 1f, 1f);
     private readonly Color darkColor = new Color(50f / 255f, 50f / 255f, 50f / 255f);
     private readonly Color greenColor = new Color(0f, 1f, 0f);
     private readonly Color yellowColor = new Color(1f, 1f, 0f);
 
-    //private ChamberState[] _ChamberStates;
-    private void Awake()
-    {
-        //SetAllChambers();
-        var tmp = SceneManager.GetActiveScene().name;
-        DebugOpt.Log("test code for scene name " + tmp);
-    }
-
-    private IEnumerator TempCor()
-    {
-        yield return new WaitForSeconds(1f);
-        RedrawAllChambers();
-    }
-
-
-
     private void Update()
     {
         if (SceneManager.GetActiveScene().name != "2.MapView") return;
         RedrawAllChambers();
     }
-
-
-    // 시각화 코드
-
-    // 상태에 기반한 챔버 시각화 적용
-
-    //--------------------------------------------------------------------------
-    // refactor
 
     private void RedrawAllChambers()
     {
@@ -98,7 +78,6 @@ public class ChamberManager : MonoBehaviour
         if (img_frame_selected != null)
             StartCoroutine(BlinkEfxSelected(img_frame_selected));
     }
-
     private IEnumerator BlinkEfxAccessable(List<Image> _Chambers_Accessable, Color _Color)
     {
         yield return null;
@@ -114,7 +93,6 @@ public class ChamberManager : MonoBehaviour
             flag = !flag;
         }
     }
-
     private IEnumerator BlinkEfxSelected(GameObject _Frame_Selected)
     {
         yield return null;

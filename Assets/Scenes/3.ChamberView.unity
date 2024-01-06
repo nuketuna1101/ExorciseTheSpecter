@@ -1132,10 +1132,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ButtonUI_ForwardOrBackward (3)
       objectReference: {fileID: 0}
-    - target: {fileID: 8507734883839756464, guid: bd69f3f9a3f799b4d895d1c0d1ffdfce, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1218,10 +1214,10 @@ RectTransform:
   - {fileID: 1013038380}
   m_Father: {fileID: 2019825568}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -200}
+  m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &471025587
 GameObject:
@@ -1255,10 +1251,10 @@ RectTransform:
   - {fileID: 1099279375}
   m_Father: {fileID: 2019825568}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -400}
+  m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &553188277
 PrefabInstance:
@@ -1402,7 +1398,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8507734883839756464, guid: bd69f3f9a3f799b4d895d1c0d1ffdfce, type: 3}
       propertyPath: m_Name
-      value: ButtonUI_Return
+      value: ButtonUI_ForwardOrBackward (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2235,10 +2231,10 @@ RectTransform:
   - {fileID: 120524169}
   m_Father: {fileID: 2019825568}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -500}
+  m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &803078715
 GameObject:
@@ -2940,10 +2936,10 @@ RectTransform:
   - {fileID: 626877381}
   m_Father: {fileID: 2019825568}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -300}
+  m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &994297054
 PrefabInstance:
@@ -3733,7 +3729,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1085995659
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4665,10 +4661,10 @@ RectTransform:
   - {fileID: 1774652024}
   m_Father: {fileID: 2019825568}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -100}
+  m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1351293452
 GameObject:
@@ -4819,7 +4815,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1365760725
 Transform:
   m_ObjectHideFlags: 0
@@ -5561,8 +5557,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 5
   _PopUpWindow: {fileID: 0}
-  transition: {fileID: 11400000, guid: 057babd6f13132c449650d99e3c4e99c, type: 2}
-  _sceneName: 3.ChamberView
+  transition: {fileID: 0}
+  _sceneName: 
   ChamberButtonNumbering: 0
 --- !u!1 &1774652023
 GameObject:

@@ -7,6 +7,10 @@ using UnityEngine.UI;
 
 public class CharacterSelectManager : MonoBehaviour
 {
+    /// <summary>
+    /// CharacterSelectManager ::
+    /// character select 관련 버튼 눌렀을 때 일어나는 로직 가시화
+    /// </summary>
     // 캐릭터 : Rogue, Gunslinger
     private bool isSelectedAny = false;
     private int selectedCode = -1;
@@ -102,13 +106,4 @@ public class CharacterSelectManager : MonoBehaviour
         _TEXT_CHAR_NAME.text = TEMP_TEXT_CHAR_NAME[selectedCode];
         _TEXT_CHAR_EXPLANATION.text = TEMP_TEXT_CHAR_EXPLANATION[selectedCode];
     }
-
-    public void CompleteCharacterSelect()
-    {
-        // 캐릭터 선택 이후 시작버튼.
-        // 테스트용 코드
-        GameManager.Instance.CharacterCode = selectedCode;
-        DebugOpt.Log("characterCode :: " + selectedCode);
-    }
-
 }

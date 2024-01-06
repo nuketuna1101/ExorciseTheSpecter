@@ -9,9 +9,11 @@ using static StageChamberSO;
 
 public class DataManager : Singleton<DataManager>
 {
-    //
+    /// <summary>
+    /// DataManager ::
+    /// convert data FROM CSV datatable TO Scriptable Object
+    /// </summary>
     private string[] fileNames = { "MapChamberInfo" };
-
 
     [SerializeField]
     private StageChamberSO _StageChamberSO;
