@@ -68,7 +68,6 @@ public struct StatusEffectArray
 
 
 
-
 public class KeywordDictionary : MonoBehaviour
 {
     // Start is called before the first frame update
