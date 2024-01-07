@@ -281,6 +281,7 @@ MonoBehaviour:
   _PopUpWindow: {fileID: 3517844397469438587}
   transition: {fileID: 0}
   _sceneName: 
+  ChamberButtonNumbering: 0
 --- !u!1 &83765561 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8507734883839756464, guid: 4a426af987dc8dc41b47b0ef31285f88, type: 3}
@@ -1614,6 +1615,7 @@ MonoBehaviour:
   _PopUpWindow: {fileID: 1304781138}
   transition: {fileID: 0}
   _sceneName: 
+  ChamberButtonNumbering: 0
 --- !u!1 &1151441957 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8507734883839756464, guid: ee2c5e591123a074da734d9f25debd22, type: 3}
@@ -1635,6 +1637,7 @@ MonoBehaviour:
   _PopUpWindow: {fileID: 0}
   transition: {fileID: 11400000, guid: 013263c83b6a84c4d95beaa8bd163ac8, type: 2}
   _sceneName: 1.CharacterSelect
+  ChamberButtonNumbering: 0
 --- !u!1001 &1278182670
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1760,6 +1763,7 @@ MonoBehaviour:
   _PopUpWindow: {fileID: 1304781138}
   transition: {fileID: 0}
   _sceneName: 
+  ChamberButtonNumbering: 0
 --- !u!1 &1297058958
 GameObject:
   m_ObjectHideFlags: 0
@@ -1903,6 +1907,7 @@ MonoBehaviour:
   _PopUpWindow: {fileID: 1304781138}
   transition: {fileID: 0}
   _sceneName: 
+  ChamberButtonNumbering: 0
 --- !u!1001 &1705247772
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2234,6 +2239,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b01d62818c1171b4599424a73b9e818b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterCode: -1
+  curHP: 25
+  maxHP: 100
+  gold: 250
+  stageNumber: 1
+  lastCompletedChamberNumber: 0
+  curSelectedChamberNumber: -1
+  curEnteredChamberNumber: -1
 --- !u!4 &1907259860
 Transform:
   m_ObjectHideFlags: 0
@@ -2414,6 +2427,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _StageChamberSO: {fileID: 11400000, guid: 841b17a78b2da9344ac941bcd8b325dc, type: 2}
   visited: 
+  _ChamberStates: 
 --- !u!4 &2116908223
 Transform:
   m_ObjectHideFlags: 0
@@ -3144,6 +3158,7 @@ MonoBehaviour:
   _PopUpWindow: {fileID: 3517844397469438587}
   transition: {fileID: 0}
   _sceneName: 
+  ChamberButtonNumbering: 0
 --- !u!1 &6368907667684045864
 GameObject:
   m_ObjectHideFlags: 0

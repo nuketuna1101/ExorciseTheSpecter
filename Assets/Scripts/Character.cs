@@ -19,6 +19,11 @@ public abstract class BattleObj
     private int intelligence = 0;
     // 태세: 일반, 은신, 반격
     private Stance _Stance = Stance.Normal;
+    // 상태이상 지속
+    private StatusEffectArray _StatusEffectArray = new StatusEffectArray(0);
+
+
+
 
     public void Attack(BattleObj _Object, DamageType _DamageType, int _DamageValue)
     {
@@ -64,7 +69,7 @@ public abstract class BattleObj
             DebugOpt.LogWarning("ERROR :: DamageType Exception");
         }
     }
-    public void BeAttacked(DamageType _DamageType, int CalculatedDamageValue)
+    private void BeAttacked(DamageType _DamageType, int CalculatedDamageValue)
     {
         // 계산된 데미지만큼 피격
         this.curHP -= CalculatedDamageValue;
@@ -76,19 +81,28 @@ public abstract class BattleObj
         // 방어도 깎임 적용
         this.Armor = (this.Armor >= value ? this.Armor - value : 0);
     }
-    public void BeBuffed()
+    public void GiveStatusEffect(BattleObj _Object, StatusEffect _StatusEffect)
     {
-        // 버프 적용
+        // 상대에게 상태 이상 효과를 지속 턴만큼 부여
+        _Object.GetStatusEffect(_StatusEffect);
+    }
+    private void GetStatusEffect(StatusEffect _StatusEffect)
+    {
+        // 상태이상 효과 적용
+        // 주의: 수치나 적용에 대한 갱신일뿐 실제 효과 적용은 나중에
+        _StatusEffectArray.AddValue(_StatusEffect);
     }
 
-    public void BeDebuffed()
+    public void GetEffectWhenTurnStarts()
     {
-        // 디버프 적용
+        // 턴 시작 시 받는 효과 발동
+        // 효과 큐에 넣어서 실행
     }
-
-    public void GetEffect(int _durationTurn)
+    public void GetEffectWhenTurnEnds()
     {
+        // 턴 종료 시 받는 효과 발동
 
+        // 출혈, 중독은 턴 종료 시 발동됨
     }
 
 }
