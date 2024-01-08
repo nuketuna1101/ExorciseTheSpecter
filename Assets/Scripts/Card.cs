@@ -6,7 +6,6 @@ using UnityEngine;
 /// </summary>
 
 
-
 public class Card
 {
     private int CardID;

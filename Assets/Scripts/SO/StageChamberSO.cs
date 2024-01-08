@@ -18,7 +18,6 @@ public class StageChamberSO : ScriptableObject
         public int NextChamber2;
         public int NextChamber3;
     }
-    //[SerializeField]
     public List<ChamberArray> StageChamberArray;
 
 }
