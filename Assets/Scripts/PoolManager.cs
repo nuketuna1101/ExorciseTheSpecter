@@ -3,38 +3,17 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System;
 
-public class PoolManager : MonoBehaviour
+/// <summary>
+/// Prefab 오브젝트에 대한 생성, 삭제 대신 풀링을 통한 최적화 관리
+/// </summary>
+
+public class PoolManager : Singleton<PoolManager>
 { 
-    private static PoolManager _instance;                          // Singleton 적용위해.
     [SerializeField]
-    private GameObject efxPrefab;                                  // 오브젝트 프리팹
+    private GameObject prefab;                                  // 오브젝트 프리팹
     [SerializeField]
     private const int initPoolSize = 50;                           // 초기 풀 사이즈 정의
     Queue<GameObject> pool = new Queue<GameObject>();              // 아이템 풀로 이용할 큐
-
-    public static PoolManager Instance
-    {
-        get
-        {
-            if (!_instance)
-            {
-                // instance 없을 경우 할당.
-                _instance = FindObjectOfType(typeof(PoolManager)) as PoolManager;
-                if (_instance == null)
-                    Debug.Log("Singleton NOT exist");
-            }
-            return _instance;
-        }
-    }
-    private void Awake()
-    {
-        // :: Singleton 적용
-        if (_instance == null)
-            _instance = this;
-        else if (_instance != this)
-            Destroy(gameObject);
-        DontDestroyOnLoad(gameObject);
-    }
 
     public void InitPool()
     {
@@ -43,13 +22,12 @@ public class PoolManager : MonoBehaviour
     }
     private GameObject CreateObj()
     {
-        var newObj = Instantiate(efxPrefab);
+        var newObj = Instantiate(prefab);
         newObj.gameObject.SetActive(false);
         newObj.transform.SetParent(transform);
         return newObj;
     }
-
-    public static GameObject GetEfxFromPool()
+    public static GameObject GetFromPool()
     {
         // 요청 시 풀에 있는 오브젝트를 할당해준다.
         if (Instance.pool.Count > 0)
