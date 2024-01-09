@@ -12,3 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24029205f727a1e47975edb3c413263b, type: 3}
   m_Name: CardInfoSO
   m_EditorClassIdentifier: 
+  CardInfoList:
+  - Class: 0
+    CardID: 0
+    CardType: 0
+    CardCost: 0
+    CardName: 
+    CardDescription: 

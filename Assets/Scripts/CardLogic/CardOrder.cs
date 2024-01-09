@@ -4,6 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// 카드 프리팹의 랜더링 자동화 위한 스크립트
+/// "Rendering Order 관리"
 /// </summary>
 
 public class CardOrder : MonoBehaviour

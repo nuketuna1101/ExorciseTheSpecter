@@ -13,11 +13,19 @@ public class DataManager : Singleton<DataManager>
     /// DataManager ::
     /// convert data FROM CSV datatable TO Scriptable Object
     /// </summary>
-    private string[] fileNames = { "MapChamberInfo" };
+    private string[] fileNames = { "ChamberInfo" };
 
     [SerializeField]
     private StageChamberSO _StageChamberSO;
-    private int stageChamberNumber = 13;
+    [SerializeField]
+    private CardInfoSO _CardInfoSO;
+
+
+    private readonly int stageChamberNumber = 13;
+    //private readonly int cardInfoNumber = 13;
+
+
+
 
     // 인접리스트와 방문노드
     [SerializeField]
@@ -32,53 +40,35 @@ public class DataManager : Singleton<DataManager>
 
     private void Awake()
     {
+        //
         ResetChamberInfo();
-        SetChamberInfo(stageChamberNumber);
+        SetChamberInfo();
+
+        //
+        ResetCardInfo();
+        SetCardInfo();
 
         InitEdge();
 
         StartCoroutine(UpdateChamberStateCrtn());
     }
 
+    //-------------------------------------------------------------------------
     // StageChamberSO 초기화
     private void ResetChamberInfo()
     {      
-        _StageChamberSO.StageChamberArray.Clear();
+        _StageChamberSO.ChamberInfoList.Clear();
     }
     // CSV로부터 StageChamberSO 저장
-    private void SetChamberInfo(int _StageChamberNumber)
+    private void SetChamberInfo()
     {
         //
         var dataList = new List<Dictionary<string, object>>();
         string file = "ChamberInfo";
         dataList = CSVReader.Read(file);
-        /*
-        _StageChamberSO.StageChamberArray.Add( new ChamberArray
+        for (int i = 0; i < CSVReader.GetLinesLength(file) - 2; i++)
         {
-            StageNumber = 0,
-            ChamberNumber = 0,
-            ChamberType = 0,
-            NextChamber1 = 0,
-            NextChamber2 = 0,
-        }
-        );
-
-        for (int i = 0; i < _StageChamberNumber; i++)
-        {
-            _StageChamberSO.StageChamberArray.Add( new ChamberArray
-            {
-                StageNumber = CSVReader.GetIntValue(dataList, i, "StageNumber"),
-                ChamberNumber = CSVReader.GetIntValue(dataList, i, "ChamberNumber"),
-                ChamberType = CSVReader.GetIntValue(dataList, i, "ChamberType"),
-                NextChamber1 = CSVReader.GetIntValue(dataList, i, "NextChamber1"),
-                NextChamber2 = CSVReader.GetIntValue(dataList, i, "NextChamber2"),
-            }
-            );
-        }
-        */
-        for (int i = 0; i <= _StageChamberNumber; i++)
-        {
-            _StageChamberSO.StageChamberArray.Add(new ChamberArray
+            _StageChamberSO.ChamberInfoList.Add(new ChamberInfo
             {
                 StageNumber = CSVReader.GetIntValue(dataList, i, "StageNumber"),
                 ChamberNumber = CSVReader.GetIntValue(dataList, i, "ChamberNumber"),
@@ -90,7 +80,32 @@ public class DataManager : Singleton<DataManager>
             );
         }
     }
-
+    //-------------------------------------------------------------------------
+    private void ResetCardInfo()
+    {
+        _CardInfoSO.CardInfoList.Clear();
+    }
+    private void SetCardInfo()
+    {
+        //
+        var dataList = new List<Dictionary<string, object>>();
+        string file = "CardInfo";
+        dataList = CSVReader.Read(file);
+        for (int i = 0; i < CSVReader.GetLinesLength(file) - 2; i++)
+        {
+            _CardInfoSO.CardInfoList.Add(new CardInfo
+            {
+                Class = CSVReader.GetIntValue(dataList, i, "Class"),
+                CardID = CSVReader.GetIntValue(dataList, i, "CardID"),
+                CardType = CSVReader.GetIntValue(dataList, i, "CardType"),
+                CardCost = CSVReader.GetIntValue(dataList, i, "CardCost"),
+                CardName = CSVReader.GetString(dataList, i, "CardName"),
+                CardDescription = CSVReader.GetString(dataList, i, "CardContent"),
+            }
+            );
+        }
+    }
+    //-------------------------------------------------------------------------
 
 
     private void InitEdge()
@@ -103,7 +118,7 @@ public class DataManager : Singleton<DataManager>
         for (int i = 0; i <= stageChamberNumber; i++)
         {
             adj[i] = new List<int>();
-            var curStageChamber = _StageChamberSO.StageChamberArray[i];
+            var curStageChamber = _StageChamberSO.ChamberInfoList[i];
             if (curStageChamber.NextChamber1 != -1)
                 adj[i].Add(curStageChamber.NextChamber1);
             if (curStageChamber.NextChamber2 != -1)

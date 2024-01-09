@@ -3,7 +3,9 @@ guid: 5e66ca6c4c721a44a8a1e463a8a2ffc3
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _StageChamberSO: {fileID: 11400000, guid: 841b17a78b2da9344ac941bcd8b325dc, type: 2}
+  - _CardInfoSO: {fileID: 11400000, guid: efa3dc2e71253514ca37e4874931bcba, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

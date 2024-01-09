@@ -6,25 +6,19 @@ using UnityEngine;
 /// 카드 정보
 /// </summary>
 /// 
-
-/// <summary>
-/// 카드 관련 클래스 구조체
-/// </summary>
-
 [Serializable]
 public class CardInfo
 {
-    private int Class;
-    private int CardID;
-    private int CardType;
-    private int CardCost;
-    private string CardName;
-    private string CardDescription;
+    public int Class;
+    public int CardID;
+    public int CardType;
+    public int CardCost;
+    public string CardName;
+    public string CardDescription;
 }
 
 [CreateAssetMenu(fileName = "CardInfoSO", menuName = "Scriptable Object/CardInfoSO")]
 public class CardInfoSO : ScriptableObject
 {
-    public CardInfo[] cardInfos;
-
+    public List<CardInfo> CardInfoList;
 }
