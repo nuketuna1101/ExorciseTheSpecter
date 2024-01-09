@@ -20,6 +20,10 @@ public class TestCardManager : Singleton<TestCardManager>
     private Transform cardSpawnPoint;
 
 
+    void PopItem()
+    {
+
+    }
 
     void AddCard()
     {
@@ -33,10 +37,21 @@ public class TestCardManager : Singleton<TestCardManager>
 
     void CardAlignment()
     {
+        /*
+        List<CardInfo> targetCards;
+        for (int i = 0; i< targetCards.Count; i++)
+        {
+            var targetCard = targetCards[i];
+            targetCard.originPRS = new PRS(Vector3.zero, MyUtils.QI, Vector3.one * 1.9f);
+
+        }
+        */
+
+
     }
 
     List<Transform> RoundAlignment(Transform leftTransform, Transform rightTransform, int ObjCount, float height, Vector3 scale)
     {
-        return null;
+        return null;    
     }
 }

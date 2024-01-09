@@ -12,7 +12,7 @@ using UnityEngine;
 /// </summary>
 
 [Serializable]
-public struct CardInfo
+public class CardInfo
 {
     private int Class;
     private int CardID;

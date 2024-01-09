@@ -244,6 +244,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd4ec14535111d4449986abb37493026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardPrefab: {fileID: 0}
+  myDeck: []
+  cardSpawnPoint: {fileID: 0}
 --- !u!4 &2123035620
 Transform:
   m_ObjectHideFlags: 0

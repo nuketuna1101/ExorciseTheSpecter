@@ -751,7 +751,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -100
   m_Sprite: {fileID: 21300000, guid: 17fd6b9762842014090f8883ae447ed3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -807,6 +807,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b01d62818c1171b4599424a73b9e818b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterCode: -1
+  curHP: 25
+  maxHP: 100
+  gold: 250
+  stageNumber: 1
+  lastCompletedChamberNumber: 0
+  curSelectedChamberNumber: -1
+  curEnteredChamberNumber: -1
 --- !u!4 &817214121
 Transform:
   m_ObjectHideFlags: 0
@@ -928,6 +936,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _StageChamberSO: {fileID: 11400000, guid: 841b17a78b2da9344ac941bcd8b325dc, type: 2}
   visited: 
+  _ChamberStates: 
 --- !u!4 &882490056
 Transform:
   m_ObjectHideFlags: 0
@@ -1484,6 +1493,7 @@ MonoBehaviour:
   _PopUpWindow: {fileID: 1932084172}
   transition: {fileID: 0}
   _sceneName: 
+  ChamberButtonNumbering: 0
 --- !u!1001 &1037406440
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1662,6 +1672,7 @@ MonoBehaviour:
   _PopUpWindow: {fileID: 0}
   transition: {fileID: 11400000, guid: 013263c83b6a84c4d95beaa8bd163ac8, type: 2}
   _sceneName: 0.MainScreen
+  ChamberButtonNumbering: 0
 --- !u!1 &1081755269
 GameObject:
   m_ObjectHideFlags: 0
@@ -1913,6 +1924,7 @@ MonoBehaviour:
   _PopUpWindow: {fileID: 0}
   transition: {fileID: 11400000, guid: 013263c83b6a84c4d95beaa8bd163ac8, type: 2}
   _sceneName: 2.MapView
+  ChamberButtonNumbering: 0
 --- !u!1001 &1223234871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2262,6 +2274,7 @@ MonoBehaviour:
   _PopUpWindow: {fileID: 1932084172}
   transition: {fileID: 0}
   _sceneName: 
+  ChamberButtonNumbering: 0
 --- !u!1001 &1747941470
 PrefabInstance:
   m_ObjectHideFlags: 0
