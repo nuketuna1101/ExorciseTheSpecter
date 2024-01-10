@@ -108,4 +108,34 @@ public class Card : MonoBehaviour
             renderer.sortingOrder = mulOrder + 4;
         }
     }
+
+
+
+    //--------------------------------------------
+
+    /*
+    void OnMouseOver()
+    {
+        if (isFront)
+            CardManager.Instance.CardMouseOver(this);
+    }
+
+    void OnMouseExit()
+    {
+        if (isFront)
+            CardManager.Instance.CardMouseExit(this);
+    }
+
+    void OnMouseDown()
+    {
+        if (isFront)
+            CardManager.Instance.CardMouseDown();
+    }
+
+    void OnMouseUp()
+    {
+        if (isFront)
+            CardManager.Instance.CardMouseUp();
+    }
+    */
 }
