@@ -85,7 +85,8 @@ public class ButtonController : MonoBehaviour
     private void EnterChamber()
     {
         // 선택된 챔버에 진입.
-        string _EnterScene = "3.ChamberView";
+        //string _EnterScene = "3.ChamberView";
+        string _EnterScene = "4.BattleScene";
         // 
         if (GameManager.Instance.CurSelectedChamberNumber == -1) return;
 

@@ -10,7 +10,7 @@ using UnityEngine;
 
 public class MyUtils
 {
-    public static Quaternion QI => Quaternion.identity;
+    //public static Quaternion QI => Quaternion.identity;
 }
 
 

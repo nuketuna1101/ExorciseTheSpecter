@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/3.ChamberView.unity
     guid: 5668a543cb4697d4ba4ecca50459e6a2
+  - enabled: 1
+    path: Assets/Scenes/4.BattleScene.unity
+    guid: df7513a3d24dc9c46918620d2024ed31
   m_configObjects:
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: f7abb888f7e192f43ac1e5b157087119, type: 2}

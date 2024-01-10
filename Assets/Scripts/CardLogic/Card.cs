@@ -1,30 +1,76 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
+using UnityEngine.TextCore.Text;
 
 /// <summary>
-/// 카드 프리팹의 랜더링 자동화 위한 스크립트
-/// "Rendering Order 관리"
+/// 카드 개별 객체 프리팹에 달려있는 스크립트
 /// </summary>
-
-public class CardOrder : MonoBehaviour
+public class Card : MonoBehaviour
 {
+    [Header("Card : Data")]
     [SerializeField]
-    private Renderer[] RenderOrder0; 
+    private CardInfo _CardInfo; // 담고 있는 데이터
+    public bool isFront;       // 앞뒷면 플래그
+    public PRS originalPRS;
+
+    [Header("CardPrefab Rendering")]
     [SerializeField]
-    private Renderer[] RenderOrder1; 
+    private Renderer[] RenderOrder0;
+    [SerializeField]
+    private Renderer[] RenderOrder1;
     [SerializeField]
     private Renderer[] RenderOrder2;
     [SerializeField]
-    private Renderer[] RenderOrder3; 
+    private Renderer[] RenderOrder3;
     [SerializeField]
     private Renderer[] RenderOrder4;
 
+    public void Setup(CardInfo _CardInfo, bool isFront)
+    {
+        this._CardInfo = _CardInfo;
+        this.isFront = isFront;
+
+        if (this.isFront)
+        {
+
+        }
+        else
+        {
+
+        }
+    }
+
+    public void MoveTransform(PRS prs, bool useDotween, float dotweenTime = 0)
+    {
+        if (useDotween)
+        {
+            transform.DOMove(prs.pos, dotweenTime);
+            transform.DORotateQuaternion(prs.rot, dotweenTime);
+            transform.DOScale(prs.scale, dotweenTime);
+        }
+        else
+        {
+            transform.position = prs.pos;
+            transform.rotation = prs.rot;
+            transform.localScale = prs.scale;
+        }
+    }
+
+
+    //---------------------------------------------------------
+    // rendering 관련
+    /// <summary>
+    /// 카드 프리팹의 랜더링 자동화 위한 스크립트
+    /// "Rendering Order 관리"
+    /// </summary>
 
     private const string _SortingLayerName = "Card";
     int originOrder;
 
-    private void SetOriginOrder(int originOrder)
+    public void SetOriginOrder(int originOrder)
     {
         this.originOrder = originOrder;
         SetOrder(originOrder);
@@ -35,7 +81,7 @@ public class CardOrder : MonoBehaviour
     }
     private void SetOrder(int order)
     {
-        int mulOrder = order * 10;
+        int mulOrder = order * 10 * (-1);
         foreach (var renderer in RenderOrder0)
         {
             renderer.sortingLayerName = _SortingLayerName;
@@ -62,5 +108,4 @@ public class CardOrder : MonoBehaviour
             renderer.sortingOrder = mulOrder + 4;
         }
     }
-
 }

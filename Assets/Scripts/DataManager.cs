@@ -18,7 +18,7 @@ public class DataManager : Singleton<DataManager>
     [SerializeField]
     private StageChamberSO _StageChamberSO;
     [SerializeField]
-    private CardInfoSO _CardInfoSO;
+    private CardInfoSO _CardInfoSO;     public CardInfoSO _TempAccessCardInfoSO { get { return _CardInfoSO; } }
 
 
     private readonly int stageChamberNumber = 13;
@@ -35,6 +35,12 @@ public class DataManager : Singleton<DataManager>
 
     [SerializeField]
     private ChamberState[] _ChamberStates;      public ChamberState[] publicChamberStates { get { return _ChamberStates; } }
+
+
+    public int TotalChamberNumber;
+    public int TotalCardNumber;
+
+
 
 
 
@@ -66,7 +72,9 @@ public class DataManager : Singleton<DataManager>
         var dataList = new List<Dictionary<string, object>>();
         string file = "ChamberInfo";
         dataList = CSVReader.Read(file);
-        for (int i = 0; i < CSVReader.GetLinesLength(file) - 2; i++)
+        //
+        TotalChamberNumber = CSVReader.GetLinesLength(file) - 2;
+        for (int i = 0; i < TotalChamberNumber; i++)
         {
             _StageChamberSO.ChamberInfoList.Add(new ChamberInfo
             {
@@ -91,7 +99,9 @@ public class DataManager : Singleton<DataManager>
         var dataList = new List<Dictionary<string, object>>();
         string file = "CardInfo";
         dataList = CSVReader.Read(file);
-        for (int i = 0; i < CSVReader.GetLinesLength(file) - 2; i++)
+        //
+        TotalCardNumber = CSVReader.GetLinesLength(file) - 2;
+        for (int i = 0; i < TotalCardNumber; i++)
         {
             _CardInfoSO.CardInfoList.Add(new CardInfo
             {
