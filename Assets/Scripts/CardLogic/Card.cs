@@ -99,9 +99,9 @@ public class Card : MonoBehaviour
         this.originOrder = originOrder;
         SetOrder(originOrder);
     }
-    private void SetMostFrontOrder(bool isMostFront)
+    public void SetMostFrontOrder(bool isMostFront)
     {
-        SetOrder(isMostFront ? 100 : originOrder);
+        SetOrder(isMostFront ? -100 : originOrder);
     }
     private void SetOrder(int order)
     {
@@ -137,7 +137,7 @@ public class Card : MonoBehaviour
 
     //--------------------------------------------
 
-    /*
+    
     void OnMouseOver()
     {
         if (isFront)
@@ -149,7 +149,7 @@ public class Card : MonoBehaviour
         if (isFront)
             CardManager.Instance.CardMouseExit(this);
     }
-
+    /*
     void OnMouseDown()
     {
         if (isFront)

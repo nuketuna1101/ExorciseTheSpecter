@@ -144,6 +144,46 @@ public class CardManager : Singleton<CardManager>
 
     //--------------------------------------------------
 
+    Card selectCard;
+
+    public void CardMouseOver(Card card)
+    {
+        selectCard = card;
+        EnlargeCard(true, card);
+    }
+
+    public void CardMouseExit(Card card)
+    {
+        EnlargeCard(false, card);
+    }
+
+    void EnlargeCard(bool isEnlarge, Card card)
+    {
+        if (isEnlarge)
+        {
+            //Vector3 enlargePos = new Vector3(card.originalPRS.pos.x, -4.8f, 10f);
+            Vector3 enlargePos = new Vector3(card.originalPRS.pos.x, 0.0f, 10f);
+            card.MoveTransform(new PRS(enlargePos, Quaternion.identity, Vector3.one * 1.5f), false);
+        }
+        else
+            card.MoveTransform(card.originalPRS, false);
+
+        card.GetComponent<Card>().SetMostFrontOrder(isEnlarge);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /*
     Card selectCard;
     bool isMyCardDrag;
