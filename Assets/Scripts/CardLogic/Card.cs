@@ -38,7 +38,7 @@ public class Card : MonoBehaviour
     [SerializeField]
     private Renderer[] RenderOrder4;
 
-    public void Setup(CardInfo _CardInfo, bool isFront)        // cardinfo 데이터에 따라서 프리팹 가시화
+    public void Setup(CardInfo _CardInfo, bool isFront)        // cardinfo 데이터에 따라서 프리팹 가시화  <<< 카드 타입과 직업 클래스에 따른 색상 변화 추가 해야함
     {
         this._CardInfo = _CardInfo;
         this.isFront = isFront;
