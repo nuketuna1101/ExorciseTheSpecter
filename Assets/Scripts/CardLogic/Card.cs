@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.TextCore.Text;
 using TMPro;
 using UnityEngine.UIElements;
+using System;
 
 /// <summary>
 /// 카드 개별 객체 프리팹에 달려있는 스크립트
@@ -63,21 +64,19 @@ public class Card : MonoBehaviour
             text_cardName.text = "";
         }
     }
-    public void MoveTransform(PRS prs, bool useDotween, float dotweenTime = 0)    // DOTWEEN 을 이용한 이동
+    public void DotweenMove(PRS prs, float time = 0f)
     {
-        if (useDotween)
-        {
-            transform.DOMove(prs.pos, dotweenTime);
-            transform.DORotateQuaternion(prs.rot, dotweenTime);
-            transform.DOScale(prs.scale, dotweenTime);
-        }
-        else
-        {
-            transform.position = prs.pos;
-            transform.rotation = prs.rot;
-            transform.localScale = prs.scale;
-        }
-    }
+        transform.DOMove(prs.pos, time);
+        transform.DORotateQuaternion(prs.rot, time);
+        transform.DOScale(prs.scale, time);
+    }       // DOTWEEN 이용하여 위치로 이동
+    public void LocateCard(Vector3 pos, Quaternion rot, Vector3 scale)
+    {
+        this.transform.position = pos;
+        this.transform.rotation = rot;
+        this.transform.localScale = scale;
+    }   // 카드 해당 상태로 위치시키기
+
     //---------------------------------------------------------
     // rendering 관련
     /// <summary>
@@ -86,16 +85,20 @@ public class Card : MonoBehaviour
     /// </summary>
 
     private const string _SortingLayerName = "Card";
-    int originOrder;
+    private int originOrder;
 
     public void SetOriginOrder(int originOrder)
     {
         this.originOrder = originOrder;
         SetOrder(originOrder);
     }
-    public void SetMostFrontOrder(bool isMostFront)
+    public void SetMostFrontOrder()
     {
-        SetOrder(isMostFront ? -100 : originOrder);
+        SetOrder(-100);
+    }
+    public void RevertOrder()
+    {
+        SetOrder(originOrder);
     }
     private void SetOrder(int order)
     {
@@ -154,5 +157,4 @@ public class Card : MonoBehaviour
         if (isFront)
             CardManager.Instance.CardMouseUp();
     }
-    
 }

@@ -93,7 +93,8 @@ public class CardManager : Singleton<CardManager>
             var targetPos = Vector3.Lerp(myCardLeft.position, myCardRight.position, objLerps[i]);
             var targetRot = Quaternion.Slerp(myCardLeft.rotation, myCardRight.rotation, objLerps[i]);
             myCards[i].originalPRS = new PRS(targetPos, targetRot, scale);
-            myCards[i].MoveTransform(myCards[i].originalPRS, true, 0.7f);
+            //myCards[i].MoveTransform(myCards[i].originalPRS, true, 0.7f);
+            myCards[i].DotweenMove(myCards[i].originalPRS, 0.7f);
         }
     }
     private void SetOriginOrder()       // 손패 카드 랜더링
@@ -119,8 +120,7 @@ public class CardManager : Singleton<CardManager>
     public void InitReadyDeck()
     {
         // 뽑을 카드 더미 초기화
-        // 처음 시작할 땐 나의 전체 덱에서 초기화
-        
+        // 처음 시작할 땐 나의 전체 덱에서 초기화       
     }
 
     public void SetupCardBuffer()// LEGACY TEST CODE
@@ -132,7 +132,6 @@ public class CardManager : Singleton<CardManager>
             var rand = UnityEngine.Random.Range(0, DataManager.Instance.TotalCardNumber);
             cardBuffer.Add(DataManager.Instance._TempAccessCardInfoSO.CardInfoList[rand]);
         }
-
         // 테스트용으로 버퍼 리스트를 큐 그대로
         ReadyQueue = new Queue<CardInfo>();
         for (int i = 0; i < cardBuffer.Count; i++)
@@ -143,212 +142,65 @@ public class CardManager : Singleton<CardManager>
 
     //--------------------------------------------------
 
-    Card selectCard;
-
+    private Card selectCard;                            // 현재 선택한 카드객체
     public void CardMouseOver(Card card)
     {
         selectCard = card;
-        EnlargeCard(true, card);
+        EnlargeCard(card);
     }
-
     public void CardMouseExit(Card card)
     {
-        EnlargeCard(false, card);
+        RevertEnlargeCard(card);
     }
-
-    void EnlargeCard(bool isEnlarge, Card card)
+  
+    private const float EnlargeCoeff = 1.5f;            // 확대 배수 조정값
+    private void EnlargeCard(Card card)
     {
-        if (isEnlarge)
-        {
-            //Vector3 enlargePos = new Vector3(card.originalPRS.pos.x, -4.8f, 10f);
-            Vector3 enlargePos = new Vector3(card.originalPRS.pos.x, 0.0f, 10f);
-            card.MoveTransform(new PRS(enlargePos, Quaternion.identity, Vector3.one * 1.5f), false);
-        }
-        else
-            card.MoveTransform(card.originalPRS, false);
-
-        card.GetComponent<Card>().SetMostFrontOrder(isEnlarge);
+        Vector3 pos = new Vector3(card.originalPRS.pos.x, -2.0f, 10f);           // 확대될 때의 위치 조정값
+        card.LocateCard(pos, Quaternion.identity, Vector3.one * EnlargeCoeff);
+        card.GetComponent<Card>().SetMostFrontOrder();
     }
-
-
-    bool isMyCardDrag;
-    bool onMyCardArea;
-
-    public void CardMouseDown()
+    private void RevertEnlargeCard(Card card)
     {
-        isMyCardDrag = true;
+        card.LocateCard(card.originalPRS.pos, card.originalPRS.rot, card.originalPRS.scale);
+        card.GetComponent<Card>().RevertOrder();
     }
+    //-------------------------------------------------------------
 
-    public void CardMouseUp()
+    private bool onMyCardArea;
+
+    public void CardDrag()
     {
-        isMyCardDrag = false;
+        Vector3 touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        touchPos.z = -5f;
+        selectCard.LocateCard(touchPos, Quaternion.identity, selectCard.originalPRS.scale);
     }
 
-
-
-
-
-
-
-
-
-
-
-    /*
-    Card selectCard;
-    bool isMyCardDrag;
-    bool onMyCardArea;
-    enum ECardState { Nothing, CanMouseOver, CanMouseDrag }
-    int myPutCount;
-
-
-    void Start()
+    void DetectCardArea()
     {
-        //SetupItemBuffer();
-        //TurnManager.OnAddCard += AddCard;
-        //TurnManager.OnTurnStarted += OnTurnStarted;
+        Vector3 touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        touchPos.z = -5f;
+        RaycastHit2D[] hits = Physics2D.RaycastAll(touchPos, Vector3.forward);
+        int layer = LayerMask.NameToLayer("HandArea");
+        onMyCardArea = Array.Exists(hits, x => x.collider.gameObject.layer == layer);
     }
 
-    void OnDestroy()
-    {
-        //TurnManager.OnAddCard -= AddCard;
-        //TurnManager.OnTurnStarted -= OnTurnStarted;
-    }
-
-    void OnTurnStarted(bool myTurn)
-    {
-        //if (myTurn)
-            //myPutCount = 0;
-    }
-
-    void Update()
+    private void Update()
     {
         if (isMyCardDrag)
             CardDrag();
 
         DetectCardArea();
-        SetECardState();
     }
 
-    public bool TryPutCard(bool isMine)
-    {
-        if (isMine && myPutCount >= 1)
-            return false;
-
-        if (!isMine && otherCards.Count <= 0)
-            return false;
-
-        //Card card = isMine ? selectCard : otherCards[Random.Range(0, otherCards.Count)];
-        //var spawnPos = isMine ? Utils.MousePos : otherCardSpawnPoint.position;
-        //var targetCards = isMine ? myCards : otherCards;
-
-        Card card = selectCard;
-        var spawnPos = isMine ? Utils.MousePos : otherCardSpawnPoint.position;
-        var targetCards = isMine ? myCards : otherCards;
-
-        if (EntityManager.Inst.SpawnEntity(isMine, card.item, spawnPos))
-        {
-            targetCards.Remove(card);
-            card.transform.DOKill();
-            DestroyImmediate(card.gameObject);
-            if (isMine)
-            {
-                selectCard = null;
-                myPutCount++;
-            }
-            CardAlignment(isMine);
-            return true;
-        }
-        else
-        {
-            targetCards.ForEach(x => x.GetComponent<Order>().SetMostFrontOrder(false));
-            CardAlignment(isMine);
-            return false;
-        }
-    }
-
-
-    #region MyCard
-
-    public void CardMouseOver(Card card)
-    {
-        if (eCardState == ECardState.Nothing)
-            return;
-
-        selectCard = card;
-        EnlargeCard(true, card);
-    }
-
-    public void CardMouseExit(Card card)
-    {
-        EnlargeCard(false, card);
-    }
-
+    
+    bool isMyCardDrag;
     public void CardMouseDown()
     {
-        if (eCardState != ECardState.CanMouseDrag)
-            return;
-
         isMyCardDrag = true;
     }
-
     public void CardMouseUp()
     {
         isMyCardDrag = false;
-
-        if (eCardState != ECardState.CanMouseDrag)
-            return;
-
-        if (onMyCardArea)
-            EntityManager.Inst.RemoveMyEmptyEntity();
-        else
-            TryPutCard(true);
     }
-
-    void CardDrag()
-    {
-        if (eCardState != ECardState.CanMouseDrag)
-            return;
-
-        if (!onMyCardArea)
-        {
-            selectCard.MoveTransform(new PRS(Utils.MousePos, Utils.QI, selectCard.originPRS.scale), false);
-            EntityManager.Inst.InsertMyEmptyEntity(Utils.MousePos.x);
-        }
-    }
-
-    void DetectCardArea()
-    {
-        RaycastHit2D[] hits = Physics2D.RaycastAll(Utils.MousePos, Vector3.forward);
-        int layer = LayerMask.NameToLayer("MyCardArea");
-        onMyCardArea = Array.Exists(hits, x => x.collider.gameObject.layer == layer);
-    }
-
-    void EnlargeCard(bool isEnlarge, Card card)
-    {
-        if (isEnlarge)
-        {
-            Vector3 enlargePos = new Vector3(card.originPRS.pos.x, -4.8f, -10f);
-            card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 3.5f), false);
-        }
-        else
-            card.MoveTransform(card.originPRS, false);
-
-        card.GetComponent<Order>().SetMostFrontOrder(isEnlarge);
-    }
-
-    void SetECardState()
-    {
-        if (TurnManager.Inst.isLoading)
-            eCardState = ECardState.Nothing;
-
-        else if (!TurnManager.Inst.myTurn || myPutCount == 1 || EntityManager.Inst.IsFullMyEntities)
-            eCardState = ECardState.CanMouseOver;
-
-        else if (TurnManager.Inst.myTurn && myPutCount == 0)
-            eCardState = ECardState.CanMouseDrag;
-    }
-
-    #endregion
-    */
 }
