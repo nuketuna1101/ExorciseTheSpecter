@@ -25,7 +25,7 @@ public class BattleManager : Singleton<BattleManager>
         _Enemies.Clear();
         _Enemies.Add(monster1);
         _Enemies.Add(monster2);
-        _Enemies[0].LogMyStatsForTest();
+        //_Enemies[0].LogMyStatsForTest();
     }
 
     public void TestCode()

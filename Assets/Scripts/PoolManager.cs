@@ -12,8 +12,14 @@ public class PoolManager : Singleton<PoolManager>
     [SerializeField]
     private GameObject prefab;                                  // 오브젝트 프리팹
     [SerializeField]
-    private const int initPoolSize = 50;                           // 초기 풀 사이즈 정의
+    private const int initPoolSize = 5;                           // 초기 풀 사이즈 정의
     Queue<GameObject> pool = new Queue<GameObject>();              // 아이템 풀로 이용할 큐
+
+    private void Awake()
+    {
+        InitPool();
+    }
+
 
     public void InitPool()
     {

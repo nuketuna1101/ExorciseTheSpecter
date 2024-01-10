@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Progress;
 using UnityEngine.TextCore.Text;
+using TMPro;
 
 /// <summary>
 /// 카드 개별 객체 프리팹에 달려있는 스크립트
@@ -15,6 +16,16 @@ public class Card : MonoBehaviour
     private CardInfo _CardInfo; // 담고 있는 데이터
     public bool isFront;       // 앞뒷면 플래그
     public PRS originalPRS;
+
+
+
+    [Header("CardPrefab Setup Sprite and TMP")]
+    [SerializeField]
+    private TMP_Text text_cardCost;
+    [SerializeField]
+    private TMP_Text text_cardDescript;
+    [SerializeField]
+    private TMP_Text text_cardName;
 
     [Header("CardPrefab Rendering")]
     [SerializeField]
@@ -30,16 +41,29 @@ public class Card : MonoBehaviour
 
     public void Setup(CardInfo _CardInfo, bool isFront)
     {
+        // cardinfo에 따라서 프리팹 가시화
         this._CardInfo = _CardInfo;
         this.isFront = isFront;
 
         if (this.isFront)
         {
-
+            this.transform.GetChild(1).gameObject.SetActive(true);
+            this.transform.GetChild(2).gameObject.SetActive(true);
+            this.transform.GetChild(3).gameObject.SetActive(true);
+            this.transform.GetChild(4).gameObject.SetActive(true);
+            text_cardCost.text = this._CardInfo.CardCost.ToString();
+            text_cardDescript.text = this._CardInfo.CardDescription.ToString();
+            text_cardName.text = this._CardInfo.CardName.ToString();
         }
         else
         {
-
+            this.transform.GetChild(1).gameObject.SetActive(false);
+            this.transform.GetChild(2).gameObject.SetActive(false);
+            this.transform.GetChild(3).gameObject.SetActive(false);
+            this.transform.GetChild(4).gameObject.SetActive(false);
+            text_cardCost.text = "";
+            text_cardDescript.text = "";
+            text_cardName.text = "";
         }
     }
 

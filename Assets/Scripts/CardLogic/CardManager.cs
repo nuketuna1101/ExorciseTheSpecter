@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.UIElements;
@@ -34,10 +35,15 @@ public class CardManager : Singleton<CardManager>
     [SerializeField]
     List<CardInfo> cardBuffer;
 
+
+    [SerializeField]
+    Queue<CardInfo> ReadyQueue;
+
+
     [SerializeField]
     GameObject cardPrefab; 
     [SerializeField]
-    List<Card> myCards;
+    List<Card> myCards;             // 손패에 들고있는 카드들
     [SerializeField]
     Transform myCardLeft;
     [SerializeField]
@@ -46,6 +52,7 @@ public class CardManager : Singleton<CardManager>
 
 
     //-------------------------------------------
+    // 최종 코드
     private void InitDeck()
     {
         // 테스트용 덱 초기화
@@ -57,56 +64,8 @@ public class CardManager : Singleton<CardManager>
 
     }
 
-    //-------------------------------------------
-
-
-    void SetupCardBuffer()// LEGACY TEST CODE
-    {
-        // 카드 버퍼 채우기
-        cardBuffer = new List<CardInfo>();
-        for (int i = 0; i < 12; i++)
-        {
-            var rand = UnityEngine.Random.Range(0, DataManager.Instance.TotalCardNumber);
-            cardBuffer.Add(DataManager.Instance._TempAccessCardInfoSO.CardInfoList[rand]);
-        }
-    }
-
-    public CardInfo PopCard()// LEGACY TEST CODE
-    {
-        //
-        if (cardBuffer.Count == 0)
-            SetupCardBuffer();
-
-        CardInfo cardinfo = cardBuffer[0];
-        cardBuffer.RemoveAt(0);
-        return cardinfo;
-    }
-
-    public void TestPop()// LEGACY TEST CODE
-    {
-        //
-        if (cardBuffer.Count == 0)
-            SetupCardBuffer();
-
-        DebugOpt.Log("POP :: " + cardBuffer[0].CardName);
-
-        CardInfo cardinfo = cardBuffer[0];
-        cardBuffer.RemoveAt(0);
-    }
-
-    public void AddCardToMyHand()       // LEGACY TEST CODE
-    {
-        // 풀링으로 대체
-        var cardObject = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity);
-        var card = cardObject.GetComponent<Card>();
-        myCards.Add(card);
-
-        SetOriginOrder();
-        AlignHandCards();
-    }
-
     private void AlignHandCards()            // 손패 카드 정렬 .. 선형 보간으로
-    {       
+    {
         var scale = Vector3.one;
         float[] objLerps = new float[myCards.Count];
 
@@ -126,7 +85,7 @@ public class CardManager : Singleton<CardManager>
     }
 
     private void SetOriginOrder()       // 손패 카드 랜더링
-    {     
+    {
         // 오더 정렬
         int cnt = myCards.Count;
         for (int i = 0; i < cnt; i++)
@@ -134,6 +93,90 @@ public class CardManager : Singleton<CardManager>
             var targetCard = myCards[i];
             targetCard?.GetComponent<Card>().SetOriginOrder(i);
         }
+    }
+
+    //-------------------------------------------
+    // TEST CODE
+
+    public void TestInitDeck()
+    {
+        // 테스트용으로 나의 전체 덱 설정해주기 임의로
+        int decksize = 15;
+        myDeck = new List<CardInfo>(DataManager.Instance.TotalCardNumber);
+
+    }
+
+    public void InitReadyDeck()
+    {
+        // 뽑을 카드 더미 초기화
+        // 처음 시작할 땐 나의 전체 덱에서 초기화
+        
+    }
+
+    public void DrawCardFromDeckToHand()
+    {
+        // 버퍼에 꺼내올거없으면 안돼요
+        if (ReadyQueue.Count == 0)
+        {
+            DebugOpt.Log("준비큐가 비어있어서 안돼요");
+            return;
+        }
+
+        // ready deck에서 hand로 카드 드로우
+        var cardObject = PoolManager.GetFromPool();
+        Card card = cardObject.GetComponent<Card>();
+        //card.Setup(PopCard(), true);            // 데이터 바인드
+        card.Setup(ReadyQueue.Dequeue(), true);
+        myCards.Add(card);
+        // 랜더링과 손패 가시화 정리
+        SetOriginOrder();
+        AlignHandCards();
+    }
+
+    private CardInfo PopCard()// LEGACY TEST CODE
+    {
+        CardInfo cardinfo = cardBuffer[0];
+        cardBuffer.RemoveAt(0);
+        return cardinfo;
+    }
+
+    public void SetupCardBuffer()// LEGACY TEST CODE
+    {
+        // 카드 버퍼 채우기
+        cardBuffer = new List<CardInfo>();
+        for (int i = 0; i < 5; i++)
+        {
+            var rand = UnityEngine.Random.Range(0, DataManager.Instance.TotalCardNumber);
+            cardBuffer.Add(DataManager.Instance._TempAccessCardInfoSO.CardInfoList[rand]);
+        }
+
+        // 테스트용으로 버퍼 리스트를 큐 그대로
+        ReadyQueue = new Queue<CardInfo>();
+        for (int i = 0; i < cardBuffer.Count; i++)
+        {
+            ReadyQueue.Enqueue(cardBuffer[i]);
+        }
+    }
+
+
+
+    public void TestPop()// LEGACY TEST CODE
+    {
+        if (cardBuffer.Count == 0)
+        {
+            DebugOpt.Log("버퍼 비어있어서 안돼요");
+            return;
+        }
+
+        CardInfo cardinfo = cardBuffer[0];
+        //DebugOpt.Log("버퍼 비워 보리기~ " + cardBuffer[0].CardName);
+        cardBuffer.RemoveAt(0);       // 여기가 문제라는 건데
+        DebugOpt.Log("비운거 결과 " + cardinfo.CardName);
+    }
+
+    public void TestRemove()// LEGACY TEST CODE
+    {
+        cardBuffer.RemoveAt(0);       // 여기가 문제라는 건데
     }
 
     //--------------------------------------------------

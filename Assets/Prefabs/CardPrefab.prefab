@@ -1191,7 +1191,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5463451244052965536}
-  - component: {fileID: 2201832292325216995}
   - component: {fileID: 3584459188394640875}
   m_Layer: 0
   m_Name: CardPrefab
@@ -1220,33 +1219,6 @@ Transform:
   - {fileID: 1764385166194445997}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2201832292325216995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8446538780497225103}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b14b17c8a1e532c4693ad054ae5fd882, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RenderOrder0:
-  - {fileID: 2214702882714877073}
-  RenderOrder1:
-  - {fileID: 6205018406788651450}
-  - {fileID: 3208486050240130312}
-  - {fileID: 693133925658459134}
-  RenderOrder2:
-  - {fileID: 752202830856006368}
-  - {fileID: 2222254826393289176}
-  RenderOrder3:
-  - {fileID: 3232503578145192695}
-  RenderOrder4:
-  - {fileID: 7246166817565992248}
-  - {fileID: 8300101703432273625}
-  - {fileID: 1681335812465867039}
 --- !u!114 &3584459188394640875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1271,6 +1243,9 @@ MonoBehaviour:
     pos: {x: 0, y: 0, z: 0}
     rot: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 0, y: 0, z: 0}
+  text_cardCost: {fileID: 8278556994297439115}
+  text_cardDescript: {fileID: 5931943683493833968}
+  text_cardName: {fileID: 4249432945779013038}
   RenderOrder0:
   - {fileID: 2214702882714877073}
   RenderOrder1:
