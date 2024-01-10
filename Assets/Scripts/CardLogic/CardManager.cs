@@ -37,7 +37,7 @@ public class CardManager : Singleton<CardManager>
 
 
     [SerializeField]
-    Queue<CardInfo> ReadyQueue;
+    Queue<CardInfo> ReadyQueue;     // 뽑을 카드 더미 덱
 
 
     [SerializeField]
@@ -58,10 +58,24 @@ public class CardManager : Singleton<CardManager>
         // 테스트용 덱 초기화
         myDeck = new List<CardInfo>(DataManager.Instance.TotalCardNumber);
     }
-    private void DrawCard()
+    public void DrawCardFromDeckToHand()        // 뽑을 카드더미 덱에서 손패로 카드 1장 드로우
     {
-        // FROM 덱 TO 손패
+        // 버퍼에 꺼내올거없으면 안돼요
+        if (ReadyQueue.Count == 0)
+        {
+            DebugOpt.Log("준비큐가 비어있어서 안돼요");
+            return;
+        }
 
+        // ready deck에서 hand로 카드 드로우
+        var cardObject = PoolManager.GetFromPool();
+        Card card = cardObject.GetComponent<Card>();
+        //card.Setup(PopCard(), true);            // 데이터 바인드
+        card.Setup(ReadyQueue.Dequeue(), true);
+        myCards.Add(card);
+        // 랜더링과 손패 가시화 정리
+        SetOriginOrder();
+        AlignHandCards();
     }
 
     private void AlignHandCards()            // 손패 카드 정렬 .. 선형 보간으로
@@ -83,12 +97,9 @@ public class CardManager : Singleton<CardManager>
             myCards[i].MoveTransform(myCards[i].originalPRS, true, 0.7f);
         }
     }
-
     private void SetOriginOrder()       // 손패 카드 랜더링
     {
-        // 오더 정렬
-        int cnt = myCards.Count;
-        for (int i = 0; i < cnt; i++)
+        for (int i = 0; i < myCards.Count; i++)
         {
             var targetCard = myCards[i];
             targetCard?.GetComponent<Card>().SetOriginOrder(i);
@@ -113,33 +124,6 @@ public class CardManager : Singleton<CardManager>
         
     }
 
-    public void DrawCardFromDeckToHand()
-    {
-        // 버퍼에 꺼내올거없으면 안돼요
-        if (ReadyQueue.Count == 0)
-        {
-            DebugOpt.Log("준비큐가 비어있어서 안돼요");
-            return;
-        }
-
-        // ready deck에서 hand로 카드 드로우
-        var cardObject = PoolManager.GetFromPool();
-        Card card = cardObject.GetComponent<Card>();
-        //card.Setup(PopCard(), true);            // 데이터 바인드
-        card.Setup(ReadyQueue.Dequeue(), true);
-        myCards.Add(card);
-        // 랜더링과 손패 가시화 정리
-        SetOriginOrder();
-        AlignHandCards();
-    }
-
-    private CardInfo PopCard()// LEGACY TEST CODE
-    {
-        CardInfo cardinfo = cardBuffer[0];
-        cardBuffer.RemoveAt(0);
-        return cardinfo;
-    }
-
     public void SetupCardBuffer()// LEGACY TEST CODE
     {
         // 카드 버퍼 채우기
@@ -156,27 +140,6 @@ public class CardManager : Singleton<CardManager>
         {
             ReadyQueue.Enqueue(cardBuffer[i]);
         }
-    }
-
-
-
-    public void TestPop()// LEGACY TEST CODE
-    {
-        if (cardBuffer.Count == 0)
-        {
-            DebugOpt.Log("버퍼 비어있어서 안돼요");
-            return;
-        }
-
-        CardInfo cardinfo = cardBuffer[0];
-        //DebugOpt.Log("버퍼 비워 보리기~ " + cardBuffer[0].CardName);
-        cardBuffer.RemoveAt(0);       // 여기가 문제라는 건데
-        DebugOpt.Log("비운거 결과 " + cardinfo.CardName);
-    }
-
-    public void TestRemove()// LEGACY TEST CODE
-    {
-        cardBuffer.RemoveAt(0);       // 여기가 문제라는 건데
     }
 
     //--------------------------------------------------

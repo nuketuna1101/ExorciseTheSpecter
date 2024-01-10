@@ -1,29 +1,29 @@
 ﻿Class,CardID,CardType,CardCost,CardName,CardNameKor,CardContent,CardContentKor
-0,1,1,1,Strike,타격,,물리피해5
-0,2,1,1,Tie Shoelaces,신발끈 묶기,,방어도5
-0,3,1,1,Bandage,붕대 감기,,"체력회복10, 출혈 제거"
-0,4,2,1,Beginner's Spellbook,초급자 마법서,,마법피해5
-0,5,2,1,Brood Over,골똘한 생각,,2장드로우
-0,6,2,1,Deep Breath,숨 고르기,,"탈진 제거, 1장드로우"
-1,7,1,1,Creepy Blow,섬뜩한 일격,,"물리피해7, 출혈 2턴 부여"
-1,8,1,1,Terrifying Blow,공포의 일격,,"물리피해4, 피해망상 2턴 부여"
-1,9,1,2,Backstab,뒤통수치기,,고정피해5
-1,10,1,1,Stolen High-end Armor,훔친 고급방어구,,"견고15, 체력-10"
-1,11,2,1,Deadly Poison,맹독 주입,,"마법피해7, 중독 2턴"
-1,12,2,1,Scatter sand,모래 흩뿌리기,,"전체마법피해3, 전체현기증 부여"
-1,13,2,1,Bottom deal,밑장 빼기,,"버린 카드 더미에서 카드 한 장 가져오기, 해당 카드 코스트 0"
-1,14,2,2,Perfect Finish,완벽한 마무리,,"마법피해15, 적 처치 시 은신"
-1,15,3,1,Mean shift,비열한 손놀림,,침착1
-1,16,3,1,Scavenge,시체 뒤지기,,"매 적 처치 시 추가 골드25 획득, 체력회복10"
-1,17,3,2,Shadow Reaper,그림자 사신,,턴 종료 시 이번 턴 동안 사용한 행동카드 당 전체마법피해2
-2,18,1,0,Single Shot,단발 사격,,물리피해3
-2,19,1,1,Flick,끌어치기,,"물리피해4, 1장드로우"
-2,20,1,2,Indiscriminate Shot,무차별 사격,,전체물리피해6
-2,21,1,3,Blind Rampage,눈먼 난사,,"무작위 물리피해4, 8회"
-2,22,2,1,Lube gun,총기손질,,"이번 턴동안 탈진, 현기증, 다음 1턴 총명1"
-2,23,2,2,Thick Smoke,자욱한 담배연기,,전체피해망상과 전체탈진 2턴
-2,24,2,2,Counter fire,대응사격,,"견고10, 1턴 반격"
-2,25,2,3,Bold Adventurer,대담한 승부사,,"남은 손패를 모두 단발사격 카드로 채움, 다음 턴 탈진, 현기증"
-2,26,3,1,Support Fire,보조사격,,매 행동카드 사용 시 전체마법피해1
-2,27,3,2,Glass Cannon,유리대포,,"강력함5, 피해망상"
-2,28,3,2,Silver Bullet,은탄 장착,,모든 물리피해에 마법피해1 추가
+0,1,1,1,Strike,타격,Deal 5 physical damage.,물리피해5
+0,2,1,1,Tie Shoelaces,신발끈 묶기,Gain 5 extra armor.,방어도5
+0,3,1,1,Bandage,붕대 감기,Heal 10 hp. Remove bleeding.,"체력회복10, 출혈 제거"
+0,4,2,1,Beginner's Spellbook,초급자 마법서,Deal 5 magical damage.,마법피해5
+0,5,2,1,Brood Over,골똘한 생각,Draw 2 cards.,2장드로우
+0,6,2,1,Deep Breath,숨 고르기,Draw 1 card. Remove Exhausted.,"탈진 제거, 1장드로우"
+1,7,1,1,Creepy Blow,섬뜩한 일격,Deal 7 physical damage with 2-turn bleeding.,"물리피해7, 출혈 2턴 부여"
+1,8,1,1,Terrifying Blow,공포의 일격,Deal 4 physical damage with 2-turn bleeding.,"물리피해4, 피해망상 2턴 부여"
+1,9,1,2,Backstab,뒤통수치기,Deal 5 true damage.,고정피해5
+1,10,1,1,Stolen High-end Armor,훔친 고급방어구,Lose 10 hp. Gain 15 extra armor.,"견고15, 체력-10"
+1,11,2,1,Deadly Poison,맹독 주입,Deal 7 magical damage with 2-turn posion.,"마법피해7, 중독 2턴"
+1,12,2,1,Scatter sand,모래 흩뿌리기,Deal 3 magical damage to whole enemy with 2-turn dizziness.,"전체마법피해3, 전체현기증 부여"
+1,13,2,1,Bottom deal,밑장 빼기,Find and bring 1 card from used card. The card costs 0.,"버린 카드 더미에서 카드 한 장 가져오기, 해당 카드 코스트 0"
+1,14,2,2,Perfect Finish,완벽한 마무리,"Deal 15 magical damage. If any enemy killed, take Stealth stance for 1 turn.","마법피해15, 적 처치 시 은신"
+1,15,3,1,Mean shift,비열한 손놀림,Gain 1 extra composure.,침착1
+1,16,3,1,Scavenge,시체 뒤지기,Gain extra 25 golds and heal 10 hp for every kill.,"매 적 처치 시 추가 골드25 획득, 체력회복10"
+1,17,3,2,Shadow Reaper,그림자 사신,Deal 4 magical damage to random target every end of player's turn.,턴 종료 시 무작위 적에게 마법피해4
+2,18,1,0,Single Shot,단발 사격,Deal 3 physical damage.,물리피해3
+2,19,1,1,Flick,끌어치기,Deal 4 physical damage. Draw 1 card.,"물리피해4, 1장드로우"
+2,20,1,2,Indiscriminate Shot,무차별 사격,Deal 6 magical damage to whole enemy.,전체물리피해6
+2,21,1,3,Blind Rampage,눈먼 난사,Deal 4 damage to random target for 8 times.,"무작위 물리피해4, 8회"
+2,22,2,1,Lube gun,총기손질,Fall into Exhausted and Dizziness in this turn. Gain 1 extra intelligence for next turn.,"이번 턴동안 탈진, 현기증, 다음 1턴 총명1"
+2,23,2,2,Thick Smoke,자욱한 담배연기,Give every enemy 2-turn Exhausted and Paranoia.,전체피해망상과 전체탈진 2턴
+2,24,2,2,Counter fire,대응사격,Gain 10 extra armor. Take CounterAttack stance for 1 turn.,"견고10, 1턴 반격"
+2,25,2,3,Bold Adventurer,대담한 승부사,"Fill your hand full of ""Single Shot"" cards. Fall into Exhausted and Dizziness in next turn.","남은 손패를 모두 단발사격 카드로 채움, 다음 턴 탈진, 현기증"
+2,26,3,1,Support Fire,보조사격,Deal 1 magical damage to whole enemy after using every action card.,매 행동카드 사용 시 전체마법피해1
+2,27,3,2,Glass Cannon,유리대포,Gain 5 extra strength. Fall into Paranoia.,"강력함5, 피해망상"
+2,28,3,2,Silver Bullet,은탄 장착,Deal extra 1 magical damage for every physical damage.,모든 물리피해에 마법피해1 추가
