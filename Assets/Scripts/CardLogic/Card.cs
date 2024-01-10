@@ -2,9 +2,9 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 using UnityEngine.TextCore.Text;
 using TMPro;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// 카드 개별 객체 프리팹에 달려있는 스크립트
@@ -16,8 +16,6 @@ public class Card : MonoBehaviour
     private CardInfo _CardInfo; // 담고 있는 데이터
     public bool isFront;       // 앞뒷면 플래그
     public PRS originalPRS;
-
-
 
     [Header("CardPrefab Setup Sprite and TMP")]
     [SerializeField]
@@ -39,9 +37,8 @@ public class Card : MonoBehaviour
     [SerializeField]
     private Renderer[] RenderOrder4;
 
-    public void Setup(CardInfo _CardInfo, bool isFront)
+    public void Setup(CardInfo _CardInfo, bool isFront)        // cardinfo 데이터에 따라서 프리팹 가시화
     {
-        // cardinfo에 따라서 프리팹 가시화
         this._CardInfo = _CardInfo;
         this.isFront = isFront;
 
@@ -66,8 +63,7 @@ public class Card : MonoBehaviour
             text_cardName.text = "";
         }
     }
-
-    public void MoveTransform(PRS prs, bool useDotween, float dotweenTime = 0)
+    public void MoveTransform(PRS prs, bool useDotween, float dotweenTime = 0)    // DOTWEEN 을 이용한 이동
     {
         if (useDotween)
         {
@@ -82,8 +78,6 @@ public class Card : MonoBehaviour
             transform.localScale = prs.scale;
         }
     }
-
-
     //---------------------------------------------------------
     // rendering 관련
     /// <summary>
@@ -132,11 +126,10 @@ public class Card : MonoBehaviour
             renderer.sortingOrder = mulOrder + 4;
         }
     }
-
-
-
     //--------------------------------------------
-
+    /// <summary>
+    /// 터치 이벤트
+    /// </summary>
     
     void OnMouseOver()
     {
@@ -149,7 +142,7 @@ public class Card : MonoBehaviour
         if (isFront)
             CardManager.Instance.CardMouseExit(this);
     }
-    /*
+    
     void OnMouseDown()
     {
         if (isFront)
@@ -161,5 +154,5 @@ public class Card : MonoBehaviour
         if (isFront)
             CardManager.Instance.CardMouseUp();
     }
-    */
+    
 }

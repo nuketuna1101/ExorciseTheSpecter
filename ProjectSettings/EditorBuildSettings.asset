@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/EasyTransitions/Demo/TransitionDemo.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
     path: Assets/Scenes/0.MainScreen.unity
     guid: 8d3c4024706cb0f48ad5a3e6674c401b
   - enabled: 1
@@ -24,4 +21,6 @@ EditorBuildSettings:
     path: Assets/Scenes/4.BattleScene.unity
     guid: df7513a3d24dc9c46918620d2024ed31
   m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: b94229733ccd53a44ba427f192fd49b7, type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 6673056ff90012a41be705b6b9727f83, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: f7abb888f7e192f43ac1e5b157087119, type: 2}

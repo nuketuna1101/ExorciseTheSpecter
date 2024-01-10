@@ -6,7 +6,6 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.UIElements;
-using static UnityEditor.Progress;
 
 public class CardManager : Singleton<CardManager>
 {
@@ -172,7 +171,18 @@ public class CardManager : Singleton<CardManager>
     }
 
 
+    bool isMyCardDrag;
+    bool onMyCardArea;
 
+    public void CardMouseDown()
+    {
+        isMyCardDrag = true;
+    }
+
+    public void CardMouseUp()
+    {
+        isMyCardDrag = false;
+    }
 
 
 
