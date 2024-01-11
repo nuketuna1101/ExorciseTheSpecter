@@ -19,8 +19,6 @@ public class PoolManager : Singleton<PoolManager>
     {
         InitPool();
     }
-
-
     public void InitPool()
     {
         for (int i = 0; i < initPoolSize; i++)

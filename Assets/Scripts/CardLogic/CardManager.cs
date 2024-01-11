@@ -6,49 +6,32 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.UIElements;
-
+/// <summary>
+/// 전체 덱, 손패 핸드, 뽑을 카드, 사용한 카드더미에 대한 전반적인 관리
+/// </summary>
 public class CardManager : Singleton<CardManager>
 {
-
-    // 전체 덱, 손패 핸드, 뽑을 카드, 사용한 카드더미에 대한 전반적인 관리
-
     [SerializeField]
     private CardInfoSO _CardInfoSO;
-
-    [SerializeField]
-    private List<CardInfo> hand;
-
-
     [SerializeField]
     private Transform cardSpawnPoint;
-
-    //
-
+    // 실제 플레이어의 덱
     private List<CardInfo> myDeck;
     // 
-    private List<CardInfo> cards_TobeUsed;
-    private List<CardInfo> cards_Hand;
-    private List<CardInfo> cards_AlreadyUsed;
-
 
     [SerializeField]
-    List<CardInfo> cardBuffer;
-
+    private List<CardInfo> cardBuffer;      // TEST LEGACY CODE
+    [SerializeField]
+    private Queue<CardInfo> ReadyQueue;     // 뽑을 카드 더미 덱
 
     [SerializeField]
-    Queue<CardInfo> ReadyQueue;     // 뽑을 카드 더미 덱
-
-
+    private GameObject cardPrefab; 
     [SerializeField]
-    GameObject cardPrefab; 
+    private List<Card> myCards;             // 손패에 들고있는 카드들
     [SerializeField]
-    List<Card> myCards;             // 손패에 들고있는 카드들
+    private Transform myCardLeft;           // 손패 정리위한 위치
     [SerializeField]
-    Transform myCardLeft;
-    [SerializeField]
-    Transform myCardRight;
-
-
+    private Transform myCardRight;          // 손패 정리위한 위치
 
     //-------------------------------------------
     // 최종 코드
@@ -93,7 +76,6 @@ public class CardManager : Singleton<CardManager>
             var targetPos = Vector3.Lerp(myCardLeft.position, myCardRight.position, objLerps[i]);
             var targetRot = Quaternion.Slerp(myCardLeft.rotation, myCardRight.rotation, objLerps[i]);
             myCards[i].originalPRS = new PRS(targetPos, targetRot, scale);
-            //myCards[i].MoveTransform(myCards[i].originalPRS, true, 0.7f);
             myCards[i].DotweenMove(myCards[i].originalPRS, 0.7f);
         }
     }
@@ -166,7 +148,7 @@ public class CardManager : Singleton<CardManager>
         card.GetComponent<Card>().RevertOrder();
     }
     //-------------------------------------------------------------
-
+    // 리팩토링 할 부분
     private bool onMyCardArea;
 
     public void CardDrag()
@@ -191,9 +173,7 @@ public class CardManager : Singleton<CardManager>
             CardDrag();
 
         DetectCardArea();
-    }
-
-    
+    }   
     bool isMyCardDrag;
     public void CardMouseDown()
     {

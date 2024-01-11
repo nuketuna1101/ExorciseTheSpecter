@@ -24,7 +24,13 @@ public class Card : MonoBehaviour
     [SerializeField]
     private TMP_Text text_cardDescript;
     [SerializeField]
-    private TMP_Text text_cardName;
+    private TMP_Text text_cardName; 
+    [SerializeField]
+    private TMP_Text text_cardType;
+    [SerializeField]
+    private GameObject img_cardType;
+    private readonly string[] cardTypeText = { "Null", "Action", "Skill", "Suggest" };
+
 
     [Header("CardPrefab Rendering")]
     [SerializeField]
@@ -52,6 +58,8 @@ public class Card : MonoBehaviour
             text_cardCost.text = this._CardInfo.CardCost.ToString();
             text_cardDescript.text = this._CardInfo.CardDescription.ToString();
             text_cardName.text = this._CardInfo.CardName.ToString();
+            text_cardType.text = cardTypeText[this._CardInfo.CardType];
+            img_cardType.GetComponent<SpriteRenderer>().color = ColorSettings.cardTypeColor[this._CardInfo.CardType];
         }
         else
         {
@@ -62,6 +70,7 @@ public class Card : MonoBehaviour
             text_cardCost.text = "";
             text_cardDescript.text = "";
             text_cardName.text = "";
+            text_cardType.text = "";
         }
     }
     public void DotweenMove(PRS prs, float time = 0f)

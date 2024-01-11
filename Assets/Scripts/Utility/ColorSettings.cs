@@ -17,4 +17,7 @@ public static class ColorSettings
     public static readonly Color cc1 = new Color(1f, 1f, 0f);
     public static readonly Color cc2 = new Color(175f / 255f, 175f / 255f, 0f);
     public static readonly Color cc3 = new Color(125f / 255f, 125f / 255f, 0f);
+
+    public static readonly Color[] cardTypeColor = { Color.gray, Color.magenta, Color.cyan, Color.yellow };
+
 }

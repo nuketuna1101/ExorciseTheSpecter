@@ -25,16 +25,8 @@ public class ChamberManager : MonoBehaviour
 
     // 나중에 퍼블릭 정적 클래스로 컬러 스타일로 빼내자.
     // 챔버 상태 : 현재 시점 기준, 방문했거나, 방문가능하거나, 그 외
-    private readonly Color normalColor = new Color(1f, 1f, 1f);
-    private readonly Color darkColor = new Color(50f / 255f, 50f / 255f, 50f / 255f);
-    private readonly Color greenColor = new Color(0f, 1f, 0f);
-    private readonly Color yellowColor = new Color(1f, 1f, 0f);
-
-
     [SerializeField]
     private GameObject _EnterBtn;
-
-
 
     // 차후 리팩토링위해 UI 자동화 할당 관련
     private void TEMP_METHOD_FOR_FUTURE_REFACTORING()
@@ -95,23 +87,23 @@ public class ChamberManager : MonoBehaviour
             switch (_ChamberStates[i])
             {
                 case ChamberState.Visited:
-                    img_chamber.GetComponent<Image>().color = darkColor;
+                    img_chamber.GetComponent<Image>().color = ColorSettings.darkColor;
                     img_frame.SetActive(false);
                     btnObj.SetActive(false);
                     break;
                 case ChamberState.Accessable:
                     //img_chamber_accessable.Add(img_chamber.GetComponent<Image>());
-                    img_chamber.GetComponent<Image>().color = yellowColor;
+                    img_chamber.GetComponent<Image>().color = ColorSettings.yellowColor;
                     img_frame.SetActive(false);
                     btnObj.SetActive(true);
                     break;
                 case ChamberState.Selected:
-                    img_chamber.GetComponent<Image>().color = greenColor;
+                    img_chamber.GetComponent<Image>().color = ColorSettings.greenColor;
                     img_frame_selected = img_frame;
                     btnObj.SetActive(true);
                     break;
                 case ChamberState.RestOf:
-                    img_chamber.GetComponent<Image>().color = normalColor;
+                    img_chamber.GetComponent<Image>().color = ColorSettings.normalColor;
                     img_frame.SetActive(false);
                     btnObj.SetActive(false);
                     break;
@@ -136,7 +128,7 @@ public class ChamberManager : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             foreach(Image _img_Chamber in _Chambers_Accessable)
             {
-                _img_Chamber.color = (flag ? normalColor : _Color);
+                _img_Chamber.color = (flag ? ColorSettings.normalColor : _Color);
             }
             DebugOpt.Log("CM :: BlinkEfxAccessable checker");
             flag = !flag;
