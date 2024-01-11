@@ -14,13 +14,13 @@ public abstract class BattleObj
     // 메소드 발생 시점? : 턴 시작, 턴 중간, 턴 종료
     [Header("BattleObj : Battle Data")]
     // 체력, 방어도, 주문적응력
-    private int maxHp = 400;
-    private int curHP = 400;
-    private int Armor = 16;
+    public int maxHp = 400;
+    public int curHP = 400;
+    public int Armor = 16;
     private SpellAdaptability _SpellAdaptability;
     // 강력함, 총명
-    private int strength = 0;
-    private int intelligence = 0;
+    public int strength = 0;
+    public int intelligence = 0;
     // 태세: 일반, 은신, 반격
     private Stance _Stance = Stance.Normal;
     // 상태이상 지속

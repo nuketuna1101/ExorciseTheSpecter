@@ -1390,13 +1390,38 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8507734883839756464, guid: 4a426af987dc8dc41b47b0ef31285f88, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1007409402}
   m_SourcePrefab: {fileID: 100100000, guid: 4a426af987dc8dc41b47b0ef31285f88, type: 3}
 --- !u!224 &1007409400 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4118762431709474353, guid: 4a426af987dc8dc41b47b0ef31285f88, type: 3}
   m_PrefabInstance: {fileID: 1007409399}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1007409401 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8507734883839756464, guid: 4a426af987dc8dc41b47b0ef31285f88, type: 3}
+  m_PrefabInstance: {fileID: 1007409399}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1007409402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007409401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa0ca1d42ed4564499c440706fea58de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 6
+  _PopUpWindow: {fileID: 0}
+  transition: {fileID: 0}
+  _sceneName: 
+  ChamberButtonNumbering: 0
 --- !u!1 &1077172780
 GameObject:
   m_ObjectHideFlags: 0
@@ -2239,14 +2264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b01d62818c1171b4599424a73b9e818b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterCode: -1
-  curHP: 25
-  maxHP: 100
-  gold: 250
-  stageNumber: 1
-  lastCompletedChamberNumber: 0
-  curSelectedChamberNumber: -1
-  curEnteredChamberNumber: -1
+  PlayerDeck: []
 --- !u!4 &1907259860
 Transform:
   m_ObjectHideFlags: 0
@@ -2429,6 +2447,8 @@ MonoBehaviour:
   _CardInfoSO: {fileID: 11400000, guid: efa3dc2e71253514ca37e4874931bcba, type: 2}
   visited: 
   _ChamberStates: 
+  TotalChamberNumber: 0
+  TotalCardNumber: 0
 --- !u!4 &2116908223
 Transform:
   m_ObjectHideFlags: 0

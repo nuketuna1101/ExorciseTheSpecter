@@ -524,7 +524,7 @@ GameObject:
   - component: {fileID: 1937426919812543519}
   - component: {fileID: 5017661444213719406}
   m_Layer: 0
-  m_Name: UnitPrefab
+  m_Name: UnitPrefab 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -590,8 +590,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.87, z: 0}
-  m_LocalScale: {x: 4.4384956, y: 7.4996066, z: 4.73485}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 3.5, y: 5.9138556, z: 3.7336917}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4004585091168172621}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -709,7 +709,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4004585091168172621}

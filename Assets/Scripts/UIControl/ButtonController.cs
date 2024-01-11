@@ -14,7 +14,7 @@ public class ButtonController : MonoBehaviour
     /// attached to each button UI
     /// </summary>
     private Button buttonUI;
-    public enum ButtonType { LoadScene, PopUpWindow, CloseWindow, SelectCharacter, SelectChamber, EnterChamber }
+    public enum ButtonType { LoadScene, PopUpWindow, CloseWindow, SelectCharacter, SelectChamber, EnterChamber, ExitGame }
     // 버튼 타입 정의
     [SerializeField]
     private ButtonType type;
@@ -55,6 +55,9 @@ public class ButtonController : MonoBehaviour
                 break;
             case ButtonType.EnterChamber:
                 buttonUI.onClick.AddListener(EnterChamber);
+                break;
+            case ButtonType.ExitGame:
+                buttonUI.onClick.AddListener(ExitGame);
                 break;
         }
     }
@@ -105,4 +108,12 @@ public class ButtonController : MonoBehaviour
         //TransitionManager.Instance().Transition(_EnterScene, transition, 0);
     }
 
+    private void ExitGame()
+    {
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #else
+        Application.Quit(); // 어플리케이션 종료
+    #endif
+    }
 }

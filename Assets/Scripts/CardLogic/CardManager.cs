@@ -182,5 +182,20 @@ public class CardManager : Singleton<CardManager>
     public void CardMouseUp()
     {
         isMyCardDrag = false;
+
+        // 땅에 내려 놓으면 TryUsingCard 로직
+
+        if (!onMyCardArea)
+            TryUsingCard();
+
     }
+
+
+
+    private void TryUsingCard()
+    {
+
+    }
+
+
 }
