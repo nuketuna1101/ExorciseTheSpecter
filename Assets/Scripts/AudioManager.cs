@@ -10,14 +10,14 @@ public class AudioManager : Singleton<AudioManager>
     private float bgmVolume = 0.5f;
 
     [Header("Sound Effects")]
-    //public List<AudioClip> sfxClipList;
-    //List<AudioSource> sfxSrcList;
     public AudioClip[] sfxClipList;
     AudioSource[] sfxSrcList;
     private float sfxVolume = 0.5f;
 
     private const int channels = 5;         // 채널 갯수
     int channelIndex;
+
+    public enum SFX { Test1, Test2 }
 
     private void Awake()
     {
@@ -26,7 +26,6 @@ public class AudioManager : Singleton<AudioManager>
 
     private void InitialSetting()
     {
-        DebugOpt.Log("하이롱");
         GameObject bgmObj = new GameObject("BGMPlayer");
         bgmObj.transform.parent = transform;
         bgmSrc = bgmObj.AddComponent<AudioSource>();
@@ -47,6 +46,39 @@ public class AudioManager : Singleton<AudioManager>
             sfxSrcList[i].playOnAwake = false;
             sfxSrcList[i].volume = sfxVolume;
             sfxSrcList[i].loop = true;
+        }
+    }
+
+    public void PlayBGM()
+    {
+        bgmSrc.Play();
+    }
+    public void StopBGM()
+    {
+        bgmSrc.Stop();
+    }
+    public void PlaySFX(SFX _SFX)           // enum 타입에 해당하는 효과음 재생
+    {
+        for (int i = 0; i < sfxSrcList.Length; i++)
+        {
+            int loopIndex = (channelIndex + i) / sfxSrcList.Length;
+
+            if (sfxSrcList[loopIndex].isPlaying)
+                continue;
+
+
+            // 효과음이 2개 이상인 것은 랜덤으로
+            int ranIndex = 0;
+            if (_SFX == SFX.Test1)
+            {
+                ranIndex = Random.Range(0, 3);
+            }
+
+
+            channelIndex = loopIndex;
+            sfxSrcList[0].clip = sfxClipList[(int)_SFX + ranIndex];
+            sfxSrcList[loopIndex].Play();
+            break;
         }
     }
 
