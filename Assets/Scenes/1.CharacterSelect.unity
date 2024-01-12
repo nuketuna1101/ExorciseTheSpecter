@@ -744,6 +744,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &680790447
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 680790449}
+  - component: {fileID: 680790448}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &680790448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680790447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2968dd88fabf46e4595320fba148b28f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmClip: {fileID: 8300000, guid: 63108a5662aedd14eb6d2a634d76514f, type: 3}
+  sfxClipList: []
+  musicSource: {fileID: 0}
+--- !u!4 &680790449
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680790447}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &803078715
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,14 +904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b01d62818c1171b4599424a73b9e818b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterCode: -1
-  curHP: 25
-  maxHP: 100
-  gold: 250
-  stageNumber: 1
-  lastCompletedChamberNumber: 0
-  curSelectedChamberNumber: -1
-  curEnteredChamberNumber: -1
+  PlayerDeck: []
 --- !u!4 &817214121
 Transform:
   m_ObjectHideFlags: 0
@@ -1811,7 +1851,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7993659624771209168, guid: bd69f3f9a3f799b4d895d1c0d1ffdfce, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7993659624771209168, guid: bd69f3f9a3f799b4d895d1c0d1ffdfce, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -3006,3 +3046,4 @@ SceneRoots:
   - {fileID: 1081755271}
   - {fileID: 817214121}
   - {fileID: 340680006}
+  - {fileID: 680790449}

@@ -28,6 +28,7 @@ public class TopBarUIManager : MonoBehaviour
     }
     private void UpdateValue()
     {
+        DebugOpt.Log("GameManager.Instance.CharacterCode :: " + GameManager.Instance.CharacterCode);
         _Text_CharName.text =    charNames[GameManager.Instance.CharacterCode];
         _Text_HP.text =          String.Format("{0} / {1}", GameManager.Instance.CurHP, GameManager.Instance.MaxHP);
         _Text_Gold.text = "" + GameManager.Instance.Gold;//String.Format("{0}", GameManager.Instance.CurHP, GameManager.Instance.MaxHP);

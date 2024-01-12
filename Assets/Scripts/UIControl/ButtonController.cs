@@ -65,6 +65,8 @@ public class ButtonController : MonoBehaviour
     private void LoadScene()
     {
         TransitionManager.Instance().Transition(_sceneName, transition, startDelay);
+
+        AudioManager.Instance.PlaySFX(SFX_TYPE.BTN);
     }
 
     private void PopUpWindow()

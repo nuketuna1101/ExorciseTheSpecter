@@ -2,30 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 사운드 BGM, SFX 관리
+/// </summary>
+public enum SFX_TYPE { BTN = 0, HIT }
 
 public class AudioManager : Singleton<AudioManager>
 {
     [Header("Background Music")]
-    public AudioClip bgmClip;
-    AudioSource bgmSrc;
+    [SerializeField]
+    private AudioClip bgmClip;               // 사전준비된 BGM 리소스
+    private AudioSource bgmSrc;
     private float bgmVolume = 0.5f;
-
     [Header("Sound Effects")]
-    public AudioClip[] sfxClipList;
-    AudioSource[] sfxSrcList;
+    private List<AudioClip[]> SFXlist;
+    [SerializeField]    private AudioClip[] sfxClip_Btn;
+    [SerializeField]    private AudioClip[] sfxClip_Hit;
+    private AudioSource[] sfxSrcs;
     private float sfxVolume = 0.5f;
+    private const int channels = 10;         // SFX 채널 : 여러 효과음 겹칠 수 있으므로 다중채널로 관리
 
-    private const int channels = 5;         // 채널 갯수
-    int channelIndex;
-
-    public enum SFX { Test1, Test2 }
-
-    private void Awake()
+    private new void Awake()
     {
+        base.Awake();
         InitialSetting();
     }
-
-    private void InitialSetting()
+    private void InitialSetting()               // BGM, SFX 초기화
     {
         GameObject bgmObj = new GameObject("BGMPlayer");
         bgmObj.transform.parent = transform;
@@ -35,66 +37,55 @@ public class AudioManager : Singleton<AudioManager>
         bgmSrc.loop = true;
         bgmSrc.clip = bgmClip;
 
-
         GameObject sfxObj = new GameObject("SFXPlayer");
         sfxObj.transform.parent = transform;
-        //sfxSrcList = new List<AudioSource>();
-        sfxSrcList = new AudioSource[channels];
+        sfxSrcs = new AudioSource[channels];
 
-        for (int i = 0; i < sfxSrcList.Length; i++)
+        SFXlist = new List<AudioClip[]>();
+        SFXlist.Clear();
+        SFXlist.Add(sfxClip_Btn);
+        SFXlist.Add(sfxClip_Hit);
+
+        for (int i = 0; i < sfxSrcs.Length; i++)
         {
-            sfxSrcList[i] = sfxObj.AddComponent<AudioSource>();
-            sfxSrcList[i].playOnAwake = false;
-            sfxSrcList[i].volume = sfxVolume;
-            sfxSrcList[i].loop = true;
+            sfxSrcs[i] = sfxObj.AddComponent<AudioSource>();
+            sfxSrcs[i].playOnAwake = false;
+            sfxSrcs[i].volume = sfxVolume;
+            sfxSrcs[i].loop = false;
         }
     }
-
-    public void PlayBGM()
+    public void PlayBGM()           // BGM 재생
     {
+        if (bgmSrc.isPlaying) return;
         bgmSrc.Play();
     }
-    public void StopBGM()
+    public void StopBGM()           // BGM 중지
     {
         bgmSrc.Stop();
     }
-    public void PlaySFX(SFX _SFX)           // enum 타입에 해당하는 효과음 재생
+    public void PlaySFX(SFX_TYPE _SFX_TYPE)             // 원하는 범주의 클립들 중 랜덤 하나를 비어있는 채널로 재생
     {
-        for (int i = 0; i < sfxSrcList.Length; i++)
+        var targetClips = SFXlist[(int)_SFX_TYPE];
+        int rand = Random.Range(0, targetClips.Length - 1);
+        AudioSource availableSfxSrc = null;
+        foreach (var sfxSrc in sfxSrcs)
         {
-            int loopIndex = (channelIndex + i) / sfxSrcList.Length;
-
-            if (sfxSrcList[loopIndex].isPlaying)
-                continue;
-
-
-            // 효과음이 2개 이상인 것은 랜덤으로
-            int ranIndex = 0;
-            if (_SFX == SFX.Test1)
-            {
-                ranIndex = Random.Range(0, 3);
-            }
-
-
-            channelIndex = loopIndex;
-            sfxSrcList[0].clip = sfxClipList[(int)_SFX + ranIndex];
-            sfxSrcList[loopIndex].Play();
+            if (sfxSrc.isPlaying) continue;
+            availableSfxSrc = sfxSrc;
             break;
         }
+        availableSfxSrc.clip = targetClips[rand];
+        availableSfxSrc.Play();
     }
-
 
 
 
     #region Volume fade in/out Coroutine
-
     [SerializeField] private AudioSource musicSource;
-
     IEnumerator VoluemFadeOut(float durationTime)
     {
         float from = musicSource.volume;
         float to = 0;
-
         float elapsedTime = 0f;
         while (elapsedTime <= 1)
         {
@@ -108,7 +99,6 @@ public class AudioManager : Singleton<AudioManager>
     {
         float from = 0;
         float to = targetValue;
-
         float elapsedTime = 0f;
         while (elapsedTime <= 1)
         {
@@ -118,5 +108,4 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
     #endregion
-
 }

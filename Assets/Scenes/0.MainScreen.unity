@@ -1977,8 +1977,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2968dd88fabf46e4595320fba148b28f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgmClip: {fileID: 0}
-  sfxClipList: []
+  bgmClip: {fileID: 8300000, guid: 63108a5662aedd14eb6d2a634d76514f, type: 3}
+  sfxClip_Btn:
+  - {fileID: 8300000, guid: 6f5e3d16000322c439867e65f0155752, type: 3}
+  sfxClip_Hit:
+  - {fileID: 8300000, guid: c24926b3674f065438a9333d79172a04, type: 3}
+  - {fileID: 8300000, guid: 24543a765c5df9843af328a6a87000b3, type: 3}
+  - {fileID: 8300000, guid: 8f4dd228b1b17394a9fa6ea80c6136cb, type: 3}
+  musicSource: {fileID: 0}
 --- !u!1001 &1705247772
 PrefabInstance:
   m_ObjectHideFlags: 0

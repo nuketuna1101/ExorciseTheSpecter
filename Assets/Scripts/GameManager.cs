@@ -27,4 +27,15 @@ public class GameManager : Singleton<GameManager>
     [Header("Player Deck")]
     public List<CardInfo> PlayerDeck;
 
+
+
+
+
+    protected new void Awake()
+    {
+        base.Awake();
+        DebugOpt.Log("GameManager.Instance.CharacterCode :: " + GameManager.Instance.CharacterCode);
+        AudioManager.Instance.PlayBGM();
+    }
+
 }
