@@ -192,7 +192,7 @@ public class CardManager : Singleton<CardManager>
 
 
 
-    private void TryUsingCard()
+    private void TryUsingCard()                 // 코스트를 소모하여 카드 사용효과
     {
 
     }

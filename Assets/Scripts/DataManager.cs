@@ -25,8 +25,6 @@ public class DataManager : Singleton<DataManager>
     //private readonly int cardInfoNumber = 13;
 
 
-
-
     // 인접리스트와 방문노드
     [SerializeField]
     public List<int>[] adj;
@@ -36,16 +34,13 @@ public class DataManager : Singleton<DataManager>
     [SerializeField]
     private ChamberState[] _ChamberStates;      public ChamberState[] publicChamberStates { get { return _ChamberStates; } }
 
-
     public int TotalChamberNumber;
     public int TotalCardNumber;
 
 
-
-
-
-    private void Awake()
+    private new void Awake()
     {
+        base.Awake();
         //
         ResetChamberInfo();
         SetChamberInfo();
