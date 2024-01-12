@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 주문 적응도: 
-public enum SpellAdaptability { None, SpellResist, SpellImmune }
+public enum SpellAdaptability { None, Resist, Immune }
 // 상태이상: 출혈, 중독, 탈진, 현기증, 피해망상, 속박
 public enum StatusEffectType { Bleeding, Posioned, Exhausted, Dizzy, Paranoia }
 // 태세: 일반, 은신, 반격

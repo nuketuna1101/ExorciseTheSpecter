@@ -25,7 +25,7 @@ public class CardManager : Singleton<CardManager>
     private Queue<CardInfo> ReadyQueue;     // 뽑을 카드 더미 덱
 
     [SerializeField]
-    private GameObject cardPrefab; 
+    private GameObject cardPrefab;          // 카드 프리팹 생성하므로
     [SerializeField]
     private List<Card> myCards;             // 손패에 들고있는 카드들
     [SerializeField]

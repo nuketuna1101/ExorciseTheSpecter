@@ -17,7 +17,7 @@ public abstract class BattleObj
     public int maxHp = 400;
     public int curHP = 400;
     public int Armor = 16;
-    private SpellAdaptability _SpellAdaptability;
+    public SpellAdaptability _SpellAdaptability;
     // 강력함, 총명
     public int strength = 0;
     public int intelligence = 0;
@@ -56,17 +56,6 @@ public abstract class BattleObj
     {
         // 계산된 데미지만큼 피격
         DebugOpt.Log("method BeAttacked called from  " + this);
-
-        if (_DamageType == DamageType.Physical)
-        {
-            // 방어도
-        }
-        else if (_DamageType == DamageType.Magical)
-        {
-            // 주문저항성
-        }
-
-
         switch (_DamageType)
         {
             case DamageType.Physical:
@@ -76,10 +65,10 @@ public abstract class BattleObj
                 {
                     case SpellAdaptability.None:
                         break;
-                    case SpellAdaptability.SpellResist:
+                    case SpellAdaptability.Resist:
                         CalculatedDamageValue -= (CalculatedDamageValue / 4);
                         break;
-                    case SpellAdaptability.SpellImmune:
+                    case SpellAdaptability.Immune:
                         CalculatedDamageValue = 0;
                         break;
                     default:

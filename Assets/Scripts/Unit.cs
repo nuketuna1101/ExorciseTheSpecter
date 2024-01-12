@@ -14,14 +14,14 @@ public class Unit : MonoBehaviour
     private BattleObj _BattleObj;
 
     [Header("UnitPrefab Setup Sprite and TMP")]
-    [SerializeField]
-    private TMP_Text text_HP;
-    [SerializeField]
-    private TMP_Text text_Armor;
-    [SerializeField]
-    private TMP_Text text_Strength;
-    [SerializeField]
-    private TMP_Text text_Intelligence;
+    [SerializeField] private TMP_Text text_HP;
+    [SerializeField] private TMP_Text text_Armor;
+    [SerializeField] private TMP_Text text_SpellAdapt;
+    [SerializeField] private TMP_Text text_Strength;
+    [SerializeField] private TMP_Text text_Intelligence;
+    [SerializeField] private TMP_Text text_Composure;
+    [SerializeField] private TMP_Text text_Energy;
+
 
     //
     public void InitUnit(BattleObj _BattleObj)           // 전투 객체 데이터 집어넣기

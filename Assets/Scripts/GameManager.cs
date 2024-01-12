@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -27,15 +28,37 @@ public class GameManager : Singleton<GameManager>
     [Header("Player Deck")]
     public List<CardInfo> PlayerDeck;
 
-
-
-
-
     protected new void Awake()
     {
         base.Awake();
         DebugOpt.Log("GameManager.Instance.CharacterCode :: " + GameManager.Instance.CharacterCode);
         AudioManager.Instance.PlayBGM();
     }
+
+
+
+
+    public PlayerUnit _PlayerUnit;
+    public EnemyUnit _EnemyUnit1;
+    public EnemyUnit _EnemyUnit2;
+    public EnemyUnit _EnemyUnit3;
+
+    // test code
+    public void InitUnits()
+    {
+        Player _Player = new Player();
+        List<Enemy> _Enemies = new List<Enemy>();
+        var monster1 = new Enemy();
+        var monster2 = new Enemy();
+        _Enemies.Clear();
+        _Enemies.Add(monster1);
+        _Enemies.Add(monster2);
+
+        _PlayerUnit.InitUnit(_Player);
+        _EnemyUnit1.InitUnit(monster1);
+        _EnemyUnit2.InitUnit(monster2);
+
+    }
+
 
 }

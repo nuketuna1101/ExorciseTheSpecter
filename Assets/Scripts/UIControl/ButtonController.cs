@@ -84,7 +84,6 @@ public class ButtonController : MonoBehaviour
     {
         // 챔버 버튼을 눌렀을 때, 선택된 챔버 데이터 전달
         GameManager.Instance.CurSelectedChamberNumber = ChamberButtonNumbering;
-        DebugOpt.Log("Btn Control :: CurSelectedChamberNumber => " + GameManager.Instance.CurSelectedChamberNumber);
     }
 
     private void EnterChamber()

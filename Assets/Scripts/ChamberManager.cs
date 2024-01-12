@@ -51,12 +51,10 @@ public class ChamberManager : MonoBehaviour
             yield return null;
             if (GameManager.Instance.CurSelectedChamberNumber == -1)
             {
-                Debug.Log("ActivateEnterBtn :: FLOW 1");
                 _EnterBtn.SetActive(false);
             }
             else
             {
-                Debug.Log("ActivateEnterBtn :: FLOW 2");
                 _EnterBtn.SetActive(true);
                 break;
             }
