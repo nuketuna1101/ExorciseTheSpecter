@@ -217,7 +217,37 @@ public class CardManager : Singleton<CardManager>
 
     private void TryUsingCard()                 // 코스트를 소모하여 카드 사용효과
     {
+        if (selectCard.IsAvailable())
+        {
+            // 핸드에서 제거
+            myCards.Remove(selectCard);
+            selectCard.ActivateCard();
+            selectCard = null;
+            AlignHandCards();
+        }
+        else
+        {
+            myCards.ForEach(x => x.GetComponent<Card>().RevertOrder());
+            AlignHandCards();
+        }
 
+
+
+        /*
+        // 1번 플로우 : 카드 사용 성공
+        // 해당 카드를 제거
+        myCards.Remove(selectCard);
+        selectCard.transform.DOKill();
+        PoolManager.ReturnToPool(selectCard.gameObject);
+        selectCard = null;
+        AlignHandCards();
+
+
+        // 2번 플로우 : 카드 사용 실패, 다시 핸드로 돌아감
+        myCards.ForEach(x => x.GetComponent<Card>().RevertOrder());
+        AlignHandCards();
+
+        */
     }
 
 

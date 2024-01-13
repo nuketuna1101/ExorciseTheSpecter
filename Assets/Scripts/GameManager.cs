@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
@@ -12,9 +13,9 @@ public class GameManager : Singleton<GameManager>
     private int stageNumber = 1;                    public int StageNumber { get { return stageNumber; } set { stageNumber = value; } }
 
     [Header("InBattle Player Stats")]
-    private int AP;
-    private int Shield;
-    private int Power;
+    private int Energy = 3;
+    private int Armor;
+    private int Strength;
 
 
     // ¿©±â¿¡ ÀÖÀ»Áö ¸ð¸£°ÙÁö¸¸ ÀÏ´Ü ÀÓ½Ã·Î
@@ -26,6 +27,21 @@ public class GameManager : Singleton<GameManager>
 
     [Header("Player Deck")]
     public List<CardInfo> PlayerDeck;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     protected new void Awake()
     {
@@ -59,5 +75,56 @@ public class GameManager : Singleton<GameManager>
 
     }
 
+
+
+
+
+    #region Energy °ü·Ã ÄÚµå
+
+    [SerializeField] private TMP_Text text_Energy;
+
+    public int GetEnergy()
+    {
+        return Energy;
+    }
+    public void GainEnergy(int amount)            // energy È¹µæ
+    {
+        StartCoroutine(GainEnergyIE(amount));
+    }
+    public void ConsumeEnergy(int amount)            // energy È¹µæ
+    {
+        StartCoroutine(ConsumeEnergyIE(amount));
+
+    }
+
+    private IEnumerator GainEnergyIE(int amount)
+    {
+        int loop = amount;
+        while (true)
+        {
+            if (loop <= 0) break;
+            loop--;
+            Energy++;
+            UpdateEnergyUI();
+            yield return null;
+        }
+    }
+    private IEnumerator ConsumeEnergyIE(int amount)
+    {
+        int loop = amount;
+        while (true)
+        {
+            if (loop <= 0) break;
+            loop--;
+            Energy--;
+            UpdateEnergyUI();
+            yield return null;
+        }
+    }
+    private void UpdateEnergyUI()
+    {
+        text_Energy.text = Energy.ToString();
+    }
+    #endregion
 
 }

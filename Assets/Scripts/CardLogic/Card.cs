@@ -170,4 +170,23 @@ public class Card : MonoBehaviour
         if (isFront)
             CardManager.Instance.CardMouseUp();
     }
+
+
+
+
+
+    public bool IsAvailable()                   // 코스트가 사용가능한지
+    {
+        return (GameManager.Instance.GetEnergy() >= this._CardInfo.CardCost);
+    }
+
+    public void ActivateCard()              // 카드가 사용됨 : 카드 회수 작업, 카드 효과 진행
+    {
+        // 카드 효과
+        /**/
+        // 카드회수
+        this.transform.DOKill();
+        GameManager.Instance.ConsumeEnergy(this._CardInfo.CardCost);
+        PoolManager.ReturnToPool(this.gameObject);
+    }
 }
