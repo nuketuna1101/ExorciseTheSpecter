@@ -73,18 +73,22 @@ public class Card : MonoBehaviour
             text_cardType.text = "";
         }
     }
-    public void DotweenMove(PRS prs, float time = 0f)
+    public void DotweenMove(PRS prs, float time = 0f)           // DOTWEEN 이용하여 위치로 이동
     {
         transform.DOMove(prs.pos, time);
         transform.DORotateQuaternion(prs.rot, time);
         transform.DOScale(prs.scale, time);
-    }       // DOTWEEN 이용하여 위치로 이동
-    public void LocateCard(Vector3 pos, Quaternion rot, Vector3 scale)
+    } 
+    public void LocateCard(Vector3 pos, Quaternion rot, Vector3 scale)          // 카드 해당 상태로 위치시키기
     {
         this.transform.position = pos;
         this.transform.rotation = rot;
         this.transform.localScale = scale;
-    }   // 카드 해당 상태로 위치시키기
+    }   
+    public void LocateCard(Vector3 pos)             // 카드 해당 상태로 위치시키기
+    {
+        this.transform.position = pos;
+    }   
 
     //---------------------------------------------------------
     // rendering 관련
@@ -101,43 +105,43 @@ public class Card : MonoBehaviour
         this.originOrder = originOrder;
         SetOrder(originOrder);
     }
-    public void SetMostFrontOrder()
+    public void FocusAsMostFront()          // 가장 앞으로 오더 바꾸기
     {
         SetOrder(-100);
-    }
-    public void RevertOrder()
+    }   
+    public void RevertOrder()           // 원래 오더로 돌아가기
     {
         SetOrder(originOrder);
-    }
-    private void SetOrder(int order)
+    }                        
+    private void SetOrder(int order)            // 프리팹에 들어있는 랜더링 오더 설정
     {
-        int mulOrder = order * 10 * (-1);
+        int order_Criterion = order * 10 * (-1);
         foreach (var renderer in RenderOrder0)
         {
             renderer.sortingLayerName = _SortingLayerName;
-            renderer.sortingOrder = mulOrder;
+            renderer.sortingOrder = order_Criterion;
         }
         foreach (var renderer in RenderOrder1)
         {
             renderer.sortingLayerName = _SortingLayerName;
-            renderer.sortingOrder = mulOrder + 1;
+            renderer.sortingOrder = order_Criterion + 1;
         }
         foreach (var renderer in RenderOrder2)
         {
             renderer.sortingLayerName = _SortingLayerName;
-            renderer.sortingOrder = mulOrder + 2;
+            renderer.sortingOrder = order_Criterion + 2;
         }
         foreach (var renderer in RenderOrder3)
         {
             renderer.sortingLayerName = _SortingLayerName;
-            renderer.sortingOrder = mulOrder + 3;
+            renderer.sortingOrder = order_Criterion + 3;
         }
         foreach (var renderer in RenderOrder4)
         {
             renderer.sortingLayerName = _SortingLayerName;
-            renderer.sortingOrder = mulOrder + 4;
+            renderer.sortingOrder = order_Criterion + 4;
         }
-    }
+    }          
     //--------------------------------------------
     /// <summary>
     /// 터치 이벤트

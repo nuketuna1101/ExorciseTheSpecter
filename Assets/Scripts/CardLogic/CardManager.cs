@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.UIElements;
@@ -11,27 +12,27 @@ using UnityEngine.UIElements;
 /// </summary>
 public class CardManager : Singleton<CardManager>
 {
-    [SerializeField]
-    private CardInfoSO _CardInfoSO;
-    [SerializeField]
-    private Transform cardSpawnPoint;
+    [SerializeField]    private CardInfoSO _CardInfoSO;         // 데이터 매니저의 전체 카드 사전
     // 실제 플레이어의 덱
     private List<CardInfo> myDeck;
     // 
 
-    [SerializeField]
-    private List<CardInfo> cardBuffer;      // TEST LEGACY CODE
-    [SerializeField]
-    private Queue<CardInfo> ReadyQueue;     // 뽑을 카드 더미 덱
+    [SerializeField] private List<CardInfo> cardBuffer;      // TEST LEGACY CODE
+    [SerializeField] private Queue<CardInfo> ReadyQueue;     // 뽑을 카드 더미 덱
 
-    [SerializeField]
-    private GameObject cardPrefab;          // 카드 프리팹 생성하므로
-    [SerializeField]
-    private List<Card> myCards;             // 손패에 들고있는 카드들
-    [SerializeField]
-    private Transform myCardLeft;           // 손패 정리위한 위치
-    [SerializeField]
-    private Transform myCardRight;          // 손패 정리위한 위치
+    [SerializeField] private GameObject cardPrefab;          // 카드 프리팹 생성하므로
+    [SerializeField] private List<Card> myCards;             // 손패에 들고있는 카드들
+    [SerializeField] private Transform myCardLeft;           // 손패 정리위한 위치
+    [SerializeField] private Transform myCardRight;          // 손패 정리위한 위치
+
+
+
+    // 덱 ui
+    [Header("Deck : to ")]
+    [SerializeField] private Transform cardSpawnPoint;          // 뽑을 카드더미 덱 위치.
+    [SerializeField] private TMP_Text remainCount;              // 뽑을 카드더미 남은 카드숫자
+
+
 
     //-------------------------------------------
     // 최종 코드
@@ -52,8 +53,9 @@ public class CardManager : Singleton<CardManager>
         // ready deck에서 hand로 카드 드로우
         var cardObject = PoolManager.GetFromPool();
         Card card = cardObject.GetComponent<Card>();
-        //card.Setup(PopCard(), true);            // 데이터 바인드
         card.Setup(ReadyQueue.Dequeue(), true);
+        UpdateDeckCardAmount();
+        card.LocateCard(cardSpawnPoint.position);
         myCards.Add(card);
         // 랜더링과 손패 가시화 정리
         SetOriginOrder();
@@ -94,10 +96,31 @@ public class CardManager : Singleton<CardManager>
     public void TestInitDeck()
     {
         // 테스트용으로 나의 전체 덱 설정해주기 임의로
-        int decksize = 15;
+        int decksize = 15;              // 임의 덱 사이즈
         myDeck = new List<CardInfo>(DataManager.Instance.TotalCardNumber);
 
+        //
+        cardBuffer = new List<CardInfo>();
+        for (int i = 0; i < 15; i++)
+        {
+            var rand = UnityEngine.Random.Range(0, DataManager.Instance.TotalCardNumber);
+            cardBuffer.Add(DataManager.Instance._TempAccessCardInfoSO.CardInfoList[rand]);
+        }
+        // 테스트용으로 버퍼 리스트를 큐 그대로
+        ReadyQueue = new Queue<CardInfo>();
+        for (int i = 0; i < cardBuffer.Count; i++)
+        {
+            ReadyQueue.Enqueue(cardBuffer[i]);
+            UpdateDeckCardAmount();
+        }
+
     }
+
+    private void UpdateDeckCardAmount()          // 뽑을 카드더미 숫자 업데이트
+    {
+        remainCount.text = ReadyQueue.Count.ToString();
+    }
+
 
     public void InitReadyDeck()
     {
@@ -140,7 +163,7 @@ public class CardManager : Singleton<CardManager>
     {
         Vector3 pos = new Vector3(card.originalPRS.pos.x, -2.0f, 10f);           // 확대될 때의 위치 조정값
         card.LocateCard(pos, Quaternion.identity, Vector3.one * EnlargeCoeff);
-        card.GetComponent<Card>().SetMostFrontOrder();
+        card.GetComponent<Card>().FocusAsMostFront();
     }
     private void RevertEnlargeCard(Card card)
     {

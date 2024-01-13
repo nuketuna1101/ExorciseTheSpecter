@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerUnit : MonoBehaviour
 {
@@ -28,7 +27,7 @@ public class PlayerUnit : MonoBehaviour
 
     public void RefreshTexts()                           // 유닛 프리팹 텍스트 업데이트
     {
-        text_HP.text = _Player.curHP + " / " + _Player.maxHp;
+        text_HP.text = _Player.curHP + "/" + _Player.maxHp;
         text_Armor.text = _Player.Armor.ToString();
         text_SpellAdapt.text = _Player._SpellAdaptability.ToString();
         text_Strength.text = _Player.strength.ToString();
