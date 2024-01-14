@@ -6,64 +6,60 @@ using UnityEngine;
 /// </summary>
 public class BattleManager : Singleton<BattleManager>
 {
-    [Header("Prefabs")]
+    [Header("Prefabs")]     // 전투객체 생성해주기 위한 프리팹 저장
     [SerializeField] private GameObject PlayerPrefab;
     [SerializeField] private GameObject EnemyPrefab;
-
+    [Header("Prefabs SpawnPoint")]     // 전투객체 생성해주기 위한 프리팹 저장
     private readonly Vector3 spawnPoint_player = new Vector3(-9f, 1f, 0f);
     private readonly Vector3 spawnPoint_enemy1 = new Vector3(0f, 1f, 0f);
     private readonly Vector3 spawnPoint_enemy2 = new Vector3(4.5f, 1f, 0f);
     private readonly Vector3 spawnPoint_enemy3 = new Vector3(9f, 1f, 0f);
-
-    //
+    [Header("BattleObjects Data")]
     private Player _Player;
     private List<Enemy> _Enemies;
-
-    // 턴 관련 변수
+    [Header("Turn Variables")]    // 턴 관련 변수
     private bool isPlayerTurn = true;
     private int totalTurnCount = 1;
 
-    public void TestCode()
-    {
-        /*
-// player와 enemy 할당
-_Player = new Player();
-_Enemies = new List<Enemy>();
-var monster1 = new Enemy();
-var monster2 = new Enemy();
-_Enemies.Clear();
-_Enemies.Add(monster1);
-_Enemies.Add(monster2);
-*/
-        //_Enemies[0].LogMyStatsForTest();
-        _Player.Attack(_Enemies[0], DamageType.Physical, 10);
-        _Enemies[0].LogMyStatsForTest();
-    }
 
 
     public void TestMethod()
     {
+        // 프리팹 생성
         var newPlayer = Instantiate(PlayerPrefab);
         newPlayer.transform.position = spawnPoint_player;
-
         var enemyObj1 = Instantiate(EnemyPrefab);
         enemyObj1.transform.position = spawnPoint_enemy1;
-
         var enemyObj2 = Instantiate(EnemyPrefab);
         enemyObj2.transform.position = spawnPoint_enemy2;
-
+        // 데이터 생성
         _Player = new Player();
         _Enemies = new List<Enemy>();
         var monster1 = new Enemy();
         var monster2 = new Enemy();
-
-
-
+        // 프리팹에 데이터 바인드
         newPlayer.GetComponent<PlayerUnit>().InitUnit(_Player);
         enemyObj1.GetComponent<EnemyUnit>().InitUnit(monster1);
         enemyObj2.GetComponent<EnemyUnit>().InitUnit(monster2);
     }
 
+    public void SetPlayer()
+    {
+        var newPlayer = Instantiate(PlayerPrefab);                          // 풀링으로 나중에 교체
+        newPlayer.transform.position = spawnPoint_player;
+        _Player = new Player();
+        newPlayer.GetComponent<PlayerUnit>().InitUnit(_Player);
+    }
 
-
+    public void SetEnemy()
+    {
+        var enemyObj1 = Instantiate(EnemyPrefab);                           // 풀링으로 나중에 교체
+        enemyObj1.transform.position = spawnPoint_enemy1;
+        var enemy1 = new Enemy();
+        enemyObj1.GetComponent<EnemyUnit>().InitUnit(enemy1);
+    }
+    public void ToggleTurn()                // 턴 넘기기 .. 사실상 턴 전환
+    {
+        isPlayerTurn = !isPlayerTurn;
+    }
 }
