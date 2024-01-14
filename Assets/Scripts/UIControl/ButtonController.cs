@@ -14,7 +14,7 @@ public class ButtonController : MonoBehaviour
     /// attached to each button UI
     /// </summary>
     private Button buttonUI;
-    public enum ButtonType { LoadScene, PopUpWindow, CloseWindow, SelectCharacter, SelectChamber, EnterChamber, ExitGame }
+    public enum ButtonType { LoadScene, PopUpWindow, CloseWindow, SelectCharacter, SelectChamber, EnterChamber, ExitGame, TestInitDeck, TestDrawCard, TestInit }
     // 버튼 타입 정의
     [SerializeField]
     private ButtonType type;
@@ -59,36 +59,40 @@ public class ButtonController : MonoBehaviour
             case ButtonType.ExitGame:
                 buttonUI.onClick.AddListener(ExitGame);
                 break;
+            case ButtonType.TestInitDeck:
+                buttonUI.onClick.AddListener(TestInitDeck);
+                break;             
+            case ButtonType.TestDrawCard:
+                buttonUI.onClick.AddListener(TestDrawCard);
+                break; 
+            case ButtonType.TestInit:
+                buttonUI.onClick.AddListener(TestInit);
+                break;
         }
     }
 
-    private void LoadScene()
+    private void LoadScene()          // 기본 씬 전환, fade, 효과음
     {
         TransitionManager.Instance().Transition(_sceneName, transition, startDelay);
-
         AudioManager.Instance.PlaySFX(SFX_TYPE.BTN);
     }
 
-    private void PopUpWindow()
+    private void PopUpWindow()        // 팝업창 띄우기
     {
-        // 팝업창 띄우기
         _PopUpWindow.SetActive(true);
     }
-    private void CloseWindow()
+    private void CloseWindow()        // 닫기 버튼 눌러 팝업창 닫기
     {
-        // 닫기 버튼 눌러 팝업창 닫기
         _PopUpWindow.SetActive(false);
     }
 
-    private void SelectChamber()
+    private void SelectChamber()        // 챔버 버튼을 눌렀을 때, 선택된 챔버 데이터 전달
     {
-        // 챔버 버튼을 눌렀을 때, 선택된 챔버 데이터 전달
         GameManager.Instance.CurSelectedChamberNumber = ChamberButtonNumbering;
     }
 
-    private void EnterChamber()
+    private void EnterChamber()        // 선택된 챔버에 진입.
     {
-        // 선택된 챔버에 진입.
         //string _EnterScene = "3.ChamberView";
         string _EnterScene = "4.BattleScene";
         // 
@@ -109,12 +113,26 @@ public class ButtonController : MonoBehaviour
         //TransitionManager.Instance().Transition(_EnterScene, transition, 0);
     }
 
-    private void ExitGame()
+    private void ExitGame()         // 게임 종료
     {
     #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
     #else
         Application.Quit(); // 어플리케이션 종료
     #endif
+    }
+
+    private void TestInitDeck()
+    {
+        CardManager.Instance.TestInitDeck();
+    }
+    private void TestDrawCard()
+    {
+        CardManager.Instance.DrawCardFromDeckToHand();
+    }
+
+    private void TestInit()
+    {
+        BattleManager.Instance.TestMethod();
     }
 }

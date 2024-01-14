@@ -172,8 +172,9 @@ public class Card : MonoBehaviour
     }
 
 
+    //--------------------------------------------------------------------------
 
-
+    #region 카드 코스트와 카드 사용 관련
 
     public bool IsAvailable()                   // 코스트가 사용가능한지
     {
@@ -185,8 +186,9 @@ public class Card : MonoBehaviour
         // 카드 효과
         /**/
         // 카드회수
-        this.transform.DOKill();
-        GameManager.Instance.ConsumeEnergy(this._CardInfo.CardCost);
+        transform.DOKill();
+        //GameManager.Instance.ConsumeEnergy(this._CardInfo.CardCost);
         PoolManager.ReturnToPool(this.gameObject);
     }
+    #endregion
 }

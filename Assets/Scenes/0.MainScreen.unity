@@ -496,6 +496,56 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4118762431709474353, guid: ee2c5e591123a074da734d9f25debd22, type: 3}
   m_PrefabInstance: {fileID: 108160119}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &175297233
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 175297235}
+  - component: {fileID: 175297234}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &175297234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175297233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b01d62818c1171b4599424a73b9e818b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerDeck: []
+  _PlayerUnit: {fileID: 0}
+  _EnemyUnit1: {fileID: 0}
+  _EnemyUnit2: {fileID: 0}
+  _EnemyUnit3: {fileID: 0}
+  text_Energy: {fileID: 0}
+--- !u!4 &175297235
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175297233}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &291189018
 GameObject:
   m_ObjectHideFlags: 0
@@ -1984,6 +2034,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c24926b3674f065438a9333d79172a04, type: 3}
   - {fileID: 8300000, guid: 24543a765c5df9843af328a6a87000b3, type: 3}
   - {fileID: 8300000, guid: 8f4dd228b1b17394a9fa6ea80c6136cb, type: 3}
+  sfxClip_Fail:
+  - {fileID: 8300000, guid: 0ea14ff49753a604e9e5f6039ee4724f, type: 3}
   musicSource: {fileID: 0}
 --- !u!1001 &1705247772
 PrefabInstance:
@@ -2287,51 +2339,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1907259858
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1907259860}
-  - component: {fileID: 1907259859}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1907259859
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1907259858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b01d62818c1171b4599424a73b9e818b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerDeck: []
---- !u!4 &1907259860
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1907259858}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1909261300
 GameObject:
   m_ObjectHideFlags: 0
@@ -3471,6 +3478,6 @@ SceneRoots:
   - {fileID: 914435676}
   - {fileID: 764796710}
   - {fileID: 1840729277}
-  - {fileID: 1907259860}
   - {fileID: 2116908223}
   - {fileID: 1534133308}
+  - {fileID: 175297235}

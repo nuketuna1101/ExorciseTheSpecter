@@ -14,7 +14,7 @@ public class CardManager : Singleton<CardManager>
 {
     [SerializeField]    private CardInfoSO _CardInfoSO;         // 데이터 매니저의 전체 카드 사전
     // 실제 플레이어의 덱
-    private List<CardInfo> myDeck;
+    private List<CardInfo> myDeck;              
     // 
 
     [SerializeField] private List<CardInfo> cardBuffer;      // TEST LEGACY CODE
@@ -25,22 +25,16 @@ public class CardManager : Singleton<CardManager>
     [SerializeField] private Transform myCardLeft;           // 손패 정리위한 위치
     [SerializeField] private Transform myCardRight;          // 손패 정리위한 위치
 
-
-
     // 덱 ui
     [Header("Deck : to ")]
     [SerializeField] private Transform cardSpawnPoint;          // 뽑을 카드더미 덱 위치.
+    [SerializeField] public Transform cardRecallPoint;          // 뽑을 카드더미 덱 위치.
     [SerializeField] private TMP_Text remainCount;              // 뽑을 카드더미 남은 카드숫자
 
 
 
     //-------------------------------------------
     // 최종 코드
-    private void InitDeck()
-    {
-        // 테스트용 덱 초기화
-        myDeck = new List<CardInfo>(DataManager.Instance.TotalCardNumber);
-    }
     public void DrawCardFromDeckToHand()        // 뽑을 카드더미 덱에서 손패로 카드 1장 드로우
     {
         // 버퍼에 꺼내올거없으면 안돼요
@@ -100,6 +94,9 @@ public class CardManager : Singleton<CardManager>
         myDeck = new List<CardInfo>(DataManager.Instance.TotalCardNumber);
 
         //
+        myCards.Clear();
+
+        //
         cardBuffer = new List<CardInfo>();
         for (int i = 0; i < 15; i++)
         {
@@ -118,7 +115,7 @@ public class CardManager : Singleton<CardManager>
 
     private void UpdateDeckCardAmount()          // 뽑을 카드더미 숫자 업데이트
     {
-        remainCount.text = ReadyQueue.Count.ToString();
+        //remainCount.text = ReadyQueue.Count.ToString();
     }
 
 
@@ -227,6 +224,7 @@ public class CardManager : Singleton<CardManager>
         }
         else
         {
+            AudioManager.Instance.PlaySFX(SFX_TYPE.FAIL);
             myCards.ForEach(x => x.GetComponent<Card>().RevertOrder());
             AlignHandCards();
         }

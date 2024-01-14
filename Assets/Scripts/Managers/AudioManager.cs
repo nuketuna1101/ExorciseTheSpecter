@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// 사운드 BGM, SFX 관리
 /// </summary>
-public enum SFX_TYPE { BTN = 0, HIT }
+public enum SFX_TYPE { BTN = 0, HIT, FAIL }
 
 public class AudioManager : Singleton<AudioManager>
 {
@@ -16,16 +16,18 @@ public class AudioManager : Singleton<AudioManager>
     private float bgmVolume = 0.5f;
     [Header("Sound Effects")]
     private List<AudioClip[]> SFXlist;
-    [SerializeField]    private AudioClip[] sfxClip_Btn;
-    [SerializeField]    private AudioClip[] sfxClip_Hit;
+    [SerializeField] private AudioClip[] sfxClip_Btn;
+    [SerializeField] private AudioClip[] sfxClip_Hit;
+    [SerializeField] private AudioClip[] sfxClip_Fail;
     private AudioSource[] sfxSrcs;
     private float sfxVolume = 0.5f;
     private const int channels = 10;         // SFX 채널 : 여러 효과음 겹칠 수 있으므로 다중채널로 관리
 
-    private new void Awake()
+    protected new void Awake()
     {
         base.Awake();
         InitialSetting();
+        PlayBGM();
     }
     private void InitialSetting()               // BGM, SFX 초기화
     {
