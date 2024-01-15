@@ -17,9 +17,18 @@ public class BattleManager : Singleton<BattleManager>
     [Header("BattleObjects Data")]
     private Player _Player;
     private List<Enemy> _Enemies;
+
+    [SerializeField] private readonly UnitInfoSO PlayerUnitInfoSO_Initial;                // 플레이어 데이터 초기화값
+    [SerializeField] private UnitInfoSO PlayerUnitInfoSO_Current;                // 플레이어 데이터 계속 쓰는 값
+
+
+
+
     [Header("Turn Variables")]    // 턴 관련 변수
     private bool isPlayerTurn = true;
     private int totalTurnCount = 1;
+
+
 
 
 
@@ -43,7 +52,11 @@ public class BattleManager : Singleton<BattleManager>
         enemyObj2.GetComponent<EnemyUnit>().InitUnit(monster2);
     }
 
-    public void SetPlayer()
+
+    //-----------------------------------------------------------------------------------
+
+
+    public void SetPlayer()                 // 플레이어  설정
     {
         var newPlayer = Instantiate(PlayerPrefab);                          // 풀링으로 나중에 교체
         newPlayer.transform.position = spawnPoint_player;
@@ -51,7 +64,7 @@ public class BattleManager : Singleton<BattleManager>
         newPlayer.GetComponent<PlayerUnit>().InitUnit(_Player);
     }
 
-    public void SetEnemy()
+    public void SetEnemy()              // 적 설정
     {
         var enemyObj1 = Instantiate(EnemyPrefab);                           // 풀링으로 나중에 교체
         enemyObj1.transform.position = spawnPoint_enemy1;
