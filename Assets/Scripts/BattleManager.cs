@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 /// <summary>
 /// BattleScene 내에 Player와 Enemy란 BattleObj 간 전투 상호작용 및 판
 /// </summary>
@@ -61,6 +62,7 @@ public class BattleManager : Singleton<BattleManager>
         var newPlayer = Instantiate(PlayerPrefab);                          // 풀링으로 나중에 교체
         newPlayer.transform.position = spawnPoint_player;
         _Player = new Player();
+        _Player.InitProfile(PlayerUnitInfoSO_Current);
         newPlayer.GetComponent<PlayerUnit>().InitUnit(_Player);
     }
 

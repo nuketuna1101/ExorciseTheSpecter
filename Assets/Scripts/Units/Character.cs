@@ -7,23 +7,25 @@ using UnityEngine;
 /// Battle Scene에서 전투 상호작용에 필요한 객체 클래스와 메소드 구현
 /// </summary>
 
-public abstract class BattleObj
+public class BattleObj
 {
     // 전투 객체가 가져야 할 메소드
     // 행동, 버프, 디버프
     // 메소드 발생 시점? : 턴 시작, 턴 중간, 턴 종료
+    
     [Header("BattleObj : Battle Data")]
     // 체력, 방어도, 주문적응력
-    public int maxHp = 400;
-    public int curHP = 400;
-    public int Armor = 16;
+    public int maxHp;
+    public int curHP;
+    public int Armor;
     public SpellAdaptability _SpellAdaptability;
     // 강력함, 총명
     public int strength = 0;
     public int intelligence = 0;
+    
     // 태세: 일반, 은신, 반격
     private Stance _Stance = Stance.Normal;
-    // 상태이상 지속
+    // 상태이상 지속                                                      // <<<<<<<<<<<<<<<<<<<건들어야댐
     private StatusEffectArray _StatusEffectArray = new StatusEffectArray(0);
     public Dictionary<StatusEffectType, int> StatusEffectDict = new Dictionary<StatusEffectType, int>(5);
 
@@ -34,6 +36,17 @@ public abstract class BattleObj
     /// <param name="_Object"></param>
     /// <param name="_DamageType"></param>
     /// <param name="_DamageValue"></param>
+
+
+    public void InitProfile(UnitInfoSO _UnitInfoSO)           // 초기화
+    {
+        maxHp = _UnitInfoSO.maxHp;
+        curHP = _UnitInfoSO.curHP;
+        Armor = _UnitInfoSO.Armor;
+        _SpellAdaptability = _UnitInfoSO._SpellAdaptability;
+        strength = _UnitInfoSO.strength;
+        intelligence = _UnitInfoSO.intelligence;
+    }
 
     public void Attack(BattleObj _Object, DamageType _DamageType, int _DamageValue)
     {
@@ -127,6 +140,16 @@ public abstract class BattleObj
 
 public class Player : BattleObj
 {
+    /*
+     플레이어는 일반 전투 객체와는 달리 카드 사용과 관련한 속성과 메서드가 필요
+     */
+    public int Energy;              // 카드 사용 코스트 에너지
+    public int Composure;           // 카드 추가 드로우 능력치인 침착성
+
+    public void Draw()              // 카드 한 장 드로우
+    {
+        
+    }
 
 }
 
