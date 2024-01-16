@@ -30,16 +30,6 @@ public class GameManager : Singleton<GameManager>
     public List<CardInfo> PlayerDeck;
 
 
-    protected new void Awake()
-    {
-        base.Awake();
-        DebugOpt.Log("GameManager.Instance.CharacterCode :: " + GameManager.Instance.CharacterCode);
-    }
-
-
-
-
-
 
 
     //-------------------------------------------

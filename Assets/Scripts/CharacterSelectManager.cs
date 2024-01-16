@@ -99,8 +99,6 @@ public class CharacterSelectManager : MonoBehaviour
         selectedCode = _characterCode;
         // 그대로 게임매니저에 전달        <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 이부분 추후에 리팩토링할때  바꿔야함
         GameManager.Instance.CharacterCode = selectedCode;
-        DebugOpt.Log("csm :: GameManager.Instance.CharacterCode :: " + GameManager.Instance.CharacterCode);
-
         // 내용 수정
         _CHAR_PORTRAIT_IMG.sprite = TEMP_PopUpInfoObj[selectedCode];
         _TEXT_CHAR_NAME.text = TEMP_TEXT_CHAR_NAME[selectedCode];

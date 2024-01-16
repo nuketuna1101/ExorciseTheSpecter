@@ -52,7 +52,7 @@ public class CardManager : Singleton<CardManager>
         card.LocateCard(cardSpawnPoint.position);
         myCards.Add(card);
         // 랜더링과 손패 가시화 정리
-        SetOriginOrder();
+        SetHandCardsOrdered();
         AlignHandCards();
     }
 
@@ -75,12 +75,11 @@ public class CardManager : Singleton<CardManager>
             myCards[i].DotweenMove(myCards[i].originalPRS, 0.7f);
         }
     }
-    private void SetOriginOrder()       // 손패 카드 랜더링
+    private void SetHandCardsOrdered()       // 손패 카드 랜더링
     {
         for (int i = 0; i < myCards.Count; i++)
         {
-            var targetCard = myCards[i];
-            targetCard?.GetComponent<Card>().SetOriginOrder(i);
+            myCards[i].GetComponent<Card>().SetOriginOrder(i);
         }
     }
 
@@ -143,7 +142,7 @@ public class CardManager : Singleton<CardManager>
     }
 
     //--------------------------------------------------
-
+    [SerializeField]
     private Card selectCard;                            // 현재 선택한 카드객체
     public void CardMouseOver(Card card)
     {
@@ -248,5 +247,15 @@ public class CardManager : Singleton<CardManager>
         */
     }
 
+
+
+    public bool IsAvailableCard()               // 해당카드가 사용가능한지 에너지 코스트 판단
+    {
+        //
+
+
+
+        return true;
+    }
 
 }

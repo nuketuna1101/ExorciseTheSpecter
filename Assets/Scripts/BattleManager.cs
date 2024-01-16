@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 /// <summary>
@@ -30,7 +32,11 @@ public class BattleManager : Singleton<BattleManager>
     private int currentTurn;
 
 
+    // 드로우할 카드 변수 일단 임시
+    private int initDrawCount = 5;
 
+    // 임시 액션 델리게이트
+    public static Action<bool> OnDrawCard;
 
 
     public void TestMethod()
@@ -84,5 +90,19 @@ public class BattleManager : Singleton<BattleManager>
         isPlayerTurn = !isPlayerTurn;
     }
 
+
+    //-----------------------------------------
+
+    public IEnumerator StartGameCo()
+    {
+        // set up을 하고
+        for (int i = 0; i < initDrawCount; i++)
+        {
+            yield return new WaitForSeconds(0.25f);
+            OnDrawCard?.Invoke(false);
+            yield return new WaitForSeconds(0.25f);
+            OnDrawCard?.Invoke(true);
+        }
+    }
 
 }

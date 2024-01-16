@@ -33,7 +33,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         }
         else
         {
-            DebugOpt.Log("SINGLETON : DESTROY INSTANCE : " + Instance.name);
             Destroy(this.gameObject);
         }
     }

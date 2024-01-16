@@ -142,6 +142,12 @@ public class ButtonController : MonoBehaviour
         // µ¦ ÃÊ±âÈ­
         CardManager.Instance.TestInitDeck();
 
+        // ½ÃÀÛ Ä«µå »Ì±â
+        int i = 4;
+        while (i-- > 0)
+        {
+            CardManager.Instance.DrawCardFromDeckToHand();
 
+        }
     }
 }
