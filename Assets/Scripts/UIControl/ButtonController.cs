@@ -14,7 +14,7 @@ public class ButtonController : MonoBehaviour
     /// attached to each button UI
     /// </summary>
     private Button buttonUI;
-    public enum ButtonType { LoadScene, PopUpWindow, CloseWindow, SelectCharacter, SelectChamber, EnterChamber, ExitGame, TestInitDeck, TestDrawCard, TestInit }
+    public enum ButtonType { LoadScene, PopUpWindow, CloseWindow, SelectCharacter, SelectChamber, EnterChamber, ExitGame, TestInitDeck, TestDrawCard, TestInit, EndTurn }
     // 버튼 타입 정의
     [SerializeField]
     private ButtonType type;
@@ -101,9 +101,6 @@ public class ButtonController : MonoBehaviour
         GameManager.Instance.CurEnteredChamberNumber = GameManager.Instance.CurSelectedChamberNumber;
         GameManager.Instance.CurSelectedChamberNumber = -1;
         TransitionManager.Instance().Transition(_EnterScene, transition, 0);
-        DebugOpt.Log("Btn Control :: CurSelectedChamberNumber => " + GameManager.Instance.CurSelectedChamberNumber);
-        DebugOpt.Log("EnterChamber :: CurEnteredChamberNumber => " + GameManager.Instance.CurEnteredChamberNumber);
-
     }
 
     private void ConfirmCharacter()
@@ -131,8 +128,20 @@ public class ButtonController : MonoBehaviour
         CardManager.Instance.DrawCardFromDeckToHand();
     }
 
-    private void TestInit()
+    private void TestInit()             // 테스트 코드. 배틀 씬 입장시 게임 플로우를 직접 버튼 행동으로 구현해보기.
     {
-        BattleManager.Instance.TestMethod();
+        //BattleManager.Instance.TestMethod();
+
+        // 데이터 세팅
+        BattleManager.Instance.SetPlayer();
+        BattleManager.Instance.SetEnemy();
+
+        // 턴 
+        BattleManager.Instance.InitTurnSystem();
+
+        // 덱 초기화
+        CardManager.Instance.TestInitDeck();
+
+
     }
 }

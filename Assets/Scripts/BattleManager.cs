@@ -26,8 +26,8 @@ public class BattleManager : Singleton<BattleManager>
 
 
     [Header("Turn Variables")]    // 턴 관련 변수
-    private bool isPlayerTurn = true;
-    private int totalTurnCount = 1;
+    private bool isPlayerTurn;
+    private int currentTurn;
 
 
 
@@ -73,8 +73,16 @@ public class BattleManager : Singleton<BattleManager>
         var enemy1 = new Enemy();
         enemyObj1.GetComponent<EnemyUnit>().InitUnit(enemy1);
     }
+    public void InitTurnSystem()            // 턴 관련하여 초기화
+    {
+        currentTurn = 1;
+        isPlayerTurn = true;
+    }
+
     public void ToggleTurn()                // 턴 넘기기 .. 사실상 턴 전환
     {
         isPlayerTurn = !isPlayerTurn;
     }
+
+
 }

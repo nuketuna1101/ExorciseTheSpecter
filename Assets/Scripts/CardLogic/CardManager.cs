@@ -93,7 +93,7 @@ public class CardManager : Singleton<CardManager>
         int decksize = 15;              // 임의 덱 사이즈
         myDeck = new List<CardInfo>(DataManager.Instance.TotalCardNumber);
 
-        //
+        // 핸드 초기화
         myCards.Clear();
 
         //
@@ -112,7 +112,7 @@ public class CardManager : Singleton<CardManager>
         }
 
     }
-
+    
     private void UpdateDeckCardAmount()          // 뽑을 카드더미 숫자 업데이트
     {
         //remainCount.text = ReadyQueue.Count.ToString();

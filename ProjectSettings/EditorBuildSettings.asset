@@ -15,11 +15,17 @@ EditorBuildSettings:
     path: Assets/Scenes/2.MapView.unity
     guid: a61e9e6ddfa712a4795ae40c2827e084
   - enabled: 1
-    path: Assets/Scenes/3.ChamberView.unity
-    guid: 5668a543cb4697d4ba4ecca50459e6a2
-  - enabled: 1
     path: Assets/Scenes/4.BattleScene.unity
     guid: df7513a3d24dc9c46918620d2024ed31
+  - enabled: 1
+    path: Assets/Scenes/4.Bonfire.unity
+    guid: 8ba517dc5aaba3a46bbd91b2b89a40b9
+  - enabled: 1
+    path: Assets/Scenes/4.Fountain.unity
+    guid: 0684b482f4d6a3544b038c9f3394e8fe
+  - enabled: 1
+    path: Assets/Scenes/4.Shop.unity
+    guid: 1efc402986f84934ebadbabebd8cc0b9
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: b94229733ccd53a44ba427f192fd49b7, type: 2}
     com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 6673056ff90012a41be705b6b9727f83, type: 2}
