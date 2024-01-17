@@ -59,6 +59,16 @@ public class GameManager : Singleton<GameManager>
     }
 
 
+    // 일단 임시로 에너지 소모관련
+    public int GetEnergy()
+    {
+        return Energy;
+    }
+
+    public void ConsumeEnergy(int value)
+    {
+        Energy -= value;
+    }
 
 
 
@@ -66,7 +76,38 @@ public class GameManager : Singleton<GameManager>
 
 
 
+    private bool isSelectedAny = false;
+    private int selectedCode = -1;
+    private IEnumerator FlashingText()
+    {
+        int i = 0;
+        while (true)
+        {
+            // 오직 아무것도 선택 안되어 있을 때만.
+            if (isSelectedAny) break;
+            //
+            yield return new WaitForSeconds(0.1f);
+            //_Text.color = colorArr[i];
+            //i = (i + 1) % colorArr.Length;
+        }
+    }
+    public void ShowSelectedCharacter(int _characterCode)                   // character select 버튼의 로직
+    {
+        if (!isSelectedAny)        // 최초 실행 시, 선택된 캐릭터 없다가 선택된 캐릭터가 생김
+        {
+            isSelectedAny = true;
+            //UIManager.Instance.Scene1_TEMP();       // 캐릭터 정보 팝업창, 출정 버튼 활성화
+        }
 
+        // 이미 선택된 것이면 아무런 행동x
+        if (selectedCode == characterCode)
+            return;
 
-    
+        // 변경 시 선택된 캐릭터 코드 수정
+        selectedCode = _characterCode;
+        characterCode = selectedCode;
+        // 정보창 내용 및 이미지 수정
+        //UIManager.Instance.Scene1_TEMP2();       // 캐릭터 정보 팝업창, 출정 버튼 활성화
+    }
+
 }

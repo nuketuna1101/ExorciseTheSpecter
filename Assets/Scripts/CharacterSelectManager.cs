@@ -20,11 +20,6 @@ public class CharacterSelectManager : MonoBehaviour
     // 텍스트
     [SerializeField]
     private TMP_Text _Text;
-    //
-    private readonly Color[] colorArr = new Color[3];
-    private readonly Color cc1 = new Color(1f, 1f, 0f);
-    private readonly Color cc2 = new Color(175f/255f, 175f/255f, 0f);
-    private readonly Color cc3 = new Color(125f/255f, 125f/255f, 0f);
 
     // 제어할 팝업 ui
     [SerializeField]
@@ -55,24 +50,21 @@ public class CharacterSelectManager : MonoBehaviour
     {
         // 캐릭터 선택 버튼들 배열로 저장
         CharacterButtons = this.transform.gameObject.GetComponentsInChildren<Button>();
-        // 색상코드 저장
-        colorArr[0] = cc1;
-        colorArr[1] = cc2;
-        colorArr[2] = cc3;
-        //
+
         StartCoroutine(FlashingText());
     }
     private IEnumerator FlashingText()
     {
         int i = 0;
+        WaitForSeconds wfs = new WaitForSeconds(0.1f);
         while (true)
         {
             // 오직 아무것도 선택 안되어 있을 때만.
             if (isSelectedAny) break;
             //
-            yield return new WaitForSeconds(0.1f);
-            _Text.color = colorArr[i];
-            i = (i + 1) % colorArr.Length;
+            yield return wfs;
+            _Text.color = ColorSettings.colorArr[i];
+            i = (i + 1) % ColorSettings.colorArr.Length;
         }
     }
     public void ShowSelectedCharacter(int _characterCode)

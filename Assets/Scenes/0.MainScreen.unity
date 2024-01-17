@@ -526,11 +526,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerDeck: []
-  _PlayerUnit: {fileID: 0}
-  _EnemyUnit1: {fileID: 0}
-  _EnemyUnit2: {fileID: 0}
-  _EnemyUnit3: {fileID: 0}
-  text_Energy: {fileID: 0}
 --- !u!4 &175297235
 Transform:
   m_ObjectHideFlags: 0
@@ -2503,11 +2498,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _StageChamberSO: {fileID: 11400000, guid: 841b17a78b2da9344ac941bcd8b325dc, type: 2}
-  _CardInfoSO: {fileID: 11400000, guid: efa3dc2e71253514ca37e4874931bcba, type: 2}
   visited: 
   _ChamberStates: 
   TotalChamberNumber: 0
+  _CardInfoSO: {fileID: 11400000, guid: efa3dc2e71253514ca37e4874931bcba, type: 2}
   TotalCardNumber: 0
+  CharacterClassSprites:
+  - {fileID: 21300000, guid: d75a994b9a7c4c74ca169f83fec42058, type: 3}
+  - {fileID: 21300000, guid: c796998a8b736bd41b1dc25747241871, type: 3}
+  PlayerUnitInfoSO_Init: {fileID: 11400000, guid: 117df9fe76d5b2b4c90146addb991cd3, type: 2}
+  PlayerUnitInfoSO_Current: {fileID: 11400000, guid: de3e030cbf7f7d64a82004b74b13b0bf, type: 2}
 --- !u!4 &2116908223
 Transform:
   m_ObjectHideFlags: 0

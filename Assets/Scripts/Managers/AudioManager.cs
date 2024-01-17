@@ -47,6 +47,7 @@ public class AudioManager : Singleton<AudioManager>
         SFXlist.Clear();
         SFXlist.Add(sfxClip_Btn);
         SFXlist.Add(sfxClip_Hit);
+        SFXlist.Add(sfxClip_Fail);
 
         for (int i = 0; i < sfxSrcs.Length; i++)
         {

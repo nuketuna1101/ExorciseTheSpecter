@@ -13,10 +13,11 @@ public static class ColorSettings
     public static readonly Color greenColor = new Color(0f, 1f, 0f);
     public static readonly Color yellowColor = new Color(1f, 1f, 0f);
 
-    public static readonly Color[] colorArr = new Color[3];
     public static readonly Color cc1 = new Color(1f, 1f, 0f);
     public static readonly Color cc2 = new Color(175f / 255f, 175f / 255f, 0f);
     public static readonly Color cc3 = new Color(125f / 255f, 125f / 255f, 0f);
+    public static readonly Color[] colorArr = { cc1, cc2, cc3 };
+
 
     public static readonly Color[] cardTypeColor = { Color.gray, Color.magenta, Color.cyan, Color.yellow };
 

@@ -213,11 +213,11 @@ public class CardManager : Singleton<CardManager>
 
     private void TryUsingCard()                 // 코스트를 소모하여 카드 사용효과
     {
-        if (selectCard.IsAvailable())
+        if (IsAvailableCard(selectCard))
         {
             // 핸드에서 제거
             myCards.Remove(selectCard);
-            selectCard.ActivateCard();
+            ActivateCard(selectCard);
             selectCard = null;
             AlignHandCards();
         }
@@ -249,13 +249,19 @@ public class CardManager : Singleton<CardManager>
 
 
 
-    public bool IsAvailableCard()               // 해당카드가 사용가능한지 에너지 코스트 판단
+    private bool IsAvailableCard(Card _Card)               // 해당카드가 사용가능한지 에너지 코스트 판단
     {
-        //
+        return GameManager.Instance.GetEnergy() >= _Card.GetCardCost();
+    }
 
-
-
-        return true;
+    private void ActivateCard(Card _Card)              // 카드가 사용됨 : 카드 회수 작업, 카드 효과 진행
+    {
+        // 카드 효과
+        /**/
+        // 카드 데이터와 프리팹 회수, 에너지 소모
+        _Card.transform.DOKill();
+        GameManager.Instance.ConsumeEnergy(_Card.GetCardCost());
+        PoolManager.ReturnToPool(_Card.gameObject);
     }
 
 }

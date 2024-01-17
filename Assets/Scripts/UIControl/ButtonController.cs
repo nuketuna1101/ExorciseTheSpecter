@@ -2,6 +2,7 @@ using EasyTransition;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -50,6 +51,9 @@ public class ButtonController : MonoBehaviour
             case ButtonType.CloseWindow:
                 buttonUI.onClick.AddListener(CloseWindow);
                 break;
+            case ButtonType.SelectCharacter:
+                buttonUI.onClick.AddListener(SelectCharacter);
+                break;
             case ButtonType.SelectChamber:
                 buttonUI.onClick.AddListener(SelectChamber);
                 break;
@@ -84,6 +88,10 @@ public class ButtonController : MonoBehaviour
     private void CloseWindow()        // 닫기 버튼 눌러 팝업창 닫기
     {
         _PopUpWindow.SetActive(false);
+    }
+    private void SelectCharacter()        // 챔버 버튼을 눌렀을 때, 선택된 챔버 데이터 전달
+    {
+
     }
 
     private void SelectChamber()        // 챔버 버튼을 눌렀을 때, 선택된 챔버 데이터 전달
