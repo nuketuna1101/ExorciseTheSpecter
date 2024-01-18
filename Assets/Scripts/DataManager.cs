@@ -13,7 +13,9 @@ public class DataManager : Singleton<DataManager>
     /// DataManager ::
     /// convert data FROM CSV datatable TO Scriptable Object
     /// </summary>
-    
+    [Header("Player Game Data")]
+    [SerializeField] public PlayerGameDataSO _PlayerGameDataSO;
+
     [Header("Chamber Data")]
     private readonly string[] fileNames = { "ChamberInfo" };
     [SerializeField] private StageChamberSO _StageChamberSO;
@@ -35,7 +37,7 @@ public class DataManager : Singleton<DataManager>
     [SerializeField] private UnitInfoSO PlayerUnitInfoSO_Init;
     [SerializeField] private UnitInfoSO PlayerUnitInfoSO_Current;
 
-    private new void Awake()
+    protected new void Awake()
     {
         base.Awake();
         //
@@ -50,6 +52,15 @@ public class DataManager : Singleton<DataManager>
 
         StartCoroutine(UpdateChamberStateCrtn());
     }
+
+
+    #region Player GameData 유저의 게임데이터 세이브와 로딩
+    private void SaveGameData()         // 세이브
+    {
+        //_PlayerGameDataSO.characterCode
+    }
+    #endregion
+
 
     #region Chamber 데이터 초기화 불러오기 관련
     private void ResetChamberInfo()    // StageChamberSO 초기화

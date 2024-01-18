@@ -6,12 +6,18 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GameManager : Singleton<GameManager>
 {
+    /*
     [Header("TopBar GameData")]
+
     private int characterCode = -1;                 public int CharacterCode { get { return characterCode; } set { characterCode = value; } }
-    private int curHP = 25;                          public int CurHP { get { return curHP; } set { curHP = value; } }
-    private int maxHP = 100;                          public int MaxHP { get { return maxHP; } set { maxHP = value; } }
-    private int gold = 250;                           public int Gold { get { return gold; } set { gold = value; } }
+    private int curHP;                          public int CurHP { get { return curHP; } set { curHP = value; } }
+    private int maxHP;                          public int MaxHP { get { return maxHP; } set { maxHP = value; } }
+    private int gold;                           public int Gold { get { return gold; } set { gold = value; } }
     private int stageNumber = 1;                    public int StageNumber { get { return stageNumber; } set { stageNumber = value; } }
+
+    */
+
+    [SerializeField] private PlayerGameDataSO _PlayerGameDataSO;
 
     [Header("InBattle Player Stats")]
     private int Energy = 3;
@@ -93,21 +99,37 @@ public class GameManager : Singleton<GameManager>
     }
     public void ShowSelectedCharacter(int _characterCode)                   // character select 버튼의 로직
     {
-        if (!isSelectedAny)        // 최초 실행 시, 선택된 캐릭터 없다가 선택된 캐릭터가 생김
+        //if (!isSelectedAny)        // 최초 실행 시, 선택된 캐릭터 없다가 선택된 캐릭터가 생김
         {
-            isSelectedAny = true;
+            //isSelectedAny = true;
             //UIManager.Instance.Scene1_TEMP();       // 캐릭터 정보 팝업창, 출정 버튼 활성화
         }
 
         // 이미 선택된 것이면 아무런 행동x
-        if (selectedCode == characterCode)
-            return;
+        //if (selectedCode == characterCode)            return;
 
         // 변경 시 선택된 캐릭터 코드 수정
-        selectedCode = _characterCode;
-        characterCode = selectedCode;
+        //selectedCode = _characterCode;
+        //characterCode = selectedCode;
         // 정보창 내용 및 이미지 수정
         //UIManager.Instance.Scene1_TEMP2();       // 캐릭터 정보 팝업창, 출정 버튼 활성화
     }
+
+
+    private void SaveGameData()
+    {
+
+    }
+
+
+
+
+    public void SetCharacterCode(int _characterCode)
+    {
+        _PlayerGameDataSO.characterCode = _characterCode;
+    }
+
+
+
 
 }

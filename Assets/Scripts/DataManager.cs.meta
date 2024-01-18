@@ -4,8 +4,11 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
+  - _PlayerGameDataSO: {fileID: 11400000, guid: 009f76cfaf5d0a441984c288811f08e4, type: 2}
   - _StageChamberSO: {fileID: 11400000, guid: 841b17a78b2da9344ac941bcd8b325dc, type: 2}
   - _CardInfoSO: {fileID: 11400000, guid: efa3dc2e71253514ca37e4874931bcba, type: 2}
+  - PlayerUnitInfoSO_Init: {fileID: 11400000, guid: 117df9fe76d5b2b4c90146addb991cd3, type: 2}
+  - PlayerUnitInfoSO_Current: {fileID: 11400000, guid: de3e030cbf7f7d64a82004b74b13b0bf, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

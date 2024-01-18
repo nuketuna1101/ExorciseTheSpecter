@@ -9,8 +9,14 @@ public class PlayerGameDataSO : ScriptableObject
     public int maxHp;
     public int curHP;
     public int gold;
+    public List<int> blessings;
+    public int curse;
 
     [Header("Map and Chamber Data")]
-    public int currentMapNumber;
+    public int currentStageNumber;
+    public bool[] curVisited;
+    public int curChamberInProgress;
 
+    [Header("Card Data")]
+    public List<CardInfo> myDeck;
 }

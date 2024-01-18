@@ -133,7 +133,7 @@ public class ButtonController : MonoBehaviour
     }
     private void TestDrawCard()
     {
-        CardManager.Instance.DrawCardFromDeckToHand();
+        //CardManager.Instance.DrawCardFromDeckToHand();
     }
 
     private void TestInit()             // 테스트 코드. 배틀 씬 입장시 게임 플로우를 직접 버튼 행동으로 구현해보기.
@@ -151,11 +151,14 @@ public class ButtonController : MonoBehaviour
         CardManager.Instance.TestInitDeck();
 
         // 시작 카드 뽑기
+        /*
         int i = 4;
         while (i-- > 0)
         {
             CardManager.Instance.DrawCardFromDeckToHand();
 
         }
+        */
+        CardManager.Instance.DrawCards(4);
     }
 }

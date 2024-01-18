@@ -35,7 +35,20 @@ public class CardManager : Singleton<CardManager>
 
     //-------------------------------------------
     // 최종 코드
-    public void DrawCardFromDeckToHand()        // 뽑을 카드더미 덱에서 손패로 카드 1장 드로우
+    public void DrawCards(int amount)                       // 수량만큼 덱에서 핸드로 카드 드로우.. 순차드로우 효과 위해 코루틴
+    {
+        StartCoroutine(DrawCardsCor(amount));
+    }
+    private IEnumerator DrawCardsCor(int amount)            //
+    {
+        WaitForSeconds wtf = new WaitForSeconds(0.25f);
+        for (int i = 0; i < amount; i++)
+        {
+            yield return wtf;
+            DrawCardFromDeckToHand();
+        }
+    }
+    private void DrawCardFromDeckToHand()        // 뽑을 카드더미 덱에서 손패로 카드 1장 드로우
     {
         // 버퍼에 꺼내올거없으면 안돼요
         if (ReadyQueue.Count == 0)

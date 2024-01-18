@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
+//using static UnityEngine.RuleTile.TilingRuleOutput;
 
 
 /// <summary>
@@ -10,7 +12,6 @@ using UnityEngine;
 
 public class MyUtils
 {
-    //public static Quaternion QI => Quaternion.identity;
     public static T FindChild<T>(GameObject go, string name = null, bool recursive = false) where T : UnityEngine.Object //(최상위부모, 이름 입력했는지,재귀적 검색을 할것인지(자식검색))
     {
         if (go == null)
@@ -35,6 +36,19 @@ public class MyUtils
                 if (string.IsNullOrEmpty(name) || component.name == name) //이름이 비어있거나 원하는 이름이면 도출
                     return component;
             }
+        }
+        return null;
+    }
+
+    public static GameObject FindGO(GameObject go, string name = null, bool recursive = false)
+    {
+        if (go == null)
+            return null;
+        Transform[] children = go.GetComponentsInChildren<Transform>();
+        foreach (Transform child in children)
+        {
+            if (string.IsNullOrEmpty(name) || child.name == name) //이름이 비어있거나 원하는 이름이면 도출
+                return child.gameObject;
         }
         return null;
     }
