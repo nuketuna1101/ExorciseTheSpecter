@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 90562978}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2107,6 +2107,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8f4dd228b1b17394a9fa6ea80c6136cb, type: 3}
   sfxClip_Fail:
   - {fileID: 8300000, guid: 0ea14ff49753a604e9e5f6039ee4724f, type: 3}
+  sfxClip_CardDraw:
+  - {fileID: 8300000, guid: 6033c7ef16a403049a9fa3b20514b2d8, type: 3}
   musicSource: {fileID: 0}
 --- !u!1001 &1705247772
 PrefabInstance:
@@ -2346,7 +2348,7 @@ GameObject:
   - component: {fileID: 1856463860}
   m_Layer: 0
   m_Name: StaticUI
-  m_TagString: Untagged
+  m_TagString: StaticUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2384,7 +2386,7 @@ GameObject:
   - component: {fileID: 1876045327}
   m_Layer: 0
   m_Name: PopUpUI
-  m_TagString: Untagged
+  m_TagString: PopUpUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

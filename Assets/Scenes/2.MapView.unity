@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b01d62818c1171b4599424a73b9e818b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _PlayerGameDataSO: {fileID: 0}
   PlayerDeck: []
 --- !u!4 &70773545
 Transform:
@@ -182,7 +183,7 @@ GameObject:
   - component: {fileID: 90562978}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -515,12 +516,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e66ca6c4c721a44a8a1e463a8a2ffc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _PlayerGameDataSO: {fileID: 0}
   _StageChamberSO: {fileID: 11400000, guid: 841b17a78b2da9344ac941bcd8b325dc, type: 2}
-  _CardInfoSO: {fileID: 11400000, guid: efa3dc2e71253514ca37e4874931bcba, type: 2}
   visited: 
   _ChamberStates: 
   TotalChamberNumber: 0
+  _CardInfoSO: {fileID: 11400000, guid: efa3dc2e71253514ca37e4874931bcba, type: 2}
   TotalCardNumber: 0
+  CharacterClassSprites: []
+  PlayerUnitInfoSO_Init: {fileID: 0}
+  PlayerUnitInfoSO_Current: {fileID: 0}
 --- !u!4 &154839042
 Transform:
   m_ObjectHideFlags: 0
@@ -5735,7 +5740,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bgmClip: {fileID: 8300000, guid: 63108a5662aedd14eb6d2a634d76514f, type: 3}
-  sfxClipList: []
+  sfxClip_Btn: []
+  sfxClip_Hit: []
+  sfxClip_Fail: []
+  sfxClip_CardDraw: []
   musicSource: {fileID: 0}
 --- !u!4 &1802824867
 Transform:
@@ -5838,7 +5846,7 @@ GameObject:
   - component: {fileID: 1856463860}
   m_Layer: 0
   m_Name: StaticUI
-  m_TagString: Untagged
+  m_TagString: StaticUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5877,7 +5885,7 @@ GameObject:
   - component: {fileID: 1876045327}
   m_Layer: 0
   m_Name: PopUpUI
-  m_TagString: Untagged
+  m_TagString: PopUpUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -247,7 +247,7 @@ GameObject:
   - component: {fileID: 90562978}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -898,11 +898,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 575535874}
+  m_Father: {fileID: 978766472}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 186, y: 0}
+  m_AnchoredPosition: {x: -364, y: 0}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &281377753
@@ -1427,6 +1427,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8f4dd228b1b17394a9fa6ea80c6136cb, type: 3}
   sfxClip_Fail:
   - {fileID: 8300000, guid: 0ea14ff49753a604e9e5f6039ee4724f, type: 3}
+  sfxClip_CardDraw: []
   musicSource: {fileID: 0}
 --- !u!4 &390708855
 Transform:
@@ -1749,10 +1750,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 281377752}
-  - {fileID: 965900930}
-  - {fileID: 1749658349}
+  m_Children: []
   m_Father: {fileID: 978766472}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2969,7 +2967,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 575535874}
+  m_Father: {fileID: 978766472}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3102,6 +3100,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 575535874}
+  - {fileID: 281377752}
+  - {fileID: 965900930}
+  - {fileID: 1749658349}
   m_Father: {fileID: 1876045327}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
@@ -4672,7 +4673,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 575535874}
+  m_Father: {fileID: 978766472}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4975,7 +4976,7 @@ GameObject:
   - component: {fileID: 1856463860}
   m_Layer: 0
   m_Name: StaticUI
-  m_TagString: Untagged
+  m_TagString: StaticUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5014,7 +5015,7 @@ GameObject:
   - component: {fileID: 1876045327}
   m_Layer: 0
   m_Name: PopUpUI
-  m_TagString: Untagged
+  m_TagString: PopUpUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

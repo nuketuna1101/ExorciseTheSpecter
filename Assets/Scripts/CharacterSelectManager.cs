@@ -5,6 +5,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+///  button controller 혹은 ui manager로 리팩토링 되어야할 부분!!!!
+/// </summary>
+
+
 public class CharacterSelectManager : MonoBehaviour
 {
     /// <summary>

@@ -39,19 +39,6 @@ public class MyUtils
         }
         return null;
     }
-
-    public static GameObject FindGO(GameObject go, string name = null, bool recursive = false)
-    {
-        if (go == null)
-            return null;
-        Transform[] children = go.GetComponentsInChildren<Transform>();
-        foreach (Transform child in children)
-        {
-            if (string.IsNullOrEmpty(name) || child.name == name) //이름이 비어있거나 원하는 이름이면 도출
-                return child.gameObject;
-        }
-        return null;
-    }
 }
 
 

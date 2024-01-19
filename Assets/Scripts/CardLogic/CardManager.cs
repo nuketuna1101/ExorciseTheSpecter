@@ -64,6 +64,9 @@ public class CardManager : Singleton<CardManager>
         UpdateDeckCardAmount();
         card.LocateCard(cardSpawnPoint.position);
         myCards.Add(card);
+        // 오디오
+        AudioManager.Instance.PlaySFX(SFX_TYPE.CARD_DRAW);
+
         // 랜더링과 손패 가시화 정리
         SetHandCardsOrdered();
         AlignHandCards();
@@ -226,7 +229,7 @@ public class CardManager : Singleton<CardManager>
 
     private void TryUsingCard()                 // 코스트를 소모하여 카드 사용효과
     {
-        if (IsAvailableCard(selectCard))
+        if (IsAvailableCard(selectCard))            // 
         {
             // 핸드에서 제거
             myCards.Remove(selectCard);
@@ -234,9 +237,10 @@ public class CardManager : Singleton<CardManager>
             selectCard = null;
             AlignHandCards();
         }
-        else
+        else            // 카드 소모 실패
         {
             AudioManager.Instance.PlaySFX(SFX_TYPE.FAIL);
+            UIManager.Instance.Popup_NotifyWindow_Warn();
             myCards.ForEach(x => x.GetComponent<Card>().RevertOrder());
             AlignHandCards();
         }
@@ -275,6 +279,20 @@ public class CardManager : Singleton<CardManager>
         _Card.transform.DOKill();
         GameManager.Instance.ConsumeEnergy(_Card.GetCardCost());
         PoolManager.ReturnToPool(_Card.gameObject);
+    }
+
+
+
+
+    public int GetReadyQueueSize()             // 뽑을카드더미=
+    {
+        if (ReadyQueue == null)
+        {
+            Debug.Log("ReadyQueue Null Checking :: ISNULL");
+            return -1;
+        }
+            
+        return ReadyQueue.Count;
     }
 
 }

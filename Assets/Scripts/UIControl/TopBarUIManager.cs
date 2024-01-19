@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+
+/// <summary>
+/// ui manager로 추후 리팩토링 될 부분!!!!!!!!!!!!!!!!!!!!
+/// </summary>
+
+
 public class TopBarUIManager : MonoBehaviour
 {
     /// <summary>
