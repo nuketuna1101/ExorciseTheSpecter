@@ -106,6 +106,8 @@ public class UIManager : Singleton<UIManager>
     private IEnumerator Popup_NotifyWindow_COR()
     {
         int loop = 3;
+        Debug.Log("Popup_NotifyWindow :: " + GetPopUpUIObj("Popup_NotifyWindow").name);
+
         GameObject Popup_NotifyWindow = GetPopUpUIObj("Popup_NotifyWindow");
         GetPopUpUIObj("text_MsgString").GetComponent<TMP_Text>().text = "Not enough energy";
         while (loop-- > 0)
@@ -121,14 +123,21 @@ public class UIManager : Singleton<UIManager>
 
     private GameObject GetPopUpUIObj(string name)               // PopUpUI의 자식 오브젝트를 이름으로 검색
     {
-        var children = PopUpUI.GetComponentsInChildren<GameObject>();
-        foreach (var child in children)
+        int childCount = PopUpUI.transform.childCount;
+        for (int i = 0; i < childCount; i++)
         {
+            var child = PopUpUI.transform.GetChild(i);
             if (child.name == name)
-                return child;
+                return child.gameObject;
         }
         return null;
     }
+
+    public void TestTestTest()
+    {
+        Debug.Log("TEST CODE IS :: " + GetPopUpUIObj("PopUpScreen_Settings"));
+    }
+
     #region 초기화와 바인딩, GET 코드 << 불변
     private void InitBasic()              // 캔버스로부터 StaticUI, PopUpUI 찾기. 주의: gameobj의 tag 설정 필요
     {

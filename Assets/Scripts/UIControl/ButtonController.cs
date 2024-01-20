@@ -15,7 +15,7 @@ public class ButtonController : MonoBehaviour
     /// attached to each button UI
     /// </summary>
     private Button buttonUI;
-    public enum ButtonType { LoadScene, PopUpWindow, CloseWindow, SelectCharacter, SelectChamber, EnterChamber, ExitGame, TestInitDeck, TestDrawCard, TestInit, EndTurn }
+    public enum ButtonType { LoadScene, PopUpWindow, CloseWindow, SelectCharacter, SelectChamber, EnterChamber, ExitGame, TestInitDeck, TestDrawCard, TestInit, EndTurn, TestNotifyWarn }
     // 버튼 타입 정의
     [SerializeField]
     private ButtonType type;
@@ -72,6 +72,9 @@ public class ButtonController : MonoBehaviour
             case ButtonType.TestInit:
                 buttonUI.onClick.AddListener(TestInit);
                 break;
+            case ButtonType.TestNotifyWarn:
+                buttonUI.onClick.AddListener(TestNotifyWarn);
+                break; 
         }
     }
 
@@ -159,6 +162,13 @@ public class ButtonController : MonoBehaviour
 
         }
         */
+     
         CardManager.Instance.DrawCards(4);
+    }
+
+    private void TestNotifyWarn()           // ui manager popup ui test 용 코드
+    {
+        //
+        UIManager.Instance.TestTestTest();
     }
 }
