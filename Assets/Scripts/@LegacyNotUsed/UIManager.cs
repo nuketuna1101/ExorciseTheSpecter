@@ -88,7 +88,7 @@ public class UIManager : Singleton<UIManager>
     {
         Get<TMP_Text>((int)Scene4_Text.text_Energy).text = GameManager.Instance.GetEnergy().ToString();
     }
-    private IEnumerator TEMP_Update_Scene4()
+    private IEnumerator TEMP_Update_Scene4()            // 4번째 씬에 대한 UI 업데이트 코루틴.
     {
         while (true)
         {
@@ -99,17 +99,16 @@ public class UIManager : Singleton<UIManager>
             Update_Scene4_Energy();
         }
     }
-    public void Popup_NotifyWindow_Warn()
+    public void Popup_NotifyWindow_Warn()           // 에너지 부족 알림창 띄우기
     {
         StartCoroutine(Popup_NotifyWindow_COR());
     }
-    private IEnumerator Popup_NotifyWindow_COR()
+    private IEnumerator Popup_NotifyWindow_COR()            // 
     {
         int loop = 3;
-        Debug.Log("Popup_NotifyWindow :: " + GetPopUpUIObj("Popup_NotifyWindow").name);
-
-        GameObject Popup_NotifyWindow = GetPopUpUIObj("Popup_NotifyWindow");
-        GetPopUpUIObj("text_MsgString").GetComponent<TMP_Text>().text = "Not enough energy";
+        GameObject Popup_NotifyWindow = MyUtils.FindChildObj(PopUpUI, "Popup_NotifyWindow");
+        GameObject text_MsgString = MyUtils.FindChildObj(Popup_NotifyWindow, "text_MsgString");
+        text_MsgString.GetComponent<TMP_Text>().text = "Not enough energy";
         while (loop-- > 0)
         {
             yield return wfs10;
@@ -119,24 +118,20 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
+    public void Popup_NotifyTurn()              // 턴 시작 알림창 띄우기
+    {
+        StartCoroutine(Popup_NotifyTurn_COR());
+    }
+    private IEnumerator Popup_NotifyTurn_COR()
+    {
+        GameObject Popup_NotifyTurn = MyUtils.FindChildObj(PopUpUI, "Popup_NotifyTurn");
+        //AudioManager.Instance.PlaySFX();
+        Popup_NotifyTurn.SetActive(true);
+        yield return new WaitForSeconds(1.0f);
+        Popup_NotifyTurn.SetActive(false);
+    }
+
     #endregion
-
-    private GameObject GetPopUpUIObj(string name)               // PopUpUI의 자식 오브젝트를 이름으로 검색
-    {
-        int childCount = PopUpUI.transform.childCount;
-        for (int i = 0; i < childCount; i++)
-        {
-            var child = PopUpUI.transform.GetChild(i);
-            if (child.name == name)
-                return child.gameObject;
-        }
-        return null;
-    }
-
-    public void TestTestTest()
-    {
-        Debug.Log("TEST CODE IS :: " + GetPopUpUIObj("PopUpScreen_Settings"));
-    }
 
     #region 초기화와 바인딩, GET 코드 << 불변
     private void InitBasic()              // 캔버스로부터 StaticUI, PopUpUI 찾기. 주의: gameobj의 tag 설정 필요

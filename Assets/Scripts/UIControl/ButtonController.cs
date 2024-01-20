@@ -73,7 +73,7 @@ public class ButtonController : MonoBehaviour
                 buttonUI.onClick.AddListener(TestInit);
                 break;
             case ButtonType.TestNotifyWarn:
-                buttonUI.onClick.AddListener(TestNotifyWarn);
+                //buttonUI.onClick.AddListener(TestNotifyWarn);
                 break; 
         }
     }
@@ -141,34 +141,29 @@ public class ButtonController : MonoBehaviour
 
     private void TestInit()             // 테스트 코드. 배틀 씬 입장시 게임 플로우를 직접 버튼 행동으로 구현해보기.
     {
-        //BattleManager.Instance.TestMethod();
 
+        StartCoroutine(TestInitCor());
+    }
+
+    private IEnumerator TestInitCor()
+    {
         // 데이터 세팅
         BattleManager.Instance.SetPlayer();
         BattleManager.Instance.SetEnemy();
 
         // 턴 
         BattleManager.Instance.InitTurnSystem();
-
         // 덱 초기화
         CardManager.Instance.TestInitDeck();
 
-        // 시작 카드 뽑기
-        /*
-        int i = 4;
-        while (i-- > 0)
-        {
-            CardManager.Instance.DrawCardFromDeckToHand();
+        // 턴 보여주고
+        UIManager.Instance.Popup_NotifyTurn();
 
-        }
-        */
-     
+        yield return new WaitForSeconds(1.0f);
+
+
+        // 시작시 4장 드로우
         CardManager.Instance.DrawCards(4);
     }
 
-    private void TestNotifyWarn()           // ui manager popup ui test 용 코드
-    {
-        //
-        UIManager.Instance.TestTestTest();
-    }
 }

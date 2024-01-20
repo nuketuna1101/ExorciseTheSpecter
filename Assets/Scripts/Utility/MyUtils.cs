@@ -8,6 +8,7 @@ using UnityEngine;
 
 /// <summary>
 /// 유틸리티 클래스
+/// 자주 사용될 수 있는 함수 사전 정의.. 주로 접근 함수
 /// </summary>
 
 public class MyUtils
@@ -39,6 +40,19 @@ public class MyUtils
         }
         return null;
     }
+
+    public static GameObject FindChildObj(GameObject parent, string name)       // 부모obj에서 이름으로 바로 아래단계 자식obj 접근. 비활성화되어도 가능
+    {
+        int childCount = parent.transform.childCount;
+        for (int i = 0; i < childCount; i++)
+        {
+            var child = parent.transform.GetChild(i);
+            if (child.name == name)
+                return child.gameObject;
+        }
+        return null;
+    }
+
 }
 
 
