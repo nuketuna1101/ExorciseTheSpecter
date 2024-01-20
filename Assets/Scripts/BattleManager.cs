@@ -89,8 +89,6 @@ public class BattleManager : Singleton<BattleManager>
     {
         isPlayerTurn = !isPlayerTurn;
     }
-
-
     //-----------------------------------------
 
     public IEnumerator StartGameCo()

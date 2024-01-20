@@ -14,14 +14,15 @@ public class CardManager : Singleton<CardManager>
 {
     [SerializeField]    private CardInfoSO _CardInfoSO;         // 데이터 매니저의 전체 카드 사전
     // 실제 플레이어의 덱
-    private List<CardInfo> myDeck;              
+    private List<CardInfo> myDeck;
     // 
-
+    [Header("Card Data Structures: ReadyQueue, myCard(hand), usedCards")]
     [SerializeField] private List<CardInfo> cardBuffer;      // TEST LEGACY CODE
     [SerializeField] private Queue<CardInfo> ReadyQueue;     // 뽑을 카드 더미 덱
+    [SerializeField] private List<Card> myCards;             // 손패에 들고있는 카드들
+    [SerializeField] private List<CardInfo> usedCards;             // 손패에 들고있는 카드들
 
     [SerializeField] private GameObject cardPrefab;          // 카드 프리팹 생성하므로
-    [SerializeField] private List<Card> myCards;             // 손패에 들고있는 카드들
     [SerializeField] private Transform myCardLeft;           // 손패 정리위한 위치
     [SerializeField] private Transform myCardRight;          // 손패 정리위한 위치
 
@@ -108,9 +109,9 @@ public class CardManager : Singleton<CardManager>
         int decksize = 15;              // 임의 덱 사이즈
         myDeck = new List<CardInfo>(DataManager.Instance.TotalCardNumber);
 
-        // 핸드 초기화
+        // 핸드 초기화, 사용한 카드 초기화
         myCards.Clear();
-
+        usedCards.Clear();
         //
         cardBuffer = new List<CardInfo>();
         for (int i = 0; i < 15; i++)
@@ -138,23 +139,6 @@ public class CardManager : Singleton<CardManager>
     {
         // 뽑을 카드 더미 초기화
         // 처음 시작할 땐 나의 전체 덱에서 초기화       
-    }
-
-    public void SetupCardBuffer()// LEGACY TEST CODE
-    {
-        // 카드 버퍼 채우기
-        cardBuffer = new List<CardInfo>();
-        for (int i = 0; i < 5; i++)
-        {
-            var rand = UnityEngine.Random.Range(0, DataManager.Instance.TotalCardNumber);
-            cardBuffer.Add(DataManager.Instance._TempAccessCardInfoSO.CardInfoList[rand]);
-        }
-        // 테스트용으로 버퍼 리스트를 큐 그대로
-        ReadyQueue = new Queue<CardInfo>();
-        for (int i = 0; i < cardBuffer.Count; i++)
-        {
-            ReadyQueue.Enqueue(cardBuffer[i]);
-        }
     }
 
     //--------------------------------------------------
@@ -232,6 +216,7 @@ public class CardManager : Singleton<CardManager>
         if (IsAvailableCard(selectCard))            // 
         {
             // 핸드에서 제거
+            usedCards.Add(selectCard.GetCardInfo());
             myCards.Remove(selectCard);
             ActivateCard(selectCard);
             selectCard = null;
@@ -244,24 +229,6 @@ public class CardManager : Singleton<CardManager>
             myCards.ForEach(x => x.GetComponent<Card>().RevertOrder());
             AlignHandCards();
         }
-
-
-
-        /*
-        // 1번 플로우 : 카드 사용 성공
-        // 해당 카드를 제거
-        myCards.Remove(selectCard);
-        selectCard.transform.DOKill();
-        PoolManager.ReturnToPool(selectCard.gameObject);
-        selectCard = null;
-        AlignHandCards();
-
-
-        // 2번 플로우 : 카드 사용 실패, 다시 핸드로 돌아감
-        myCards.ForEach(x => x.GetComponent<Card>().RevertOrder());
-        AlignHandCards();
-
-        */
     }
 
 
@@ -280,6 +247,11 @@ public class CardManager : Singleton<CardManager>
         GameManager.Instance.ConsumeEnergy(_Card.GetCardCost());
         PoolManager.ReturnToPool(_Card.gameObject);
     }
+    private void DiscardCard(Card _Card)            // 프리팹 회수
+    {
+        _Card.transform.DOKill();
+        PoolManager.ReturnToPool(_Card.gameObject);
+    }
 
 
 
@@ -294,5 +266,18 @@ public class CardManager : Singleton<CardManager>
             
         return ReadyQueue.Count;
     }
+
+
+    public void ClearHand()            // 손패에 있던 모든 카드 회수.
+    {
+        while (myCards.Count > 0)
+        {
+            var tmpCard = myCards[0];
+            usedCards.Add(tmpCard.GetCardInfo());
+            myCards.Remove(tmpCard);
+            DiscardCard(tmpCard);
+        }
+    }
+
 
 }

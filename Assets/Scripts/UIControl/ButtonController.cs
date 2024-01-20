@@ -72,8 +72,8 @@ public class ButtonController : MonoBehaviour
             case ButtonType.TestInit:
                 buttonUI.onClick.AddListener(TestInit);
                 break;
-            case ButtonType.TestNotifyWarn:
-                //buttonUI.onClick.AddListener(TestNotifyWarn);
+            case ButtonType.EndTurn:
+                buttonUI.onClick.AddListener(EndTurn);
                 break; 
         }
     }
@@ -166,4 +166,12 @@ public class ButtonController : MonoBehaviour
         CardManager.Instance.DrawCards(4);
     }
 
+    private void EndTurn()              // 턴 종료 버튼을 눌러서 유저가 직접 턴 종료
+    {
+        // 턴 종료 이벤트.
+        // 적에게 턴 넘겨주고 손패에 있던 카드 전부 회수.
+        Debug.Log("EndTurn 눌림 ");
+        BattleManager.Instance.ToggleTurn();
+        CardManager.Instance.ClearHand();
+    }
 }

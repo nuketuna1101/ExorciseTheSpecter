@@ -181,4 +181,9 @@ public class Card : MonoBehaviour
         return this._CardInfo.CardCost;
     }
     #endregion
+
+    public CardInfo GetCardInfo()
+    {
+        return _CardInfo;
+    }
 }
