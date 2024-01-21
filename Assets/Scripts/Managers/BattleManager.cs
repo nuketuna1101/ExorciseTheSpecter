@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEditor.Experimental.GraphView.GraphView;
 /// <summary>
 /// BattleScene 내에 Player와 Enemy란 BattleObj 간 전투 상호작용 및 판
@@ -36,11 +37,22 @@ public class BattleManager : Singleton<BattleManager>
 
     private readonly WaitForSeconds wfs1 = new WaitForSeconds(1.0f);
 
+
+    protected void Awake()                          // 배틀 씬 로딩 시 이벤트 달아주기 위한 델리게이트 추가
+    {
+        base.Awake();
+        SceneManager.sceneLoaded += EnterBattleScene;
+    }
+
     #region 배틀 씬 입장
 
-    private void EnterBattleScene()             // 배틀 씬 입장시 게임 플로우를 직접 버튼 행동으로 구현해보기.
+    private void EnterBattleScene(Scene scene, LoadSceneMode mode)             // 배틀 씬 입장시 게임 플로우를 직접 버튼 행동으로 구현해보기.
     {
-        StartCoroutine(EnterBattleSceneCor());
+        var currentSceneName = SceneManager.GetActiveScene().name;
+        if (currentSceneName == "4.BattleScene")
+        {
+            StartCoroutine(EnterBattleSceneCor());
+        }
     }
 
     private IEnumerator EnterBattleSceneCor()

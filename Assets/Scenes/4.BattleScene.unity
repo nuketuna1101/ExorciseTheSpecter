@@ -356,7 +356,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &157209251
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1289,7 +1289,6 @@ MonoBehaviour:
   sfxClip_Fail:
   - {fileID: 8300000, guid: 0ea14ff49753a604e9e5f6039ee4724f, type: 3}
   sfxClip_CardDraw: []
-  musicSource: {fileID: 0}
 --- !u!4 &390708855
 Transform:
   m_ObjectHideFlags: 0
@@ -1546,7 +1545,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8507734883839756464, guid: bd69f3f9a3f799b4d895d1c0d1ffdfce, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
