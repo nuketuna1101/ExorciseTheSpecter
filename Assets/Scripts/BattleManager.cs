@@ -24,13 +24,9 @@ public class BattleManager : Singleton<BattleManager>
     [SerializeField] private readonly UnitInfoSO PlayerUnitInfoSO_Initial;                // 플레이어 데이터 초기화값
     [SerializeField] private UnitInfoSO PlayerUnitInfoSO_Current;                // 플레이어 데이터 계속 쓰는 값
 
-
-
-
     [Header("Turn Variables")]    // 턴 관련 변수
     private bool isPlayerTurn;
     private int currentTurn;
-
 
     // 드로우할 카드 변수 일단 임시
     private int initDrawCount = 5;
@@ -39,30 +35,11 @@ public class BattleManager : Singleton<BattleManager>
     public static Action<bool> OnDrawCard;
 
 
-    public void TestMethod()
-    {
-        // 프리팹 생성
-        var newPlayer = Instantiate(PlayerPrefab);
-        newPlayer.transform.position = spawnPoint_player;
-        var enemyObj1 = Instantiate(EnemyPrefab);
-        enemyObj1.transform.position = spawnPoint_enemy1;
-        var enemyObj2 = Instantiate(EnemyPrefab);
-        enemyObj2.transform.position = spawnPoint_enemy2;
-        // 데이터 생성
-        _Player = new Player();
-        _Enemies = new List<Enemy>();
-        var monster1 = new Enemy();
-        var monster2 = new Enemy();
-        // 프리팹에 데이터 바인드
-        newPlayer.GetComponent<PlayerUnit>().InitUnit(_Player);
-        enemyObj1.GetComponent<EnemyUnit>().InitUnit(monster1);
-        enemyObj2.GetComponent<EnemyUnit>().InitUnit(monster2);
-    }
+
 
 
     //-----------------------------------------------------------------------------------
-
-
+    #region 각종 세팅
     public void SetPlayer()                 // 플레이어  설정
     {
         var newPlayer = Instantiate(PlayerPrefab);                          // 풀링으로 나중에 교체
@@ -71,7 +48,6 @@ public class BattleManager : Singleton<BattleManager>
         _Player.InitProfile(PlayerUnitInfoSO_Current);
         newPlayer.GetComponent<PlayerUnit>().InitUnit(_Player);
     }
-
     public void SetEnemy()              // 적 설정
     {
         var enemyObj1 = Instantiate(EnemyPrefab);                           // 풀링으로 나중에 교체
@@ -79,6 +55,8 @@ public class BattleManager : Singleton<BattleManager>
         var enemy1 = new Enemy();
         enemyObj1.GetComponent<EnemyUnit>().InitUnit(enemy1);
     }
+    #endregion
+
     public void InitTurnSystem()            // 턴 관련하여 초기화
     {
         currentTurn = 1;
@@ -90,17 +68,5 @@ public class BattleManager : Singleton<BattleManager>
         isPlayerTurn = !isPlayerTurn;
     }
     //-----------------------------------------
-
-    public IEnumerator StartGameCo()
-    {
-        // set up을 하고
-        for (int i = 0; i < initDrawCount; i++)
-        {
-            yield return new WaitForSeconds(0.25f);
-            OnDrawCard?.Invoke(false);
-            yield return new WaitForSeconds(0.25f);
-            OnDrawCard?.Invoke(true);
-        }
-    }
 
 }

@@ -33,9 +33,13 @@ public class CardManager : Singleton<CardManager>
     [SerializeField] private TMP_Text remainCount;              // 뽑을 카드더미 남은 카드숫자
 
 
+    private readonly WaitForSeconds wfs25 = new WaitForSeconds(0.25f);
+
 
     //-------------------------------------------
     // 최종 코드
+
+    #region 카드 드로우 및 손패 관련
     public void DrawCards(int amount)                       // 수량만큼 덱에서 핸드로 카드 드로우.. 순차드로우 효과 위해 코루틴
     {
         StartCoroutine(DrawCardsCor(amount));
@@ -62,7 +66,6 @@ public class CardManager : Singleton<CardManager>
         var cardObject = PoolManager.GetFromPool();
         Card card = cardObject.GetComponent<Card>();
         card.Setup(ReadyQueue.Dequeue(), true);
-        UpdateDeckCardAmount();
         card.LocateCard(cardSpawnPoint.position);
         myCards.Add(card);
         // 오디오
@@ -99,7 +102,7 @@ public class CardManager : Singleton<CardManager>
             myCards[i].GetComponent<Card>().SetOriginOrder(i);
         }
     }
-
+    #endregion
     //-------------------------------------------
     // TEST CODE
 
@@ -124,24 +127,12 @@ public class CardManager : Singleton<CardManager>
         for (int i = 0; i < cardBuffer.Count; i++)
         {
             ReadyQueue.Enqueue(cardBuffer[i]);
-            UpdateDeckCardAmount();
         }
 
     }
-    
-    private void UpdateDeckCardAmount()          // 뽑을 카드더미 숫자 업데이트
-    {
-        //remainCount.text = ReadyQueue.Count.ToString();
-    }
-
-
-    public void InitReadyDeck()
-    {
-        // 뽑을 카드 더미 초기화
-        // 처음 시작할 땐 나의 전체 덱에서 초기화       
-    }
 
     //--------------------------------------------------
+    #region 카드 조작 관련
     [SerializeField]
     private Card selectCard;                            // 현재 선택한 카드객체
     public void CardMouseOver(Card card)
@@ -208,7 +199,7 @@ public class CardManager : Singleton<CardManager>
             TryUsingCard();
 
     }
-
+    #endregion
 
 
     private void TryUsingCard()                 // 코스트를 소모하여 카드 사용효과
@@ -243,19 +234,40 @@ public class CardManager : Singleton<CardManager>
         // 카드 효과
         /**/
         // 카드 데이터와 프리팹 회수, 에너지 소모
-        _Card.transform.DOKill();
+        //_Card.transform.DOKill();
+        //GameManager.Instance.ConsumeEnergy(_Card.GetCardCost());
+        //PoolManager.ReturnToPool(_Card.gameObject);
         GameManager.Instance.ConsumeEnergy(_Card.GetCardCost());
-        PoolManager.ReturnToPool(_Card.gameObject);
+        DiscardCard(_Card);
     }
     private void DiscardCard(Card _Card)            // 프리팹 회수
     {
+        StartCoroutine(DiscardCardCor(_Card));
+    }
+
+    private IEnumerator DiscardCardCor(Card _Card)
+    {
+        AudioManager.Instance.PlaySFX(SFX_TYPE.CARD_DRAW);
+        _Card.transform.DOMove(cardRecallPoint.position, 0.25f);
+        yield return wfs25;
         _Card.transform.DOKill();
         PoolManager.ReturnToPool(_Card.gameObject);
     }
-
-
-
-
+    public void ClearHand()            // 손패에 있던 모든 카드 회수.
+    {
+        StartCoroutine(ClearHandCor());
+    }
+    private IEnumerator ClearHandCor()
+    {
+        while (myCards.Count > 0)
+        {
+            yield return wfs25;
+            var tmpCard = myCards[0];
+            usedCards.Add(tmpCard.GetCardInfo());
+            myCards.Remove(tmpCard);
+            DiscardCard(tmpCard);
+        }
+    }
     public int GetReadyQueueSize()             // 뽑을카드더미=
     {
         if (ReadyQueue == null)
@@ -263,21 +275,7 @@ public class CardManager : Singleton<CardManager>
             Debug.Log("ReadyQueue Null Checking :: ISNULL");
             return -1;
         }
-            
+
         return ReadyQueue.Count;
     }
-
-
-    public void ClearHand()            // 손패에 있던 모든 카드 회수.
-    {
-        while (myCards.Count > 0)
-        {
-            var tmpCard = myCards[0];
-            usedCards.Add(tmpCard.GetCardInfo());
-            myCards.Remove(tmpCard);
-            DiscardCard(tmpCard);
-        }
-    }
-
-
 }
