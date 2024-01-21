@@ -84,35 +84,4 @@ public class AudioManager : Singleton<AudioManager>
         availableSfxSrc.clip = targetClips[rand];
         availableSfxSrc.Play();
     }
-
-
-
-    #region Volume fade in/out Coroutine
-    [SerializeField] private AudioSource musicSource;
-    IEnumerator VoluemFadeOut(float durationTime)
-    {
-        float from = musicSource.volume;
-        float to = 0;
-        float elapsedTime = 0f;
-        while (elapsedTime <= 1)
-        {
-            elapsedTime += Time.deltaTime / durationTime;
-            musicSource.volume = Mathf.Lerp(from, to, Mathf.Sin(elapsedTime * Mathf.PI * 0.5f));
-            yield return null;
-        }
-    }
-
-    IEnumerator VolumeFadeIn(float targetValue, float durationTime)
-    {
-        float from = 0;
-        float to = targetValue;
-        float elapsedTime = 0f;
-        while (elapsedTime <= 1)
-        {
-            elapsedTime += Time.deltaTime / durationTime;
-            musicSource.volume = Mathf.Lerp(from, to, 1f - Mathf.Cos(elapsedTime * Mathf.PI * 0.5f));
-            yield return null;
-        }
-    }
-    #endregion
 }

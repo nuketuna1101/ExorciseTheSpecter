@@ -34,8 +34,36 @@ public class BattleManager : Singleton<BattleManager>
     // 임시 액션 델리게이트
     public static Action<bool> OnDrawCard;
 
+    private readonly WaitForSeconds wfs1 = new WaitForSeconds(1.0f);
 
+    #region 배틀 씬 입장
 
+    private void EnterBattleScene()             // 배틀 씬 입장시 게임 플로우를 직접 버튼 행동으로 구현해보기.
+    {
+        StartCoroutine(EnterBattleSceneCor());
+    }
+
+    private IEnumerator EnterBattleSceneCor()
+    {
+        // 데이터 세팅
+        SetPlayer();
+        SetEnemy();
+
+        // 턴 
+        InitTurnSystem();
+        // 덱 초기화
+        CardManager.Instance.TestInitDeck();
+        yield return wfs1;
+
+        // 턴 보여주고
+        UIManager.Instance.Popup_NotifyTurn();
+        yield return wfs1;
+
+        // 시작시 4장 드로우
+        CardManager.Instance.DrawCards(4);
+    }
+
+    #endregion
 
 
     //-----------------------------------------------------------------------------------

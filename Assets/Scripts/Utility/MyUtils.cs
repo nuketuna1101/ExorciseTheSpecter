@@ -5,7 +5,6 @@ using System.ComponentModel;
 using UnityEngine;
 //using static UnityEngine.RuleTile.TilingRuleOutput;
 
-
 /// <summary>
 /// 유틸리티 클래스
 /// 자주 사용될 수 있는 함수 사전 정의.. 주로 접근 함수
@@ -52,9 +51,7 @@ public class MyUtils
         }
         return null;
     }
-
 }
-
 
 [Serializable]
 public class PRS
