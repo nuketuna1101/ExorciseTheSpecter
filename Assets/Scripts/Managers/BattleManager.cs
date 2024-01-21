@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.Experimental.GraphView.GraphView;
 /// <summary>
 /// BattleScene 내에 Player와 Enemy란 BattleObj 간 전투 상호작용 및 판
 /// </summary>
