@@ -145,73 +145,40 @@ public class Card : MonoBehaviour,
             renderer.sortingLayerName = _SortingLayerName;
             renderer.sortingOrder = order_Criterion + 4;
         }
-    }          
+    }
     //--------------------------------------------
     /// <summary>
     /// 터치 이벤트
     /// </summary>
-    
-    void OnMouseOver()
+    /// 
+
+    #region 터치이벤트 ipointer 로 구현
+
+    public void OnPointerDown(PointerEventData pointerEventData)        // 카드 눌렀을 때 시작.
     {
-        //if (isFront)            CardManager.Instance.CardMouseOver(this);
+        if (isFront)
+            CardManager.Instance.CardPointerDown(this);
     }
 
-    void OnMouseExit()
-    {
-        //if (isFront)            CardManager.Instance.CardMouseExit(this);
-    }
-    
-    void OnMouseDown()
-    {
-        //if (isFront)            CardManager.Instance.CardMouseDown();
-    }
-
-    void OnMouseUp()
-    {
-        //if (isFront)            CardManager.Instance.CardMouseUp();
-    }
-
-
-    //--------------------------------------------------------------------------
-
-    #region 카드 코스트와 카드 사용 관련
-
-    public int GetCardCost()
-    {
-        return this._CardInfo.CardCost;
-    }
-    #endregion
-
-    public CardInfo GetCardInfo()
-    {
-        return _CardInfo;
-    }
-
-    //----------------------------------------------
-    #region 터치이벤트 ipointer 로 다시 변경
-
-    public void OnPointerUp(PointerEventData pointerEventData)
+    public void OnPointerUp(PointerEventData pointerEventData)          // 카드를 뗀 이후 handarea인지 위치 판정
     {
         DebugOpt.Log("OnPointerUp on " + this.name + " : " + pointerEventData.position);
-        DebugOpt.DrawRay(pointerEventData.position, transform.forward * 10, Color.blue);
-
-        var touchUpPos = pointerEventData.position;
+        // 2D 레이캐스팅으로 핸드위치인지 판단
+        var touchUpPos = Camera.main.ScreenToWorldPoint(pointerEventData.position);
+        touchUpPos.z = 0.0f;
         RaycastHit2D hit = Physics2D.Raycast(touchUpPos, transform.forward * 10);
-        DebugOpt.DrawRay(touchUpPos, transform.forward * 10, Color.yellow, 0.3f);
+        bool isOnHandArea = false;          // 판정값으로 넘겨줄 플래그
         if (hit.collider != null)
         {
-            if (hit.collider.gameObject.CompareTag("HandArea"))
+            if (hit.collider.gameObject.CompareTag("HandArea"))     // HandArea 태그, rigid, collider 달린 위치 판정
             {
-                Debug.Log("RayCast Hit! on ");
+                Debug.Log("RayCast Hit on " + hit.collider.gameObject.name + " and z: " + hit.collider.transform.position.z);
+                isOnHandArea = true;
             }
         }
+        CardManager.Instance.CardPointerUp(this, isOnHandArea);
     }
-    public void OnPointerDown(PointerEventData pointerEventData)
-    {
-        //DebugOpt.Log("OnPointerDown on " + this.name + " : " + pointerEventData.position);
-    }
-
-    public void OnDrag(PointerEventData pointerEventData)
+    public void OnDrag(PointerEventData pointerEventData)               // 카드를 눌러 드래그 액션
     {
         //DebugOpt.Log("OnDrag on " + this.name + " : " + pointerEventData.position);
         DebugOpt.DrawRay(pointerEventData.position, transform.forward * 10, Color.yellow);
@@ -229,4 +196,19 @@ public class Card : MonoBehaviour,
     }
 
     #endregion
+
+    //--------------------------------------------------------------------------
+
+    #region 카드 코스트와 카드 사용 관련
+
+    public int GetCardCost()
+    {
+        return this._CardInfo.CardCost;
+    }
+    #endregion
+
+    public CardInfo GetCardInfo()
+    {
+        return _CardInfo;
+    }
 }

@@ -133,104 +133,44 @@ public class CardManager : Singleton<CardManager>
 
     //--------------------------------------------------
     #region 카드 조작 관련
-    [SerializeField]
-    private Card selectCard;                            // 현재 선택한 카드객체
-    public void CardMouseOver(Card card)
+    public void CardPointerDown(Card card)                      // 카드 누를시 : 카드 내용 볼 수 있도록 정렬, 확대, 맨앞 랜더링
     {
-        selectCard = card;
         EnlargeCard(card);
     }
-    public void CardMouseExit(Card card)
+
+    public void CardPointerUp(Card card, bool isOnHandArea)     // 카드 떼어내면, 어디에 있느냐에 따라.
     {
-        RevertEnlargeCard(card);
+        if (isOnHandArea)
+        {
+            RevertEnlargeCard(card);        // 다시 돌아가기
+        }
+        else
+        {
+            TryUsingCard(card);             // 사용 시도
+        }
     }
-  
+    #endregion
+
     private const float EnlargeCoeff = 1.5f;            // 확대 배수 조정값
-    private void EnlargeCard(Card card)
+    private void EnlargeCard(Card card)                 // 카드 잘 보기 위해 정렬, 확대, 맨 앞 랜더링
     {
         Vector3 pos = new Vector3(card.originalPRS.pos.x, -2.0f, 10f);           // 확대될 때의 위치 조정값
         card.LocateCard(pos, Quaternion.identity, Vector3.one * EnlargeCoeff);
         card.GetComponent<Card>().FocusAsMostFront();
     }
-    private void RevertEnlargeCard(Card card)
+    private void RevertEnlargeCard(Card card)           // 카드 원래 위치로 돌아가기
     {
         card.LocateCard(card.originalPRS.pos, card.originalPRS.rot, card.originalPRS.scale);
         card.GetComponent<Card>().RevertOrder();
     }
-    //-------------------------------------------------------------
-    // 리팩토링 할 부분
-    private bool onMyCardArea;              
-
-    public void CardDrag()
-    {
-        Vector3 touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        touchPos.z = -5f;
-        selectCard.LocateCard(touchPos, Quaternion.identity, selectCard.originalPRS.scale);
-    }
-
-    void DetectCardArea()
-    {
-        Vector3 touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        touchPos.z = -5f;
-        RaycastHit2D[] hits = Physics2D.RaycastAll(touchPos, Vector3.forward);
-        int layer = LayerMask.NameToLayer("HandArea");
-        onMyCardArea = Array.Exists(hits, x => x.collider.gameObject.layer == layer);
-    }
-
-    private void Update()
-    {
-        if (isMyCardDrag)
-            CardDrag();
-
-        DetectCardArea();
-    }   
-
-    bool isMyCardDrag;          // 드래그를 위한 플래그 변수
-    public void CardMouseDown()
-    {
-        isMyCardDrag = true;
-    }
-    public void CardMouseUp()
-    {
-        isMyCardDrag = false;
-
-        // 땅에 내려 놓으면 TryUsingCard 로직
-
-        if (!onMyCardArea)
-            TryUsingCard();
-
-    }
-    #endregion
 
 
-    private void TryUsingCard()                 // 코스트를 소모하여 카드 사용효과
-    {
-        if (IsAvailableCard(selectCard))            // 
-        {
-            // 핸드에서 제거
-            usedCards.Add(selectCard.GetCardInfo());
-            myCards.Remove(selectCard);
-            ActivateCard(selectCard);
-            selectCard = null;
-            AlignHandCards();
-        }
-        else            // 카드 소모 실패
-        {
-            AudioManager.Instance.PlaySFX(SFX_TYPE.FAIL);
-            UIManager.Instance.Popup_NotifyWindow_Warn();
-            myCards.ForEach(x => x.GetComponent<Card>().RevertOrder());
-            AlignHandCards();
-        }
-    }
-
-
-
-    private bool IsAvailableCard(Card _Card)               // 해당카드가 사용가능한지 에너지 코스트 판단
+    private bool IsAvailableCard(Card _Card)                // 해당카드가 사용가능한지 에너지 코스트 판단
     {
         return GameManager.Instance.GetEnergy() >= _Card.GetCardCost();
     }
 
-    private void ActivateCard(Card _Card)              // 카드가 사용됨 : 카드 회수 작업, 카드 효과 진행
+    private void ActivateCard(Card _Card)                   // 카드가 사용됨 : 카드 회수 작업, 카드 효과 진행
     {
         // 카드 효과
         /**/
@@ -241,7 +181,7 @@ public class CardManager : Singleton<CardManager>
         GameManager.Instance.ConsumeEnergy(_Card.GetCardCost());
         DiscardCard(_Card);
     }
-    private void DiscardCard(Card _Card)            // 프리팹 회수
+    private void DiscardCard(Card _Card)                    // 프리팹 회수
     {
         StartCoroutine(DiscardCardCor(_Card));
     }
@@ -254,7 +194,7 @@ public class CardManager : Singleton<CardManager>
         _Card.transform.DOKill();
         PoolManager.ReturnToPool(_Card.gameObject);
     }
-    public void ClearHand()            // 손패에 있던 모든 카드 회수.
+    public void ClearHand()                                 // 손패에 있던 모든 카드 회수.
     {
         StartCoroutine(ClearHandCor());
     }
@@ -269,14 +209,32 @@ public class CardManager : Singleton<CardManager>
             DiscardCard(tmpCard);
         }
     }
-    public int GetReadyQueueSize()             // 뽑을카드더미=
+    public int GetReadyQueueSize()                          // 뽑을카드더미=
     {
         if (ReadyQueue == null)
         {
-            Debug.Log("ReadyQueue Null Checking :: ISNULL");
+            DebugOpt.Log("ReadyQueue Null Checking :: ISNULL");
             return -1;
         }
-
         return ReadyQueue.Count;
+    }
+
+    private void TryUsingCard(Card card)                 // 코스트를 소모하여 카드 사용효과
+    {
+        if (IsAvailableCard(card))            // 
+        {
+            // 핸드에서 제거
+            usedCards.Add(card.GetCardInfo());
+            myCards.Remove(card);
+            ActivateCard(card);
+            AlignHandCards();
+        }
+        else            // 카드 소모 실패
+        {
+            AudioManager.Instance.PlaySFX(SFX_TYPE.FAIL);
+            UIManager.Instance.Popup_NotifyWindow_Warn();
+            myCards.ForEach(x => x.GetComponent<Card>().RevertOrder());
+            AlignHandCards();
+        }
     }
 }
