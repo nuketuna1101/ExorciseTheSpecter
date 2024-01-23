@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 /// <summary>
 /// 전체 덱, 손패 핸드, 뽑을 카드, 사용한 카드더미에 대한 전반적인 관리
 /// </summary>
-public class CardManager : Singleton<CardManager>
+public class CardManager_Legacy : Singleton<CardManager>
 {
     [SerializeField]    private CardInfoSO _CardInfoSO;         // 데이터 매니저의 전체 카드 사전
     // 실제 플레이어의 덱

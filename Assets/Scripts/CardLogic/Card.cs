@@ -6,11 +6,15 @@ using UnityEngine.TextCore.Text;
 using TMPro;
 using UnityEngine.UIElements;
 using System;
+using UnityEngine.EventSystems;
+using Unity.Burst.CompilerServices;
 
 /// <summary>
 /// 카드 개별 객체 프리팹에 달려있는 스크립트
 /// </summary>
-public class Card : MonoBehaviour
+public class Card : MonoBehaviour,
+    IPointerUpHandler, IPointerDownHandler,
+    IDragHandler, IEndDragHandler, IDropHandler
 {
     [Header("Card : Data")]
     [SerializeField]
@@ -149,26 +153,22 @@ public class Card : MonoBehaviour
     
     void OnMouseOver()
     {
-        if (isFront)
-            CardManager.Instance.CardMouseOver(this);
+        //if (isFront)            CardManager.Instance.CardMouseOver(this);
     }
 
     void OnMouseExit()
     {
-        if (isFront)
-            CardManager.Instance.CardMouseExit(this);
+        //if (isFront)            CardManager.Instance.CardMouseExit(this);
     }
     
     void OnMouseDown()
     {
-        if (isFront)
-            CardManager.Instance.CardMouseDown();
+        //if (isFront)            CardManager.Instance.CardMouseDown();
     }
 
     void OnMouseUp()
     {
-        if (isFront)
-            CardManager.Instance.CardMouseUp();
+        //if (isFront)            CardManager.Instance.CardMouseUp();
     }
 
 
@@ -186,4 +186,47 @@ public class Card : MonoBehaviour
     {
         return _CardInfo;
     }
+
+    //----------------------------------------------
+    #region 터치이벤트 ipointer 로 다시 변경
+
+    public void OnPointerUp(PointerEventData pointerEventData)
+    {
+        DebugOpt.Log("OnPointerUp on " + this.name + " : " + pointerEventData.position);
+        DebugOpt.DrawRay(pointerEventData.position, transform.forward * 10, Color.blue);
+
+        var touchUpPos = pointerEventData.position;
+        RaycastHit2D hit = Physics2D.Raycast(touchUpPos, transform.forward * 10);
+        DebugOpt.DrawRay(touchUpPos, transform.forward * 10, Color.yellow, 0.3f);
+        if (hit.collider != null)
+        {
+            if (hit.collider.gameObject.CompareTag("HandArea"))
+            {
+                Debug.Log("RayCast Hit! on ");
+            }
+        }
+    }
+    public void OnPointerDown(PointerEventData pointerEventData)
+    {
+        //DebugOpt.Log("OnPointerDown on " + this.name + " : " + pointerEventData.position);
+    }
+
+    public void OnDrag(PointerEventData pointerEventData)
+    {
+        //DebugOpt.Log("OnDrag on " + this.name + " : " + pointerEventData.position);
+        DebugOpt.DrawRay(pointerEventData.position, transform.forward * 10, Color.yellow);
+        var worldPos = Camera.main.ScreenToWorldPoint(pointerEventData.position);
+        worldPos.z = 0.0f;
+        this.transform.position = worldPos;
+    }
+    public void OnEndDrag(PointerEventData pointerEventData)
+    {
+        //DebugOpt.Log("OnEndDrag on " + this.name + " : " + pointerEventData.position);
+    }
+    public void OnDrop(PointerEventData pointerEventData)
+    {
+        //DebugOpt.Log("OnDrop on " + this.name + " : " + pointerEventData.position);
+    }
+
+    #endregion
 }
