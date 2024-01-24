@@ -14,7 +14,7 @@ using Unity.Burst.CompilerServices;
 /// </summary>
 public class Card : MonoBehaviour,
     IPointerUpHandler, IPointerDownHandler,
-    IDragHandler, IEndDragHandler, IDropHandler
+    IDragHandler
 {
     [Header("Card : Data")]
     [SerializeField]
@@ -155,63 +155,20 @@ public class Card : MonoBehaviour,
     /// 
 
     #region 터치이벤트 ipointer 로 구현
-
     public void OnPointerDown(PointerEventData pointerEventData)        // 카드 눌렀을 때 시작.
     {
         if (isFront)
-            CardManager.Instance.CardPointerDown(this);
-
-        if (isSingleTarget)             // 단일 대상 카드의 경우 
-        {
-            UIManager.Instance.Popup_NotifyMsg("Drag To Target", true);
-            BattleManager.Instance.StartBlinkEnemyUnits();
-        }
+            CardManager.Instance.CardPointerDown(this, isSingleTarget);
     }
-
     public void OnPointerUp(PointerEventData pointerEventData)          // 카드를 뗀 이후 handarea인지 위치 판정
     {
-        //DebugOpt.Log("OnPointerUp on " + this.name + " : " + pointerEventData.position);
-        // 2D 레이캐스팅으로 핸드위치인지 판단
-        var touchUpPos = Camera.main.ScreenToWorldPoint(pointerEventData.position);
-        touchUpPos.z = 0.0f;
-        RaycastHit2D hit = Physics2D.Raycast(touchUpPos, transform.forward * 10);
-        bool isOnHandArea = false;          // 판정값으로 넘겨줄 플래그
-        if (hit.collider != null)
-        {
-            if (hit.collider.gameObject.CompareTag("HandArea"))     // HandArea 태그, rigid, collider 달린 위치 판정
-            {
-                Debug.Log("RayCast Hit on " + hit.collider.gameObject.name + " and z: " + hit.collider.transform.position.z);
-                isOnHandArea = true;
-            }
-
-            if (hit.collider.gameObject.CompareTag("EnemyUnit"))     // HandArea 태그, rigid, collider 달린 위치 판정
-            {
-                Debug.Log("RayCast Hit on " + hit.collider.gameObject.name + " and z: " + hit.collider.transform.position.z);
-            }
-        }
-
-        if (isSingleTarget)             // 단일 대상 카드의 경우 
-        {
-            UIManager.Instance.Popup_NotifyMsg("", false);
-            BattleManager.Instance.StopBlinkEnemyUnits();
-        }
-        CardManager.Instance.CardPointerUp(this, isOnHandArea);
+        if (isFront)
+            CardManager.Instance.CardPointerUp(this, isSingleTarget, pointerEventData);
     }
     public void OnDrag(PointerEventData pointerEventData)               // 카드를 눌러 드래그 액션
     {
-        DebugOpt.DrawRay(pointerEventData.position, transform.forward * 10, Color.yellow);
-        var worldPos = Camera.main.ScreenToWorldPoint(pointerEventData.position);
-        worldPos.z = 0.0f;
-        this.transform.position = worldPos;
-    }
-
-    public void OnEndDrag(PointerEventData pointerEventData)
-    {
-        //DebugOpt.Log("OnEndDrag on " + this.name + " : " + pointerEventData.position);
-    }
-    public void OnDrop(PointerEventData pointerEventData)
-    {
-        //DebugOpt.Log("OnDrop on " + this.name + " : " + pointerEventData.position);
+        if (isFront)
+            CardManager.Instance.CardOnDrag(this, pointerEventData);
     }
     #endregion
 

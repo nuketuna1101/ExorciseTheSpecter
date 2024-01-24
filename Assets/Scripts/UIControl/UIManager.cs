@@ -106,7 +106,7 @@ public class UIManager : Singleton<UIManager>
     }
     private IEnumerator Popup_NotifyTurn_COR()
     {
-        //AudioManager.Instance.PlaySFX();      // sfx는 임시로
+        AudioManager.Instance.PlaySFX(SFX_TYPE.TurnChange);      // sfx는 임시로
         GameObject Popup_NotifyTurn = MyUtils.FindChildObj(PopUpUI, "Popup_NotifyTurn");
         Popup_NotifyTurn.SetActive(true);
         yield return new WaitForSeconds(1.0f);

@@ -15,9 +15,9 @@ public class BattleManager : Singleton<BattleManager>
     [SerializeField] private GameObject EnemyPrefab;
     [Header("Prefabs SpawnPoint")]     // 전투객체 생성해주기 위한 프리팹 저장
     private readonly Vector3 spawnPoint_player = new Vector3(-9f, 1f, 0f);
-    private readonly Vector3 spawnPoint_enemy1 = new Vector3(0f, 1f, 0f);
-    private readonly Vector3 spawnPoint_enemy2 = new Vector3(4.5f, 1f, 0f);
-    private readonly Vector3 spawnPoint_enemy3 = new Vector3(9f, 1f, 0f);
+    private readonly Vector3 spawnPoint_enemy1 = new Vector3(0f, 1f, -5f);
+    private readonly Vector3 spawnPoint_enemy2 = new Vector3(4.5f, 1f, -5f);
+    private readonly Vector3 spawnPoint_enemy3 = new Vector3(9f, 1f, -5f);
     [Header("BattleObjects Data")]
     private Player _Player;
     private List<Enemy> _Enemies;

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Diagnostics;
+using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 /// <summary>
 /// 전체 덱, 손패 핸드, 뽑을 카드, 사용한 카드더미에 대한 전반적인 관리
@@ -133,24 +134,58 @@ public class CardManager : Singleton<CardManager>
 
     //--------------------------------------------------
     #region 카드 조작 관련
-    public void CardPointerDown(Card card)                      // 카드 누를시 : 카드 내용 볼 수 있도록 정렬, 확대, 맨앞 랜더링
+    public void CardPointerDown(Card card, bool isSingleTarget)                      // 카드 누를시 : 카드 내용 볼 수 있도록 정렬, 확대, 맨앞 랜더링
     {
         EnlargeCard(card);
+        if (isSingleTarget)             // 단일 대상 카드의 경우 
+        {
+            UIManager.Instance.Popup_NotifyMsg("Drag To Target", true);
+            BattleManager.Instance.StartBlinkEnemyUnits();
+        }
     }
 
-    public void CardPointerUp(Card card, bool isOnHandArea)     // 카드 떼어내면, 어디에 있느냐에 따라.
+    public void CardPointerUp(Card card, bool isSingleTarget, PointerEventData pointerEventData)   // 카드 떼어내면, 어디에 있느냐에 따라.
     {
-        if (isOnHandArea)
+        var touchUpPos = Camera.main.ScreenToWorldPoint(pointerEventData.position);
+        touchUpPos.z = 0.0f;
+        RaycastHit2D hit = Physics2D.Raycast(touchUpPos, transform.forward * 10);
+        if (isSingleTarget)             // 단일 대상 카드의 경우 
         {
-            RevertEnlargeCard(card);        // 다시 돌아가기
+            UIManager.Instance.Popup_NotifyMsg("", false);
+            BattleManager.Instance.StopBlinkEnemyUnits();
+            if (hit.collider != null && hit.collider.gameObject.CompareTag("EnemyUnit"))
+            {
+                TryUsingCard(card);
+            }
+            else
+            {
+                RevertEnlargeCard(card);
+            }
         }
         else
         {
-            TryUsingCard(card);             // 사용 시도
+            if (hit.collider != null && hit.collider.gameObject.CompareTag("HandArea"))     // HandArea 태그, rigid, collider 달린 위치 판정
+            {
+                RevertEnlargeCard(card);
+            }
+            else
+            {
+                TryUsingCard(card);
+            }
         }
     }
+
+    public void CardOnDrag(Card card, PointerEventData pointerEventData)            // 카드 드래그 시 손에 위치
+    {
+        DebugOpt.DrawRay(pointerEventData.position, transform.forward * 10, Color.yellow);
+        var worldPos = Camera.main.ScreenToWorldPoint(pointerEventData.position);
+        worldPos.z = 0.0f;
+        card.transform.position = worldPos;
+    }
+
     #endregion
 
+    #region 카드 확대 축소 원래 위치 등 transform 관련 조정
     private const float EnlargeCoeff = 1.5f;            // 확대 배수 조정값
     private void EnlargeCard(Card card)                 // 카드 잘 보기 위해 정렬, 확대, 맨 앞 랜더링
     {
@@ -163,6 +198,7 @@ public class CardManager : Singleton<CardManager>
         card.LocateCard(card.originalPRS.pos, card.originalPRS.rot, card.originalPRS.scale);
         card.GetComponent<Card>().RevertOrder();
     }
+    #endregion
 
 
     private bool IsAvailableCard(Card card)                // 해당카드가 사용가능한지 에너지 코스트 판단

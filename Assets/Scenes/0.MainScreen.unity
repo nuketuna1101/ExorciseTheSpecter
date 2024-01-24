@@ -2154,6 +2154,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 181b327e12c7a70409d8eadd7dd7fb3e, type: 3}
   sfxClip_CardDraw:
   - {fileID: 8300000, guid: 6033c7ef16a403049a9fa3b20514b2d8, type: 3}
+  sfxClip_TurnChange:
+  - {fileID: 8300000, guid: 37a075a3bdbcc8d4aade8af4ebd72599, type: 3}
 --- !u!1001 &1705247772
 PrefabInstance:
   m_ObjectHideFlags: 0
