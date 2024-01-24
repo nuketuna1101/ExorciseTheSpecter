@@ -15,7 +15,21 @@ public class CardInfo
     public int CardCost;
     public string CardName;
     public string CardDescription;
+    public List<CardEffect> CardEffectList;
 }
+
+[Serializable]
+public class CardEffect
+{
+    public int TypeCode;
+    public int TargetType;
+    public int EffectType;
+    public int EffectAmount;
+    public int EffectRepeat;
+}
+
+
+
 
 [CreateAssetMenu(fileName = "CardInfoSO", menuName = "Scriptable Object/CardInfoSO")]
 public class CardInfoSO : ScriptableObject

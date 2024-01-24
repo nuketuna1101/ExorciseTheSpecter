@@ -106,6 +106,29 @@ public class DataManager : Singleton<DataManager>
         TotalCardNumber = CSVReader.GetLinesLength(file) - 2;
         for (int i = 0; i < TotalCardNumber; i++)
         {
+            List <CardEffect> _CardEffectList = new List<CardEffect>();
+            int TypeCode1 = CSVReader.GetIntValue(dataList, i, "TypeCode1");
+            _CardEffectList.Add(new CardEffect
+            {
+                TypeCode = TypeCode1,
+                TargetType = CSVReader.GetIntValue(dataList, i, "TargetType1"),
+                EffectType = CSVReader.GetIntValue(dataList, i, "EffectType1"),
+                EffectAmount = CSVReader.GetIntValue(dataList, i, "EffectAmount1"),
+                EffectRepeat = CSVReader.GetIntValue(dataList, i, "EffectRepeat1"),
+            });
+            int? TypeCode2 = CSVReader.GetIntValue(dataList, i, "TypeCode2");
+            if (TypeCode2 != -1)
+            {
+                _CardEffectList.Add(new CardEffect
+                {
+                    TypeCode = (int)TypeCode2,
+                    TargetType = CSVReader.GetIntValue(dataList, i, "TargetType2"),
+                    EffectType = CSVReader.GetIntValue(dataList, i, "EffectType2"),
+                    EffectAmount = CSVReader.GetIntValue(dataList, i, "EffectAmount2"),
+                    EffectRepeat = CSVReader.GetIntValue(dataList, i, "EffectRepeat2"),
+                });
+            }
+
             _CardInfoSO.CardInfoList.Add(new CardInfo
             {
                 Class = CSVReader.GetIntValue(dataList, i, "Class"),
@@ -114,8 +137,8 @@ public class DataManager : Singleton<DataManager>
                 CardCost = CSVReader.GetIntValue(dataList, i, "CardCost"),
                 CardName = CSVReader.GetString(dataList, i, "CardName"),
                 CardDescription = CSVReader.GetString(dataList, i, "CardContent"),
-            }
-            );
+                CardEffectList = _CardEffectList,
+            });
         }
     }
     #endregion
