@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.EventSystems.EventTrigger;
 /// <summary>
 /// BattleScene 내에 Player와 Enemy란 BattleObj 간 전투 상호작용 및 판
 /// </summary>
@@ -21,6 +22,10 @@ public class BattleManager : Singleton<BattleManager>
     private Player _Player;
     private List<Enemy> _Enemies;
 
+    private GameObject PlayerGO;
+    private List<GameObject> EnemyGOs;
+
+
     [SerializeField] private readonly UnitInfoSO PlayerUnitInfoSO_Initial;                // 플레이어 데이터 초기화값
     [SerializeField] private UnitInfoSO PlayerUnitInfoSO_Current;                // 플레이어 데이터 계속 쓰는 값
 
@@ -35,6 +40,7 @@ public class BattleManager : Singleton<BattleManager>
     public static Action<bool> OnDrawCard;
 
     private readonly WaitForSeconds wfs1 = new WaitForSeconds(1.0f);
+    private readonly WaitForSeconds wfs25 = new WaitForSeconds(0.25f);
 
 
     protected void Awake()                          // 배틀 씬 로딩 시 이벤트 달아주기 위한 델리게이트 추가
@@ -81,11 +87,11 @@ public class BattleManager : Singleton<BattleManager>
     #region 각종 세팅
     public void SetPlayer()                 // 플레이어  설정
     {
-        var newPlayer = Instantiate(PlayerPrefab);                          // 풀링으로 나중에 교체
-        newPlayer.transform.position = spawnPoint_player;
+        PlayerGO = Instantiate(PlayerPrefab);                          // 풀링으로 나중에 교체
+        PlayerGO.transform.position = spawnPoint_player;
         _Player = new Player();
         _Player.InitProfile(PlayerUnitInfoSO_Current);
-        newPlayer.GetComponent<PlayerUnit>().InitUnit(_Player);
+        PlayerGO.GetComponent<PlayerUnit>().InitUnit(_Player);
     }
     public void SetEnemy()              // 적 설정
     {
@@ -93,6 +99,8 @@ public class BattleManager : Singleton<BattleManager>
         enemyObj1.transform.position = spawnPoint_enemy1;
         var enemy1 = new Enemy();
         enemyObj1.GetComponent<EnemyUnit>().InitUnit(enemy1);
+        EnemyGOs = new List<GameObject>();
+        EnemyGOs.Add(enemyObj1);
     }
     #endregion
 
@@ -107,5 +115,41 @@ public class BattleManager : Singleton<BattleManager>
         isPlayerTurn = !isPlayerTurn;
     }
     //-----------------------------------------
-
+    /// <summary>
+    /// 단일 대상 적용 카드 사용할 때 대상 적용하도록 유도
+    /// </summary>
+    private bool isBlinking = false;
+    public void StartBlinkEnemyUnits()
+    {
+        DebugOpt.Log("StartBlinkEnemyUnits called");
+        isBlinking = true;
+        StartCoroutine(BlinkEnemyUnitsCor());
+    }
+    public void StopBlinkEnemyUnits()
+    {
+        DebugOpt.Log("StopBlinkEnemyUnits called");
+        isBlinking = false;
+        StopCoroutine(BlinkEnemyUnitsCor());
+        for (int i = 0; i < EnemyGOs.Count; i++)
+        {
+            EnemyGOs[i].transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
+        }
+    }
+    private IEnumerator BlinkEnemyUnitsCor()
+    {
+        while (isBlinking)
+        {
+            //DebugOpt.Log("BlinkEnemyUnitsCor called");
+            yield return wfs25;
+            for (int i = 0; i < EnemyGOs.Count; i++)
+            {
+                EnemyGOs[i].transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
+            }
+            yield return wfs25;
+            for (int i = 0; i < EnemyGOs.Count; i++)
+            {
+                EnemyGOs[i].transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
+            }
+        }
+    }
 }

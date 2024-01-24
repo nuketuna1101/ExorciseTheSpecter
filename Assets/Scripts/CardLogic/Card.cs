@@ -20,6 +20,7 @@ public class Card : MonoBehaviour,
     [SerializeField]
     private CardInfo _CardInfo; // 담고 있는 데이터
     public bool isFront;       // 앞뒷면 플래그
+    private bool isSingleTarget;
     public PRS originalPRS;
 
     [Header("CardPrefab Setup Sprite and TMP")]
@@ -52,6 +53,7 @@ public class Card : MonoBehaviour,
     {
         this._CardInfo = _CardInfo;
         this.isFront = isFront;
+        this.isSingleTarget = (_CardInfo.CardEffectList[0].TargetType == 1);
 
         if (this.isFront)
         {
@@ -158,6 +160,12 @@ public class Card : MonoBehaviour,
     {
         if (isFront)
             CardManager.Instance.CardPointerDown(this);
+
+        if (isSingleTarget)             // 단일 대상 카드의 경우 
+        {
+            UIManager.Instance.Popup_NotifyMsg("Drag To Target", true);
+            BattleManager.Instance.StartBlinkEnemyUnits();
+        }
     }
 
     public void OnPointerUp(PointerEventData pointerEventData)          // 카드를 뗀 이후 handarea인지 위치 판정
@@ -175,17 +183,28 @@ public class Card : MonoBehaviour,
                 Debug.Log("RayCast Hit on " + hit.collider.gameObject.name + " and z: " + hit.collider.transform.position.z);
                 isOnHandArea = true;
             }
+
+            if (hit.collider.gameObject.CompareTag("EnemyUnit"))     // HandArea 태그, rigid, collider 달린 위치 판정
+            {
+                Debug.Log("RayCast Hit on " + hit.collider.gameObject.name + " and z: " + hit.collider.transform.position.z);
+            }
+        }
+
+        if (isSingleTarget)             // 단일 대상 카드의 경우 
+        {
+            UIManager.Instance.Popup_NotifyMsg("", false);
+            BattleManager.Instance.StopBlinkEnemyUnits();
         }
         CardManager.Instance.CardPointerUp(this, isOnHandArea);
     }
     public void OnDrag(PointerEventData pointerEventData)               // 카드를 눌러 드래그 액션
     {
-        //DebugOpt.Log("OnDrag on " + this.name + " : " + pointerEventData.position);
         DebugOpt.DrawRay(pointerEventData.position, transform.forward * 10, Color.yellow);
         var worldPos = Camera.main.ScreenToWorldPoint(pointerEventData.position);
         worldPos.z = 0.0f;
         this.transform.position = worldPos;
     }
+
     public void OnEndDrag(PointerEventData pointerEventData)
     {
         //DebugOpt.Log("OnEndDrag on " + this.name + " : " + pointerEventData.position);
@@ -194,7 +213,6 @@ public class Card : MonoBehaviour,
     {
         //DebugOpt.Log("OnDrop on " + this.name + " : " + pointerEventData.position);
     }
-
     #endregion
 
     //--------------------------------------------------------------------------

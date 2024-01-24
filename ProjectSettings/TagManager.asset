@@ -8,6 +8,7 @@ TagManager:
   - PopUpUI
   - Canvas
   - HandArea
+  - EnemyUnit
   layers:
   - Default
   - TransparentFX

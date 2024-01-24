@@ -16,7 +16,6 @@ public class EnemyUnit : MonoBehaviour
     [SerializeField] private TMP_Text text_Intelligence;
     [SerializeField] private TMP_Text text_Name;
 
-
     //
     public void InitUnit(Enemy _Enemy)           // 전투 객체 데이터 집어넣기
     {

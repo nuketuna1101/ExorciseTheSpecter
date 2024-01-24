@@ -99,24 +99,6 @@ public class UIManager : Singleton<UIManager>
             Update_Scene4_Energy();
         }
     }
-    public void Popup_NotifyWindow_Warn()           // 에너지 부족 알림창 띄우기
-    {
-        StartCoroutine(Popup_NotifyWindow_COR());
-    }
-    private IEnumerator Popup_NotifyWindow_COR()            // 
-    {
-        int loop = 3;
-        GameObject Popup_NotifyWindow = MyUtils.FindChildObj(PopUpUI, "Popup_NotifyWindow");
-        GameObject text_MsgString = MyUtils.FindChildObj(Popup_NotifyWindow, "text_MsgString");
-        text_MsgString.GetComponent<TMP_Text>().text = "Not enough energy";
-        while (loop-- > 0)
-        {
-            yield return wfs10;
-            Popup_NotifyWindow.SetActive(true);
-            yield return wfs10;
-            Popup_NotifyWindow.SetActive(false);
-        }
-    }
 
     public void Popup_NotifyTurn()              // 턴 시작 알림창 띄우기
     {
@@ -124,11 +106,38 @@ public class UIManager : Singleton<UIManager>
     }
     private IEnumerator Popup_NotifyTurn_COR()
     {
-        GameObject Popup_NotifyTurn = MyUtils.FindChildObj(PopUpUI, "Popup_NotifyTurn");
         //AudioManager.Instance.PlaySFX();      // sfx는 임시로
+        GameObject Popup_NotifyTurn = MyUtils.FindChildObj(PopUpUI, "Popup_NotifyTurn");
         Popup_NotifyTurn.SetActive(true);
         yield return new WaitForSeconds(1.0f);
         Popup_NotifyTurn.SetActive(false);
+    }
+
+    public void Popup_NotifyMsg(string msg, bool isActive)           // 알림메시지 onoff로 보여주기
+    {
+        GameObject Popup_NotifyMsg = MyUtils.FindChildObj(PopUpUI, "Popup_NotifyMsg");
+        GameObject text_MsgString = MyUtils.FindChildObj(Popup_NotifyMsg, "text_MsgString");
+        text_MsgString.GetComponent<TMP_Text>().text = msg;
+        Popup_NotifyMsg.SetActive(isActive);
+    }
+
+    public void Popup_WarnMsg(string msg)           // 경고 알림창 깜빡이기
+    {
+        StartCoroutine(Popup_WarnMsg_COR(msg));
+    }
+    private IEnumerator Popup_WarnMsg_COR(string msg)            // 
+    {
+        int loop = 3;
+        GameObject Popup_WarnMsg = MyUtils.FindChildObj(PopUpUI, "Popup_WarnMsg");
+        GameObject text_MsgString = MyUtils.FindChildObj(Popup_WarnMsg, "text_MsgString");
+        text_MsgString.GetComponent<TMP_Text>().text = msg;
+        while (loop-- > 0)
+        {
+            yield return wfs10;
+            Popup_WarnMsg.SetActive(true);
+            yield return wfs10;
+            Popup_WarnMsg.SetActive(false);
+        }
     }
 
     #endregion

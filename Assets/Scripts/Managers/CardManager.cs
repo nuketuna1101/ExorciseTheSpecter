@@ -232,9 +232,34 @@ public class CardManager : Singleton<CardManager>
         else            // 카드 소모 실패
         {
             AudioManager.Instance.PlaySFX(SFX_TYPE.FAIL);
-            UIManager.Instance.Popup_NotifyWindow_Warn();
+            UIManager.Instance.Popup_WarnMsg("Not enough energy");
             myCards.ForEach(x => x.GetComponent<Card>().RevertOrder());
             AlignHandCards();
         }
     }
+
+
+
+
+
+
+
+    #region 카드 사용 효과 관련
+
+    private void CardEfx(CardInfo cardInfo)             // 카드 효과 적용
+    {
+        foreach (var cardEffect in cardInfo.CardEffectList)
+        {
+
+        }
+    }
+
+
+    private void SelectSingleTargetFlow()
+    {
+
+    }
+
+    #endregion
+
 }

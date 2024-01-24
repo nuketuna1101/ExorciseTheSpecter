@@ -26,6 +26,25 @@ public class CardEffect
     public int EffectType;
     public int EffectAmount;
     public int EffectRepeat;
+
+
+    public void Activate()
+    {
+        switch (TypeCode)
+        {
+            case 1:
+
+
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
+    }
+
 }
 
 
