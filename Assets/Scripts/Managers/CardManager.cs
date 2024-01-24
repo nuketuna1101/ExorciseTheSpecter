@@ -165,12 +165,12 @@ public class CardManager : Singleton<CardManager>
     }
 
 
-    private bool IsAvailableCard(Card _Card)                // 해당카드가 사용가능한지 에너지 코스트 판단
+    private bool IsAvailableCard(Card card)                // 해당카드가 사용가능한지 에너지 코스트 판단
     {
-        return GameManager.Instance.GetEnergy() >= _Card.GetCardCost();
+        return GameManager.Instance.GetEnergy() >= card.GetCardCost();
     }
 
-    private void ActivateCard(Card _Card)                   // 카드가 사용됨 : 카드 회수 작업, 카드 효과 진행
+    private void ActivateCard(Card card)                   // 카드가 사용됨 : 카드 회수 작업, 카드 효과 진행
     {
         // 카드 효과
         /**/
@@ -178,21 +178,21 @@ public class CardManager : Singleton<CardManager>
         //_Card.transform.DOKill();
         //GameManager.Instance.ConsumeEnergy(_Card.GetCardCost());
         //PoolManager.ReturnToPool(_Card.gameObject);
-        GameManager.Instance.ConsumeEnergy(_Card.GetCardCost());
-        DiscardCard(_Card);
+        GameManager.Instance.ConsumeEnergy(card.GetCardCost());
+        DiscardCard(card);
     }
-    private void DiscardCard(Card _Card)                    // 프리팹 회수
+    private void DiscardCard(Card card)                    // 프리팹 회수
     {
-        StartCoroutine(DiscardCardCor(_Card));
+        StartCoroutine(DiscardCardCor(card));
     }
 
-    private IEnumerator DiscardCardCor(Card _Card)
+    private IEnumerator DiscardCardCor(Card card)
     {
         AudioManager.Instance.PlaySFX(SFX_TYPE.CARD_DRAW);
-        _Card.transform.DOMove(cardRecallPoint.position, 0.25f);
+        card.transform.DOMove(cardRecallPoint.position, 0.25f);
         yield return wfs25;
-        _Card.transform.DOKill();
-        PoolManager.ReturnToPool(_Card.gameObject);
+        card.transform.DOKill();
+        PoolManager.ReturnToPool(card.gameObject);
     }
     public void ClearHand()                                 // 손패에 있던 모든 카드 회수.
     {

@@ -162,7 +162,7 @@ public class Card : MonoBehaviour,
 
     public void OnPointerUp(PointerEventData pointerEventData)          // 카드를 뗀 이후 handarea인지 위치 판정
     {
-        DebugOpt.Log("OnPointerUp on " + this.name + " : " + pointerEventData.position);
+        //DebugOpt.Log("OnPointerUp on " + this.name + " : " + pointerEventData.position);
         // 2D 레이캐스팅으로 핸드위치인지 판단
         var touchUpPos = Camera.main.ScreenToWorldPoint(pointerEventData.position);
         touchUpPos.z = 0.0f;
@@ -205,10 +205,10 @@ public class Card : MonoBehaviour,
     {
         return this._CardInfo.CardCost;
     }
-    #endregion
 
     public CardInfo GetCardInfo()
     {
         return _CardInfo;
     }
+    #endregion
 }
