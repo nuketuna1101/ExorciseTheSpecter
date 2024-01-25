@@ -11,6 +11,7 @@ public class PlayerGameDataSO : ScriptableObject
     public int gold;
     public List<int> blessings;
     public int curse;
+    public UnitInfo unitInfo;
 
     [Header("Map and Chamber Data")]
     public int currentStageNumber;

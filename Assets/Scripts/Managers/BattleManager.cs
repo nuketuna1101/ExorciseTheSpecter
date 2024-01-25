@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,16 +20,19 @@ public class BattleManager : Singleton<BattleManager>
     private readonly Vector3 spawnPoint_enemy1 = new Vector3(0f, 1f, -5f);
     private readonly Vector3 spawnPoint_enemy2 = new Vector3(4.5f, 1f, -5f);
     private readonly Vector3 spawnPoint_enemy3 = new Vector3(9f, 1f, -5f);
-    [Header("BattleObjects Data")]
-    private Player _Player;
-    private List<Enemy> _Enemies;
-
-    private GameObject PlayerGO;
-    private List<GameObject> EnemyGOs;
 
 
-    [SerializeField] private readonly UnitInfoSO PlayerUnitInfoSO_Initial;                // 플레이어 데이터 초기화값
-    [SerializeField] private UnitInfoSO PlayerUnitInfoSO_Current;                // 플레이어 데이터 계속 쓰는 값
+    //private GameObject PlayerGO;
+    //private List<GameObject> EnemyGOs;
+
+    private PlayerUnit playerUnit;
+    private List<EnemyUnit> enemyUnits;
+
+
+
+
+    [SerializeField] private readonly UnitInfo PlayerUnitInfoSO_Initial;                // 플레이어 데이터 초기화값
+    [SerializeField] private UnitInfo PlayerUnitInfoSO_Current;                // 플레이어 데이터 계속 쓰는 값
 
     [Header("Turn Variables")]    // 턴 관련 변수
     private bool isPlayerTurn;
@@ -87,20 +92,39 @@ public class BattleManager : Singleton<BattleManager>
     #region 각종 세팅
     public void SetPlayer()                 // 플레이어  설정
     {
+        /*
         PlayerGO = Instantiate(PlayerPrefab);                          // 풀링으로 나중에 교체
         PlayerGO.transform.position = spawnPoint_player;
         _Player = new Player();
         _Player.InitProfile(PlayerUnitInfoSO_Current);
         PlayerGO.GetComponent<PlayerUnit>().InitUnit(_Player);
+        */
+        var PlayerGO = Instantiate(PlayerPrefab);                          // 풀링으로 나중에 교체
+        PlayerGO.transform.position = spawnPoint_player;
+        PlayerUnitInfoSO_Current = DataManager.Instance._PlayerGameDataSO.unitInfo;
+        playerUnit = PlayerGO.GetComponent<PlayerUnit>();
+        playerUnit.InitPlayerUnit(DataManager.Instance._PlayerGameDataSO);
+        playerUnit.InitUnitProperty();
+        playerUnit.RefreshTexts();
     }
     public void SetEnemy()              // 적 설정
     {
+        /*
         var enemyObj1 = Instantiate(EnemyPrefab);                           // 풀링으로 나중에 교체
         enemyObj1.transform.position = spawnPoint_enemy1;
         var enemy1 = new Enemy();
         enemyObj1.GetComponent<EnemyUnit>().InitUnit(enemy1);
         EnemyGOs = new List<GameObject>();
         EnemyGOs.Add(enemyObj1);
+        */
+        var enemyGO1 = Instantiate(EnemyPrefab);
+        enemyGO1.transform.position = spawnPoint_enemy1;
+        //
+        enemyUnits = new List<EnemyUnit>();
+        enemyUnits.Add(enemyGO1.GetComponent<EnemyUnit>());
+        enemyUnits[0].InitEnemyUnit(DataManager.Instance.enemyWikiSO.EnemyWikiList[0]);
+        enemyUnits[0].InitUnitProperty();
+        enemyUnits[0].RefreshTexts();
     }
     #endregion
 
@@ -130,9 +154,9 @@ public class BattleManager : Singleton<BattleManager>
         DebugOpt.Log("StopBlinkEnemyUnits called");
         isBlinking = false;
         StopCoroutine(BlinkEnemyUnitsCor());
-        for (int i = 0; i < EnemyGOs.Count; i++)
+        for (int i = 0; i < enemyUnits.Count; i++)
         {
-            EnemyGOs[i].transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
+            enemyUnits[i].transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
         }
     }
     private IEnumerator BlinkEnemyUnitsCor()
@@ -141,15 +165,120 @@ public class BattleManager : Singleton<BattleManager>
         {
             //DebugOpt.Log("BlinkEnemyUnitsCor called");
             yield return wfs25;
-            for (int i = 0; i < EnemyGOs.Count; i++)
+            for (int i = 0; i < enemyUnits.Count; i++)
             {
-                EnemyGOs[i].transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
+                enemyUnits[i].transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
             }
             yield return wfs25;
-            for (int i = 0; i < EnemyGOs.Count; i++)
+            for (int i = 0; i < enemyUnits.Count; i++)
             {
-                EnemyGOs[i].transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
+                enemyUnits[i].transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
             }
         }
     }
+
+
+
+
+
+
+    //------------------------------
+    #region BattleUnit 메소드 다 여길 ㅗ다시 구현
+
+    public void Attack(Unit unit, Unit reactorUnit, DamageType _DamageType, int _DamageValue)
+    {
+        DebugOpt.Log("method Attack called from  " + this);
+        int CalculatedDamageValue = _DamageValue;
+        if (_DamageType == DamageType.Physical)
+        {
+            // 힘만큼 추가 데미지, 상태이상'Exhausted' 시 데미지 경감
+            CalculatedDamageValue += unit.strength;
+
+        }
+        else if (_DamageType == DamageType.Magical)
+        {
+            // 지능만큼 추가 데미지, 상태이상'Dizzy' 시 데미지 경감
+            CalculatedDamageValue += unit.intelligence;
+        }
+        BeAttacked(reactorUnit, _DamageType, CalculatedDamageValue);
+    }
+    private void BeAttacked(Unit unit, DamageType _DamageType, int CalculatedDamageValue)
+    {
+        // 계산된 데미지만큼 피격
+        DebugOpt.Log("method BeAttacked called from  " + this);
+        switch (_DamageType)
+        {
+            case DamageType.Physical:
+                break;
+            case DamageType.Magical:
+                switch (unit._SpellAdaptability)
+                {
+                    case SpellAdaptability.None:
+                        break;
+                    case SpellAdaptability.Resist:
+                        CalculatedDamageValue -= (CalculatedDamageValue / 4);
+                        break;
+                    case SpellAdaptability.Immune:
+                        CalculatedDamageValue = 0;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case DamageType.TrueDamage:
+                break;
+        }
+
+        unit.curHP -= CalculatedDamageValue;
+
+
+        // 최종 체력 0 이하면 사망처리
+    }
+    public void GetArmorReduced(Unit unit, int value)
+    {
+        // 방어도 깎임 적용
+        DebugOpt.Log("method GetArmorReduced called from  " + this);
+        unit.Armor = (unit.Armor >= value ? unit.Armor - value : 0);
+    }
+    public void GiveStatusEffect(Unit unit, Unit reactorUnit, StatusEffect _StatusEffect)
+    {
+        // 상대에게 상태 이상 효과를 지속 턴만큼 부여
+        GetStatusEffect(reactorUnit, _StatusEffect);
+    }
+    private void GetStatusEffect(Unit unit, StatusEffect _StatusEffect)
+    {
+        // 상태이상 효과 적용
+        // 주의: 수치나 적용에 대한 갱신일뿐 실제 효과 적용은 나중에
+        unit._StatusEffectArray.AddValue(_StatusEffect);
+    }
+    public void GetEffectWhenTurnStarts()
+    {
+        // 턴 시작 시 받는 효과 발동
+        // 효과 큐에 넣어서 실행
+
+
+
+
+    }
+    public void GetEffectWhenTurnEnds()
+    {
+        // 턴 종료 시 받는 효과 발동
+
+        // 출혈, 중독은 턴 종료 시 발동됨
+    }
+
+
+
+    #endregion
+
+
+
+
+
+
+
+
+
+
+
 }

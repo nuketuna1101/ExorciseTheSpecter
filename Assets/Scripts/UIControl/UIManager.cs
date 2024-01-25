@@ -47,13 +47,13 @@ public class UIManager : Singleton<UIManager>
         text_Energy,
     }
 
-
-
+   
     protected new void Awake()          // 씬에 따라 바인딩 달라야하므로 이벤트 붙이기
     {
         base.Awake();
         SceneManager.sceneLoaded += EverySceneEvent;
     }
+    
 
     private void EverySceneEvent(Scene scene, LoadSceneMode mode)
     {
@@ -71,7 +71,7 @@ public class UIManager : Singleton<UIManager>
                 break;
             case "4.BattleScene":
                 Bind_Scene4();
-                StartCoroutine(TEMP_Update_Scene4());
+                //StartCoroutine(TEMP_Update_Scene4());                 //MissingReferenceException: The object of type 'UIManager' has been destroyed but you are still trying to access it.
                 break;
         }
     }
@@ -90,6 +90,8 @@ public class UIManager : Singleton<UIManager>
     }
     private IEnumerator TEMP_Update_Scene4()            // 4번째 씬에 대한 UI 업데이트 코루틴.
     {
+        DebugOpt.Log("코루틴은 실행이되는군" + this.name);
+
         while (true)
         {
             if (SceneManager.GetActiveScene().name != "4.BattleScene")

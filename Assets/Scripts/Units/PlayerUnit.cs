@@ -3,35 +3,23 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PlayerUnit : MonoBehaviour
+public class PlayerUnit : Unit
 {
-    [SerializeField]
-    private Player _Player;
-
-    [Header("PlayerUnitPrefab : texts")]
-    [SerializeField] private TMP_Text text_HP;
-    [SerializeField] private TMP_Text text_Armor;
-    [SerializeField] private TMP_Text text_SpellAdapt;
-    [SerializeField] private TMP_Text text_Strength;
-    [SerializeField] private TMP_Text text_Intelligence;
+    private PlayerGameDataSO playerGameDataSO;
+    [Header("Prefab texts control + Additional")]
     [SerializeField] private TMP_Text text_Composure;
-    [SerializeField] private TMP_Text text_Energy;
+    public int composure;
 
     #region 정보 초기화, 텍스트 랜더링
-    public void InitUnit(Player _Player)           // 전투 객체 데이터 집어넣기
+    public void InitPlayerUnit(PlayerGameDataSO playerGameDataSO)           // 초기화
     {
-        this._Player = _Player;
-        RefreshTexts();
+        this.playerGameDataSO = playerGameDataSO;
+        unitInfo = playerGameDataSO.unitInfo;
     }
-    public void RefreshTexts()                           // 유닛 프리팹 텍스트 업데이트
+    public override void RefreshTexts()                           // 유닛 프리팹 텍스트 업데이트
     {
-        text_HP.text = _Player.curHP + "/" + _Player.maxHp;
-        text_Armor.text = _Player.Armor.ToString();
-        text_SpellAdapt.text = _Player._SpellAdaptability.ToString();
-        text_Strength.text = _Player.strength.ToString();
-        text_Intelligence.text = _Player.intelligence.ToString();
-        //text_Composure.text = _Player.composure.ToString();
-        //text_Energy.text = _Player.energy.ToString();
+        base.RefreshTexts();
+        text_Composure.text = this.composure.ToString();
     }
     #endregion
 

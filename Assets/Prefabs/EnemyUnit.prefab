@@ -559,8 +559,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1937426919812543519}
-  - component: {fileID: 3116791791684872725}
   - component: {fileID: 1793509519615499757}
+  - component: {fileID: 9007197246937734631}
   m_Layer: 0
   m_Name: EnemyUnit
   m_TagString: EnemyUnit
@@ -586,24 +586,6 @@ Transform:
   - {fileID: 4504658357095854124}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3116791791684872725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4468290134022205432}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e88455548790e74785341d57f9b7498, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text_HP: {fileID: 6449942779878601960}
-  text_Armor: {fileID: 7584104058170508881}
-  text_SpellAdapt: {fileID: 3983799789680498944}
-  text_Strength: {fileID: 6093139998764493577}
-  text_Intelligence: {fileID: 2956142350112204827}
-  text_Name: {fileID: 3425707951654763292}
 --- !u!61 &1793509519615499757
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -649,6 +631,36 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.606716, y: 2.7688422}
   m_EdgeRadius: 0
+--- !u!114 &9007197246937734631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4468290134022205432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9a42a579310ec5409bc08c6f8524e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitInfo:
+    HP: 0
+    Armor: 0
+    _SpellAdaptability: 0
+    strength: 0
+    intelligence: 0
+  maxHP: 0
+  curHP: 0
+  Armor: 0
+  _SpellAdaptability: 0
+  strength: 0
+  intelligence: 0
+  text_HP: {fileID: 6449942779878601960}
+  text_Armor: {fileID: 7584104058170508881}
+  text_SpellAdapt: {fileID: 3983799789680498944}
+  text_Strength: {fileID: 6093139998764493577}
+  text_Intelligence: {fileID: 2956142350112204827}
+  text_Name: {fileID: 3425707951654763292}
 --- !u!1 &4833720477726763069
 GameObject:
   m_ObjectHideFlags: 0

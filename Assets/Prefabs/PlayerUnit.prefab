@@ -644,7 +644,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1937426919812543519}
-  - component: {fileID: 1996870151721814125}
+  - component: {fileID: 602098956529513209}
   m_Layer: 0
   m_Name: PlayerUnit
   m_TagString: Untagged
@@ -670,7 +670,7 @@ Transform:
   - {fileID: 4504658357095854124}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1996870151721814125
+--- !u!114 &602098956529513209
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -679,9 +679,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 4468290134022205432}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff73fd8a2d40894380b0497896f4d84, type: 3}
+  m_Script: {fileID: 11500000, guid: 2494fcfd44f3adb42b3ccef8a1b326b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitInfo:
+    HP: 0
+    Armor: 0
+    _SpellAdaptability: 0
+    strength: 0
+    intelligence: 0
+  maxHP: 0
+  curHP: 0
+  Armor: 0
+  _SpellAdaptability: 0
+  strength: 0
+  intelligence: 0
   text_HP: {fileID: 6449942779878601960}
   text_Armor: {fileID: 7584104058170508881}
   text_SpellAdapt: {fileID: 3983799789680498944}
@@ -689,6 +701,8 @@ MonoBehaviour:
   text_Intelligence: {fileID: 2956142350112204827}
   text_Composure: {fileID: 4028847274558504318}
   text_Energy: {fileID: 0}
+  composure: 0
+  energy: 0
 --- !u!1 &4833720477726763069
 GameObject:
   m_ObjectHideFlags: 0

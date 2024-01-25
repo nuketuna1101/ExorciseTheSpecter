@@ -34,8 +34,12 @@ public class DataManager : Singleton<DataManager>
 
     [Header("Character Data")]
     [SerializeField] private Sprite[] CharacterClassSprites;     // 플레이어 직업 클래스 기본 이미지 스프라이트
-    [SerializeField] private UnitInfoSO PlayerUnitInfoSO_Init;
-    [SerializeField] private UnitInfoSO PlayerUnitInfoSO_Current;
+    [SerializeField] private UnitInfo PlayerUnitInfoSO_Init;
+    [SerializeField] private UnitInfo PlayerUnitInfoSO_Current;
+
+
+    [SerializeField] public EnemyWikiSO enemyWikiSO;            // 일단 public으로 접근시켜보기. 테스트 레거시.
+
 
     protected new void Awake()
     {
@@ -43,6 +47,10 @@ public class DataManager : Singleton<DataManager>
         //
         ResetChamberInfo();
         SetChamberInfo();
+
+        //
+        ResetEnemyUnitInfoSO();
+        SetEnemyUnitInfoSO();
 
         //
         ResetCardInfo();
@@ -91,7 +99,7 @@ public class DataManager : Singleton<DataManager>
     }
     #endregion
 
-    #region Card 관련
+    #region [Card 관련]
     private void ResetCardInfo()
     {
         _CardInfoSO.CardInfoList.Clear();
@@ -143,7 +151,7 @@ public class DataManager : Singleton<DataManager>
     }
     #endregion
 
-    #region Chamber의 상태 관련    // 현재 플레이어가 위치한 챔버 번호 (0: 처음 스테이지 최초 진입.)
+    #region [Chamber의 상태 관련]    // 현재 플레이어가 위치한 챔버 번호 (0: 처음 스테이지 최초 진입.)
     private void InitEdge()
     {
         // 스테이지 넘버에 해당하는 데이터에 따라 맵 세팅
@@ -202,5 +210,43 @@ public class DataManager : Singleton<DataManager>
             UpdateChamberStates();
         }
     }
+    #endregion
+
+    #region [EnemyUnitInfoSO 전투 대상 몹 데이터 관련]
+    private void ResetEnemyUnitInfoSO()
+    {
+        //DebugOpt.Log("test log");
+        enemyWikiSO.EnemyWikiList.Clear();
+    }
+
+    private void SetEnemyUnitInfoSO()
+    {
+        //
+        var dataList = new List<Dictionary<string, object>>();
+        string file = "EnemyWiki";
+        dataList = CSVReader.Read(file);
+        //
+        int TotalEnemyNumber = CSVReader.GetLinesLength(file) - 2;
+        for (int i = 0; i < TotalEnemyNumber; i++)
+        {
+            enemyWikiSO.EnemyWikiList.Add(new EnemyWiki
+            {
+                StageNumber = CSVReader.GetIntValue(dataList, i, "StageNumber"),
+                EnemyCode = CSVReader.GetIntValue(dataList, i, "EnemyCode"),
+                EnemyName = CSVReader.GetString(dataList, i, "EnemyName"),
+                isBoss = CSVReader.GetIntValue(dataList, i, "isBoss"),
+                unitInfo = new UnitInfo
+                {
+                    HP = CSVReader.GetIntValue(dataList, i, "HP"),
+                    Armor = CSVReader.GetIntValue(dataList, i, "Armor"),
+                    _SpellAdaptability = (SpellAdaptability)CSVReader.GetIntValue(dataList, i, "SpellAdaptability"),
+                    strength = CSVReader.GetIntValue(dataList, i, "strength"),
+                    intelligence = CSVReader.GetIntValue(dataList, i, "intelligence"),
+                },
+            });
+        }
+    }
+
+
     #endregion
 }

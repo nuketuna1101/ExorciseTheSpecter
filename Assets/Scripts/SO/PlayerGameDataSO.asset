@@ -18,6 +18,12 @@ MonoBehaviour:
   gold: 500
   blessings: 
   curse: 0
+  unitInfo:
+    HP: 100
+    Armor: 0
+    _SpellAdaptability: 0
+    strength: 0
+    intelligence: 0
   currentStageNumber: 0
   curVisited: 
   curChamberInProgress: 0

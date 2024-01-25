@@ -15,7 +15,7 @@ public class BattleObj
     
     [Header("BattleObj : Battle Data")]
     // 체력, 방어도, 주문적응력
-    public int maxHp;
+    public int maxHP;
     public int curHP;
     public int Armor;
     public SpellAdaptability _SpellAdaptability;
@@ -37,15 +37,15 @@ public class BattleObj
     /// <param name="_DamageType"></param>
     /// <param name="_DamageValue"></param>
 
-
-    public void InitProfile(UnitInfoSO _UnitInfoSO)           // 초기화
+    #region BATLLEOBJ METHODS
+    public void InitProfile(UnitInfo _UnitInfo)           // 초기화
     {
-        maxHp = _UnitInfoSO.maxHp;
-        curHP = _UnitInfoSO.curHP;
-        Armor = _UnitInfoSO.Armor;
-        _SpellAdaptability = _UnitInfoSO._SpellAdaptability;
-        strength = _UnitInfoSO.strength;
-        intelligence = _UnitInfoSO.intelligence;
+        maxHP = _UnitInfo.HP;
+        curHP = _UnitInfo.HP;
+        Armor = _UnitInfo.Armor;
+        _SpellAdaptability = _UnitInfo._SpellAdaptability;
+        strength = _UnitInfo.strength;
+        intelligence = _UnitInfo.intelligence;
     }
 
     public void Attack(BattleObj _Object, DamageType _DamageType, int _DamageValue)
@@ -135,14 +135,13 @@ public class BattleObj
     {
         DebugOpt.Log(this + " :: my stats : curHP : " + this.curHP + " , armor : " + this.Armor);
     }
+#endregion
 }
 
-
+/*
 public class Player : BattleObj
 {
-    /*
-     플레이어는 일반 전투 객체와는 달리 카드 사용과 관련한 속성과 메서드가 필요
-     */
+    // 플레이어는 일반 전투 객체와는 달리 카드 사용과 관련한 속성과 메서드가 필요
     public int Energy;              // 카드 사용 코스트 에너지
     public int Composure;           // 카드 추가 드로우 능력치인 침착성
 
@@ -153,64 +152,4 @@ public class Player : BattleObj
 
 }
 
-public class Enemy : BattleObj
-{
-
-}
-
-/*
-public class Player : BattleObj
-{
-    [Header("Player : Battle Data")]
-    // 체력, 방어도, 주문적응력
-    private int maxHp;
-    private int curHP;
-    private int Armor;
-    private SpellAdaptability _SpellAdaptability;
-    // 강력함, 총명, 침착
-    private int strength;
-    private int intelligence;
-    private int composure;
-    // 태세: 일반, 은신, 반격
-    private Stance _Stance = Stance.Normal;
-    // 축복, 저주
-    private List<int> Blessings;
-    private int Curses;
-}
-
-public class Enemy : BattleObj
-{
-    [Header("Enemy: Indentity")]
-    private int EnemyID;
-
-    [Header("Enemy : Battle Data")]
-    // 체력, 방어도, 주문적응력
-    private int maxHp = 100;
-    private int curHP = 100;
-    private int Armor = 25;
-    private SpellAdaptability _SpellAdaptability;
-    // 강력함, 총명
-    private int strength = 0;
-    private int intelligence = 0;
-    // 태세: 일반, 은신, 반격
-    private Stance _Stance = Stance.Normal;
-    //
-    private List<int> ActionList;
-}
-
-
-
-public class BattleJudge
-{
-    /// <summary>
-    /// 전투 판정 관련
-    /// </summary>
-    //
-
-    public void HitDmg(BattleObj _Subject, BattleObj _Object, int _DmgAmount, int _DmgType)
-    {
-
-    }
-
-}
 */

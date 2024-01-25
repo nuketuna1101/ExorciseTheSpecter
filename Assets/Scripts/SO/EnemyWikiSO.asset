@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c96e69f598b602488f3205e49e300e2, type: 3}
+  m_Name: EnemyWikiSO
+  m_EditorClassIdentifier: 
+  EnemyUnitInfoList:
+  - StageNumber: 1
+    EnemyCode: 1
+    EnemyName: Skull Soldier
+    isBoss: 0
+    unitInfo:
+      HP: 200
+      Armor: 5
+      _SpellAdaptability: 0
+      strength: 0
+      intelligence: 0
+  - StageNumber: 1
+    EnemyCode: 2
+    EnemyName: Skull Archer
+    isBoss: 0
+    unitInfo:
+      HP: 120
+      Armor: 0
+      _SpellAdaptability: 0
+      strength: 0
+      intelligence: 0
+  - StageNumber: 1
+    EnemyCode: 4
+    EnemyName: Headless Knight
+    isBoss: 1
+    unitInfo:
+      HP: 500
+      Armor: 10
+      _SpellAdaptability: 0
+      strength: 5
+      intelligence: 0
+  - StageNumber: 1
+    EnemyCode: 3
+    EnemyName: Succubus
+    isBoss: 0
+    unitInfo:
+      HP: 80
+      Armor: 0
+      _SpellAdaptability: 1
+      strength: 0
+      intelligence: 5
