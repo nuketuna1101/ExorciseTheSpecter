@@ -155,7 +155,7 @@ public class CardManager : Singleton<CardManager>
             BattleManager.Instance.StopBlinkEnemyUnits();
             if (hit.collider != null && hit.collider.gameObject.CompareTag("EnemyUnit"))
             {
-                TryUsingCard(card);
+                TryUsingCard(card, isSingleTarget);             // 대상 적에 대한 정보도 넘겨줘야함.
             }
             else
             {
@@ -170,7 +170,7 @@ public class CardManager : Singleton<CardManager>
             }
             else
             {
-                TryUsingCard(card);
+                TryUsingCard(card, isSingleTarget);
             }
         }
     }
@@ -206,7 +206,7 @@ public class CardManager : Singleton<CardManager>
         return GameManager.Instance.GetEnergy() >= card.GetCardCost();
     }
 
-    private void ActivateCard(Card card)                   // 카드가 사용됨 : 카드 회수 작업, 카드 효과 진행
+    private void ActivateCard(Card card, bool isSingleTarget)                   // 카드가 사용됨 : 카드 회수 작업, 카드 효과 진행
     {
         // 카드 효과
         /**/
@@ -216,6 +216,11 @@ public class CardManager : Singleton<CardManager>
         //PoolManager.ReturnToPool(_Card.gameObject);
         GameManager.Instance.ConsumeEnergy(card.GetCardCost());
         DiscardCard(card);
+
+
+
+        // 단일대상적용카드라면 해당 대상 정보 같이 넘겨주기
+
     }
     private void DiscardCard(Card card)                    // 프리팹 회수
     {
@@ -255,14 +260,14 @@ public class CardManager : Singleton<CardManager>
         return ReadyQueue.Count;
     }
 
-    private void TryUsingCard(Card card)                 // 코스트를 소모하여 카드 사용효과
+    private void TryUsingCard(Card card, bool isSingleTarget)                 // 코스트를 소모하여 카드 사용효과
     {
         if (IsAvailableCard(card))            // 
         {
             // 핸드에서 제거
             usedCards.Add(card.GetCardInfo());
             myCards.Remove(card);
-            ActivateCard(card);
+            ActivateCard(card, isSingleTarget);
             AlignHandCards();
         }
         else            // 카드 소모 실패

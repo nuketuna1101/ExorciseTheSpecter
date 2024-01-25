@@ -17,14 +17,12 @@ public class PlayerUnit : MonoBehaviour
     [SerializeField] private TMP_Text text_Composure;
     [SerializeField] private TMP_Text text_Energy;
 
-
-    //
+    #region 정보 초기화, 텍스트 랜더링
     public void InitUnit(Player _Player)           // 전투 객체 데이터 집어넣기
     {
         this._Player = _Player;
         RefreshTexts();
     }
-
     public void RefreshTexts()                           // 유닛 프리팹 텍스트 업데이트
     {
         text_HP.text = _Player.curHP + "/" + _Player.maxHp;
@@ -35,4 +33,6 @@ public class PlayerUnit : MonoBehaviour
         //text_Composure.text = _Player.composure.ToString();
         //text_Energy.text = _Player.energy.ToString();
     }
+    #endregion
+
 }
