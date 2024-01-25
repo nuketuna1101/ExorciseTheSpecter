@@ -17,8 +17,7 @@ public class Card : MonoBehaviour,
     IDragHandler
 {
     [Header("Card : Data")]
-    [SerializeField]
-    private CardInfo _CardInfo; // 담고 있는 데이터
+    [SerializeField] private CardInfo _CardInfo; // 담고 있는 데이터
     public bool isFront;       // 앞뒷면 플래그
     private bool isSingleTarget;
     public PRS originalPRS;

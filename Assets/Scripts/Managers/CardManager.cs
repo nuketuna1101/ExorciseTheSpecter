@@ -155,7 +155,9 @@ public class CardManager : Singleton<CardManager>
             BattleManager.Instance.StopBlinkEnemyUnits();
             if (hit.collider != null && hit.collider.gameObject.CompareTag("EnemyUnit"))
             {
-                TryUsingCard(card, isSingleTarget);             // 대상 적에 대한 정보도 넘겨줘야함.
+                // 해당 적 유닛이 누구인지 정보 넘겨줘야함.
+                int battleManagerEnemyListIndex = hit.collider.gameObject.GetComponent<EnemyUnit>().GetBattleManagerEnemyListIndex();
+                TryUsingCard(card, isSingleTarget, battleManagerEnemyListIndex);             // 대상 적에 대한 정보도 넘겨줘야함.
             }
             else
             {
@@ -206,7 +208,7 @@ public class CardManager : Singleton<CardManager>
         return GameManager.Instance.GetEnergy() >= card.GetCardCost();
     }
 
-    private void ActivateCard(Card card, bool isSingleTarget)                   // 카드가 사용됨 : 카드 회수 작업, 카드 효과 진행
+    private void ActivateCard(Card card, bool isSingleTarget, int battleManagerEnemyListIndex = 0)                   // 카드가 사용됨 : 카드 회수 작업, 카드 효과 진행
     {
         // 카드 효과
         /**/
@@ -217,11 +219,16 @@ public class CardManager : Singleton<CardManager>
         GameManager.Instance.ConsumeEnergy(card.GetCardCost());
         DiscardCard(card);
 
-
-
-        // 단일대상적용카드라면 해당 대상 정보 같이 넘겨주기
-
+        CardInfo cardInfo = card.GetCardInfo();
+        List<CardEffect> cardEffectList = cardInfo.CardEffectList;
+        foreach (CardEffect cardEffect in cardEffectList)
+        {
+            //ActivateCardEfx(cardEffect, isSingleTarget, battleManagerEnemyListIndex);
+            BattleManager.Instance.ActivateCardEfx(cardEffect, isSingleTarget, battleManagerEnemyListIndex);
+        }
     }
+
+
     private void DiscardCard(Card card)                    // 프리팹 회수
     {
         StartCoroutine(DiscardCardCor(card));
@@ -260,14 +267,14 @@ public class CardManager : Singleton<CardManager>
         return ReadyQueue.Count;
     }
 
-    private void TryUsingCard(Card card, bool isSingleTarget)                 // 코스트를 소모하여 카드 사용효과
+    private void TryUsingCard(Card card, bool isSingleTarget, int battleManagerEnemyListIndex = 0)                 // 코스트를 소모하여 카드 사용효과
     {
         if (IsAvailableCard(card))            // 
         {
             // 핸드에서 제거
             usedCards.Add(card.GetCardInfo());
             myCards.Remove(card);
-            ActivateCard(card, isSingleTarget);
+            ActivateCard(card, isSingleTarget, battleManagerEnemyListIndex);
             AlignHandCards();
         }
         else            // 카드 소모 실패

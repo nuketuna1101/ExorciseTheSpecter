@@ -109,20 +109,13 @@ public class BattleManager : Singleton<BattleManager>
     }
     public void SetEnemy()              // 적 설정
     {
-        /*
-        var enemyObj1 = Instantiate(EnemyPrefab);                           // 풀링으로 나중에 교체
-        enemyObj1.transform.position = spawnPoint_enemy1;
-        var enemy1 = new Enemy();
-        enemyObj1.GetComponent<EnemyUnit>().InitUnit(enemy1);
-        EnemyGOs = new List<GameObject>();
-        EnemyGOs.Add(enemyObj1);
-        */
+
         var enemyGO1 = Instantiate(EnemyPrefab);
         enemyGO1.transform.position = spawnPoint_enemy1;
         //
         enemyUnits = new List<EnemyUnit>();
         enemyUnits.Add(enemyGO1.GetComponent<EnemyUnit>());
-        enemyUnits[0].InitEnemyUnit(DataManager.Instance.enemyWikiSO.EnemyWikiList[0]);
+        enemyUnits[0].InitEnemyUnit(DataManager.Instance.enemyWikiSO.EnemyWikiList[0], 0);
         enemyUnits[0].InitUnitProperty();
         enemyUnits[0].RefreshTexts();
     }
@@ -188,6 +181,7 @@ public class BattleManager : Singleton<BattleManager>
     public void Attack(Unit unit, Unit reactorUnit, DamageType _DamageType, int _DamageValue)
     {
         DebugOpt.Log("method Attack called from  " + this);
+        DebugOpt.LogWarning("::Attack: type: " + _DamageType + " / value: " + _DamageValue);
         int CalculatedDamageValue = _DamageValue;
         if (_DamageType == DamageType.Physical)
         {
@@ -208,8 +202,6 @@ public class BattleManager : Singleton<BattleManager>
         DebugOpt.Log("method BeAttacked called from  " + this);
         switch (_DamageType)
         {
-            case DamageType.Physical:
-                break;
             case DamageType.Magical:
                 switch (unit._SpellAdaptability)
                 {
@@ -229,27 +221,38 @@ public class BattleManager : Singleton<BattleManager>
                 break;
         }
 
-        unit.curHP -= CalculatedDamageValue;
-
-
-        // 최종 체력 0 이하면 사망처리
+        if (_DamageType == DamageType.Physical && unit.Armor > 0)
+        {
+            CalculatedDamageValue /= 2;
+            int damageRemain = Mathf.Max(CalculatedDamageValue - unit.Armor, 0);
+            GetArmorReduced(unit, CalculatedDamageValue);
+            unit.curHP -= damageRemain;
+        }
+        else
+        {
+            unit.curHP -= CalculatedDamageValue;
+        }
     }
     public void GetArmorReduced(Unit unit, int value)
     {
         // 방어도 깎임 적용
         DebugOpt.Log("method GetArmorReduced called from  " + this);
-        unit.Armor = (unit.Armor >= value ? unit.Armor - value : 0);
+        unit.Armor = Mathf.Max(unit.Armor - value, 0);
     }
-    public void GiveStatusEffect(Unit unit, Unit reactorUnit, StatusEffect _StatusEffect)
+    public void GiveStatusEffect(Unit unit, Unit reactorUnit, StatusEffect statusEffect)
     {
         // 상대에게 상태 이상 효과를 지속 턴만큼 부여
-        GetStatusEffect(reactorUnit, _StatusEffect);
+        GetStatusEffect(reactorUnit, statusEffect);
     }
-    private void GetStatusEffect(Unit unit, StatusEffect _StatusEffect)
+    private void GetStatusEffect(Unit unit, StatusEffect statusEffect)
     {
         // 상태이상 효과 적용
         // 주의: 수치나 적용에 대한 갱신일뿐 실제 효과 적용은 나중에
-        unit._StatusEffectArray.AddValue(_StatusEffect);
+        unit.statusEffectArray.AddValue(statusEffect);
+    }
+    private void GetOutOfStatusEffect(Unit unit, StatusEffectType statusEffectType)
+    {
+        unit.statusEffectArray.SetZero(statusEffectType);
     }
     public void GetEffectWhenTurnStarts()
     {
@@ -267,13 +270,151 @@ public class BattleManager : Singleton<BattleManager>
         // 출혈, 중독은 턴 종료 시 발동됨
     }
 
-
-
+    public void GetBuff(Unit unit, BuffType _BuffType, int value)
+    {
+        // 0: 견고 / 1: 힘 / 2: 총명 / 3: 침착/ 4: 카드 드로우/ 5: 체력 회복
+        switch (_BuffType)
+        {
+            case BuffType.Solid:
+                unit.Armor += value;
+                break;
+            case BuffType.Overwhelm:
+                unit.strength += value;
+                break;
+            case BuffType.Intelligent:
+                unit.intelligence += value;
+                break;
+            case BuffType.Composure:
+                ((PlayerUnit)unit).composure += value;
+                break;
+        }
+    }
+    public void PlayerDrawCard(int value)
+    {
+        CardManager.Instance.DrawCards(value);
+    }
+    public void RecoverHP(Unit unit, int value)
+    {
+        unit.curHP = Mathf.Max(unit.curHP + value, unit.maxHP);
+    }
     #endregion
 
 
 
+    #region CardManger로부터 전달받아 카드 효과
 
+    public void ActivateCardEfx(CardEffect cardEffect, bool isSingleTarget, int battleManagerEnemyListIndex)
+    {
+        //DebugOpt.Log("BattleManger:ActivateCardEfx:called");
+        int typeCode = cardEffect.TypeCode;
+        int effectRepeat = cardEffect.EffectRepeat;
+        switch (typeCode)
+        {
+            case 1:             // 피해 부여
+                for(int i = 1; i <= effectRepeat; i++)
+                {
+                    AttackEfx(cardEffect, isSingleTarget, battleManagerEnemyListIndex);
+                }
+                break;          // 버프 적용
+            case 2:
+                GetAdvantageEfx(cardEffect, isSingleTarget, battleManagerEnemyListIndex);
+                break;
+            case 3:             // 디버프 부여 or 제거
+                ControlDebuffEfx(cardEffect, isSingleTarget, battleManagerEnemyListIndex, effectRepeat);
+                break;
+            case 4:             // 그 이외 복잡한 효과
+                break;
+        }
+    }
+    private void AttackEfx(CardEffect cardEffect, bool isSingleTarget, int battleManagerEnemyListIndex)
+    {
+        //DebugOpt.Log("BattleManger:ActivateCardEfx:AttackEfx:called");
+        int targetType = cardEffect.TargetType;
+        int effectType = cardEffect.EffectType;
+        int effectAmount = cardEffect.EffectAmount;
+        switch (targetType)
+        {
+            case 0:     // 자기자신에게 피해
+                Attack(playerUnit, playerUnit, (DamageType)effectType, effectAmount);
+                break;
+            case 1:     // 지정한 상대에게
+                Attack(playerUnit, enemyUnits[battleManagerEnemyListIndex], (DamageType)effectType, effectAmount);
+                break;
+            case 2:     // 모든 적에게
+                foreach (var enemyUnit in enemyUnits)
+                {
+                    Attack(playerUnit, enemyUnit, (DamageType)effectType, effectAmount);
+                }
+                break;
+            case 3:
+                int randIndex = UnityEngine.Random.Range(0, enemyUnits.Count - 1);
+                Attack(playerUnit, enemyUnits[randIndex], (DamageType)effectType, effectAmount);
+                break;
+        }
+    }
+
+    private void GetAdvantageEfx(CardEffect cardEffect, bool isSingleTarget, int battleManagerEnemyListIndex)
+    {
+        //DebugOpt.Log("BattleManger:ActivateCardEfx:GetAdvantageEfx:called");
+        //int typeCode = cardEffect.TypeCode;
+        //int targetType = cardEffect.TargetType;
+        int effectType = cardEffect.EffectType;
+        int effectAmount = cardEffect.EffectAmount;
+        //int effectRepeat = cardEffect.EffectRepeat;
+
+        switch (effectType)
+        {
+            case 0 or 1 or 2 or 3:             // 버프 종류로 적용
+                GetBuff(playerUnit, (BuffType)effectType, effectAmount);
+                break;
+            case 4:             // 카드 드로우
+                PlayerDrawCard(effectAmount);
+                break;
+            case 5:             // 체력 회복
+                RecoverHP(playerUnit, effectAmount);
+                break;
+        }
+    }
+    private void ControlDebuffEfx(CardEffect cardEffect, bool isSingleTarget, int battleManagerEnemyListIndex, int controlFlag)
+    {
+        //DebugOpt.Log("BattleManger:ActivateCardEfx:ControlDebuffEfx:called");
+        //int typeCode = cardEffect.TypeCode;
+        int targetType = cardEffect.TargetType;
+        int effectType = cardEffect.EffectType;
+        int effectAmount = cardEffect.EffectAmount;
+        //int effectRepeat = cardEffect.EffectRepeat;
+        StatusEffect statusEffect = new StatusEffect((StatusEffectType)effectType, effectAmount);
+
+        if (controlFlag == 1)           // 디버프 부여
+        {
+            switch (targetType)
+            {
+                case 0:     // 자기자신에게 피해
+                    GiveStatusEffect(playerUnit, playerUnit, statusEffect);
+                    break;
+                case 1:     // 지정한 상대에게
+                    GiveStatusEffect(playerUnit, enemyUnits[battleManagerEnemyListIndex], statusEffect);
+                    break;
+                case 2:     // 모든 적에게
+                    foreach (var enemyUnit in enemyUnits)
+                    {
+                        GiveStatusEffect(playerUnit, enemyUnit, statusEffect);
+                    }
+                    break;
+                case 3:
+                    int randIndex = UnityEngine.Random.Range(0, enemyUnits.Count - 1);
+                    GiveStatusEffect(playerUnit, enemyUnits[randIndex], statusEffect);
+                    break;
+            }
+        }
+        else if (controlFlag == 2)          // 자신의 디버프 제거
+        {
+            GetOutOfStatusEffect(playerUnit, (StatusEffectType)effectType);
+        }
+    }
+
+
+    #endregion
 
 
 

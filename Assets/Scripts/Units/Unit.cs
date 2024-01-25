@@ -16,7 +16,7 @@ public abstract class Unit : MonoBehaviour              // 추상클래스 -> PlayerU
     public int intelligence;                            //
     protected Stance _Stance = Stance.Normal;             // 태세: 일반, 은신, 반격
     // 상태이상 지속                                                      // <<<<<<<<<<<<<<<<<<<건들어야댐
-    public StatusEffectArray _StatusEffectArray = new StatusEffectArray(0);
+    public StatusEffectArray statusEffectArray = new StatusEffectArray(0);
     public Dictionary<StatusEffectType, int> StatusEffectDict = new Dictionary<StatusEffectType, int>(5);
 
 
