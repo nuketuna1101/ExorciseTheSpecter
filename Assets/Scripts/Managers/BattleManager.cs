@@ -226,10 +226,13 @@ public class BattleManager : Singleton<BattleManager>
             CalculatedDamageValue /= 2;
             int damageRemain = Mathf.Max(CalculatedDamageValue - unit.Armor, 0);
             GetArmorReduced(unit, CalculatedDamageValue);
+
+            EfxManager.Instance.ShowTextEfx(unit.transform.position, damageRemain, EfxType.LoseHP);                  // 효과.
             unit.curHP -= damageRemain;
         }
         else
         {
+            EfxManager.Instance.ShowTextEfx(unit.transform.position, CalculatedDamageValue, EfxType.LoseHP);                  // 효과.
             unit.curHP -= CalculatedDamageValue;
         }
     }
@@ -237,6 +240,7 @@ public class BattleManager : Singleton<BattleManager>
     {
         // 방어도 깎임 적용
         DebugOpt.Log("method GetArmorReduced called from  " + this);
+        EfxManager.Instance.ShowTextEfx(unit.transform.position, value, EfxType.LoseArmor);                  // 효과.
         unit.Armor = Mathf.Max(unit.Armor - value, 0);
     }
     public void GiveStatusEffect(Unit unit, Unit reactorUnit, StatusEffect statusEffect)
@@ -416,9 +420,19 @@ public class BattleManager : Singleton<BattleManager>
 
     #endregion
 
+    private void Update()                       // 임시로 매 프레임마다 갱신으로
+    {
+        RefreshAllInfos();
+    }
 
-
-
+    private void RefreshAllInfos()
+    {
+        playerUnit.RefreshTexts();
+        for (int i = 0; i < enemyUnits.Count; i++)
+        {
+            enemyUnits[i].RefreshTexts();
+        }
+    }
 
 
 

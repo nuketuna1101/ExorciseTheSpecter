@@ -20,5 +20,6 @@ public static class ColorSettings
 
 
     public static readonly Color[] cardTypeColor = { Color.gray, Color.magenta, Color.cyan, Color.yellow };
+    public static readonly Color[] efxColors = { Color.cyan, Color.gray, Color.green, Color.red, Color.magenta};
 
 }

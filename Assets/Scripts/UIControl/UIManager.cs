@@ -90,7 +90,7 @@ public class UIManager : Singleton<UIManager>
     }
     private IEnumerator TEMP_Update_Scene4()            // 4번째 씬에 대한 UI 업데이트 코루틴.
     {
-        DebugOpt.Log("코루틴은 실행이되는군" + this.name);
+        DebugOpt.Log("test log for TEMP_Update_Scene4" + this.name);
 
         while (true)
         {
