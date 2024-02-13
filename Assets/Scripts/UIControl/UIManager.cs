@@ -75,7 +75,18 @@ public class UIManager : Singleton<UIManager>
                 break;
         }
     }
+
     #region Scene4에 대한 UI 컨트롤 레거시 코드
+
+
+    private new void Update()                   // 일단 임시로 update문으로 처리.
+    {
+        if (SceneManager.GetActiveScene().name != "4.BattleScene")
+            return;
+        Update_Scene4_DeckRemainNumber();
+        Update_Scene4_Energy();
+    }
+
     private void Bind_Scene4()
     {
         BindStatic<TMP_Text>(typeof(Scene4_Text));

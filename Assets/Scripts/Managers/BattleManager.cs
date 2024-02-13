@@ -433,7 +433,8 @@ public class BattleManager : Singleton<BattleManager>
             enemyUnits[i].RefreshTexts();
         }
     }
-
+    
+    
 
 
 }
